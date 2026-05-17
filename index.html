@@ -3,143 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enterprise Leave Management</title>
+    <title>Modern Leave Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Sarabun:wght@300;400;600&display=swap');
-        :root { --primary: #4f46e5; --secondary: #1e293b; }
-        body { font-family: 'Sarabun', sans-serif; background: #fdfdfd; }
-        .heading-font { font-family: 'Chakra Petch', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600&family=Sarabun:wght@300;400;600&display=swap');
+        body { font-family: 'Sarabun', sans-serif; background: #f8fafc; }
+        .heading { font-family: 'Chakra Petch', sans-serif; }
         .page-section { display: none; }
-        .page-active { display: block !important; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .status-pill { transition: all 0.3s ease; }
-        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border-bottom: 1px solid #e2e8f0; }
+        .page-active { display: block !important; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .type-active { background: #4f46e5 !important; color: white !important; border-color: #4f46e5 !important; }
     </style>
 </head>
-<body class="text-slate-800">
+<body>
 
-    <nav class="glass-nav sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
-            <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-lg shadow-indigo-200">
-                <i class="fa-solid fa-paper-plane text-lg"></i>
-            </div>
-            <span class="heading-font font-bold text-xl tracking-tight text-indigo-950 uppercase">LeaveFlow</span>
+    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
+            <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-lg"><i class="fa-solid fa-leaf"></i></div>
+            <span class="heading font-bold text-xl tracking-tight text-slate-800">LEAVEPRO</span>
         </div>
-        <button id="backBtn" onclick="changePage('portal')" class="hidden bg-slate-100 text-slate-600 px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-slate-200 transition-all">
-            <i class="fa-solid fa-chevron-left mr-1"></i> กลับหน้าหลัก
-        </button>
+        <button id="backBtn" onclick="changePage('portal')" class="hidden bg-slate-100 text-slate-600 px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-slate-200 transition-all">กลับหน้าหลัก</button>
     </nav>
 
     <div class="container mx-auto p-6 max-w-6xl">
         
         <div id="page-portal" class="page-section page-active mt-16 text-center">
-            <h2 class="heading-font text-4xl font-bold text-slate-900 mb-2">ระบบจัดการการลาพนักงาน</h2>
-            <p class="text-slate-400 mb-12">กรุณาเลือกสถานะการเข้าใช้งานระบบ</p>
+            <h2 class="heading text-3xl font-bold text-slate-900 mb-10 uppercase tracking-widest">เลือกโหมดการใช้งาน</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-                <div onclick="changePage('employee')" class="group bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:border-indigo-500 transition-all cursor-pointer">
-                    <div class="w-24 h-24 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-user-tie text-4xl"></i>
+                <div onclick="changePage('employee')" class="group bg-white p-10 rounded-[2.5rem] shadow-sm border hover:shadow-xl hover:border-indigo-500 transition-all cursor-pointer">
+                    <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-user-edit text-3xl"></i>
                     </div>
-                    <h3 class="heading-font text-2xl font-bold mb-2">พนักงาน</h3>
-                    <p class="text-slate-400 text-sm">แจ้งลางานและเช็คผลการอนุมัติ</p>
+                    <h3 class="heading text-xl font-bold">พนักงาน</h3>
                 </div>
-                <div onclick="changePage('login')" class="group bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100 hover:shadow-2xl hover:border-slate-800 transition-all cursor-pointer">
-                    <div class="w-24 h-24 bg-slate-50 text-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-user-check text-4xl"></i>
+                <div onclick="changePage('login')" class="group bg-white p-10 rounded-[2.5rem] shadow-sm border hover:shadow-xl hover:border-slate-800 transition-all cursor-pointer">
+                    <div class="w-20 h-20 bg-slate-50 text-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-slate-800 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-user-shield text-3xl"></i>
                     </div>
-                    <h3 class="heading-font text-2xl font-bold mb-2">ผู้อนุมัติ</h3>
-                    <p class="text-slate-400 text-sm">พิจารณาและจัดการคำขอลาในทีม</p>
+                    <h3 class="heading text-xl font-bold">ผู้อนุมัติ</h3>
                 </div>
             </div>
         </div>
 
         <div id="page-login" class="page-section mt-20 max-w-md mx-auto">
-            <div class="bg-white p-10 rounded-[2rem] shadow-2xl border border-slate-50 text-center">
-                <h3 class="heading-font text-2xl font-bold mb-6">Manager Login</h3>
-                <input type="password" id="adminPass" placeholder="ป้อนรหัสผ่าน (1234)" class="w-full bg-slate-50 border-none p-4 rounded-2xl mb-6 text-center text-lg focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
-                <button onclick="handleLogin()" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-700 transition-all">เข้าสู่แผงควบคุม</button>
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-2xl border text-center">
+                <h3 class="heading text-2xl font-bold mb-6">ผู้จัดการเข้าสู่ระบบ</h3>
+                <input type="password" id="adminPass" placeholder="รหัสผ่าน (1234)" class="w-full bg-slate-50 border p-4 rounded-2xl mb-6 text-center focus:ring-2 focus:ring-indigo-500 outline-none">
+                <button onclick="handleLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-black transition-all">ยืนยัน</button>
             </div>
         </div>
 
         <div id="page-employee" class="page-section">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-6">
-                <div class="lg:col-span-4 bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 h-fit sticky top-24">
-                    <h3 class="heading-font text-xl font-bold mb-8 text-indigo-900 flex items-center gap-2">
-                        <i class="fa-solid fa-circle-plus"></i> ส่งคำขอลาใหม่
-                    </h3>
+                <div class="lg:col-span-4 bg-white p-8 rounded-[2rem] shadow-sm border h-fit sticky top-24">
+                    <h3 class="heading text-lg font-bold mb-6 text-indigo-900 border-b pb-2">แจ้งลาออนไลน์</h3>
                     <div class="space-y-4">
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">ชื่อ-นามสกุล</label>
-                            <input type="text" id="empName" class="w-full bg-slate-50 p-3 rounded-xl border-none text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">รหัสพนักงาน</label>
-                            <input type="text" id="empId" class="w-full bg-slate-50 p-3 rounded-xl border-none text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">ประเภทพนักงาน</label>
+                        <input type="text" id="empName" placeholder="ชื่อ-นามสกุล *" class="w-full bg-slate-50 p-3 rounded-xl border text-sm outline-none focus:border-indigo-500">
+                        <input type="text" id="empId" placeholder="รหัสพนักงาน *" class="w-full bg-slate-50 p-3 rounded-xl border text-sm outline-none focus:border-indigo-500">
+                        
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold text-slate-400 ml-1 uppercase">ประเภทพนักงาน</label>
                             <div class="grid grid-cols-2 gap-2">
-                                <button onclick="selectType('พนักงานประจำ')" id="type-p" class="type-btn border border-slate-200 py-2.5 rounded-xl text-xs font-bold transition-all bg-white hover:bg-slate-50">ประจำ</button>
-                                <button onclick="selectType('พนักงานชั่วคราว')" id="type-t" class="type-btn border border-slate-200 py-2.5 rounded-xl text-xs font-bold transition-all bg-white hover:bg-slate-50">ชั่วคราว</button>
+                                <button onclick="selectType('พนักงานประจำ')" id="btn-p" class="py-2.5 rounded-xl border text-xs font-bold bg-white text-slate-600 transition-all">ประจำ</button>
+                                <button onclick="selectType('พนักงานชั่วคราว')" id="btn-t" class="py-2.5 rounded-xl border text-xs font-bold bg-white text-slate-600 transition-all">ชั่วคราว</button>
                             </div>
                         </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">การลา</label>
-                            <select id="leaveType" class="w-full bg-slate-50 p-3 rounded-xl border-none text-sm outline-none">
-                                <option>ลาป่วย</option><option>ลากิจ</option><option>ลาพักร้อน</option>
-                            </select>
+
+                        <select id="leaveType" class="w-full bg-slate-50 p-3 rounded-xl border text-sm outline-none">
+                            <option>ลาป่วย</option><option>ลากิจ</option><option>ลาพักร้อน</option>
+                        </select>
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="dateStart" class="w-full bg-slate-50 p-2.5 rounded-xl border text-xs outline-none">
+                            <input type="date" id="dateEnd" class="w-full bg-slate-50 p-2.5 rounded-xl border text-xs outline-none">
                         </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-slate-400 uppercase">เริ่มลา</label>
-                                <input type="date" id="dateStart" class="w-full bg-slate-50 p-2.5 rounded-xl text-xs border-none outline-none">
-                            </div>
-                            <div class="space-y-1">
-                                <label class="text-[10px] font-bold text-slate-400 uppercase">ถึงวันที่</label>
-                                <input type="date" id="dateEnd" class="w-full bg-slate-50 p-2.5 rounded-xl text-xs border-none outline-none">
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">หมายเหตุ / เหตุผล</label>
-                            <textarea id="leaveReason" class="w-full bg-slate-50 p-3 rounded-xl border-none text-sm h-24 outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
-                        </div>
-                        <button onclick="saveLeave()" id="submitBtn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:scale-[1.01] transition-all">ยืนยันการส่งลา</button>
+                        <textarea id="leaveReason" placeholder="ระบุเหตุผล" class="w-full bg-slate-50 p-3 rounded-xl border text-sm h-24 outline-none focus:border-indigo-500"></textarea>
+                        <button onclick="saveLeave()" id="submitBtn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-100">ส่งข้อมูลการลา</button>
                     </div>
                 </div>
-                <div class="lg:col-span-8 bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100">
-                    <div class="flex justify-between items-center mb-8">
-                        <h3 class="heading-font text-xl font-bold text-slate-800">ไทม์ไลน์การลาของคุณ</h3>
-                        <span id="refreshTag" class="text-[10px] bg-slate-100 px-2 py-1 rounded-full text-slate-400 uppercase font-bold">Auto Update On</span>
-                    </div>
-                    <div id="empStatusList" class="space-y-4">
-                        </div>
+                <div class="lg:col-span-8 bg-white p-8 rounded-[2rem] shadow-sm border">
+                    <h3 class="heading text-lg font-bold mb-6 border-b pb-2">ประวัติและสถานะ</h3>
+                    <div id="empStatusList" class="space-y-4">กำลังโหลดข้อมูล...</div>
                 </div>
             </div>
         </div>
 
-        <div id="page-approver" class="page-section">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 mt-6">
-                <div>
-                    <h2 class="heading-font text-3xl font-bold text-slate-900">แผงจัดการคำขอลา</h2>
-                    <p class="text-slate-400 text-sm">ตรวจสอบและเลือกการดำเนินการสำหรับคำขอลาที่รอนุมัติ</p>
-                </div>
-                <button onclick="loadData()" class="bg-indigo-50 text-indigo-600 px-6 py-3 rounded-2xl text-sm font-bold border border-indigo-100 hover:bg-indigo-100 transition-all">
-                    <i class="fa-solid fa-rotate mr-2"></i> โหลดข้อมูลล่าสุด
-                </button>
+        <div id="page-approver" class="page-section mt-4">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="heading text-2xl font-bold">จัดการอนุมัติการลา</h2>
+                <button onclick="loadData()" class="bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl text-sm font-bold border border-indigo-100 hover:bg-indigo-100 transition-all">รีเฟรช</button>
             </div>
-            <div id="approverList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                </div>
+            <div id="approverList" class="grid grid-cols-1 md:grid-cols-2 gap-6">กำลังโหลดข้อมูล...</div>
         </div>
 
     </div>
 
     <script>
-        // *** สำคัญ: ต้องใส่ URL Web App ของคุณที่นี่ ***
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwBDkglAN1drYMvt55sCfdTpxBgpQkRM1W3vS6ps_AuEi_Cw2YtITBDu9LKMQpQHtIB/exec';
+        // *** สำคัญ: ก๊อป URL จากการ Deploy มาวางตรงนี้ ***
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx_LaW8gQe34MwIgFYhqjfhl7P6S1L1dnQnopTi6pjVg90L7JuiTOXvROxJHjQYShWX/exec';
         
-        let currentEmpStatus = 'พนักงานประจำ';
+        let empType = 'พนักงานประจำ';
 
         function changePage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('page-active'));
@@ -150,142 +113,118 @@
         }
 
         function selectType(type) {
-            currentEmpStatus = type;
-            document.querySelectorAll('.type-btn').forEach(b => {
-                b.classList.remove('bg-indigo-600', 'text-white', 'border-indigo-600');
-                b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
-            });
-            const activeId = (type === 'พนักงานประจำ') ? 'type-p' : 'type-t';
-            const activeBtn = document.getElementById(activeId);
-            activeBtn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-            activeBtn.classList.add('bg-indigo-600', 'text-white', 'border-indigo-600');
+            empType = type;
+            document.getElementById('btn-p').classList.remove('type-active');
+            document.getElementById('btn-t').classList.remove('type-active');
+            if(type === 'พนักงานประจำ') document.getElementById('btn-p').classList.add('type-active');
+            else document.getElementById('btn-t').classList.add('type-active');
         }
 
         function handleLogin() {
             if(document.getElementById('adminPass').value === '1234') changePage('approver');
-            else alert('รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง');
+            else alert('รหัสผ่านไม่ถูกต้อง');
         }
 
         async function saveLeave() {
             const btn = document.getElementById('submitBtn');
             const data = { 
                 action: 'addLeave', 
-                name: document.getElementById('empName').value.trim(), 
-                empId: document.getElementById('empId').value.trim(), 
-                empStatus: currentEmpStatus,
+                name: document.getElementById('empName').value, 
+                empId: document.getElementById('empId').value, 
+                empStatus: empType,
                 leaveType: document.getElementById('leaveType').value, 
                 start: document.getElementById('dateStart').value, 
                 end: document.getElementById('dateEnd').value, 
-                reason: document.getElementById('leaveReason').value.trim() || '-' 
+                reason: document.getElementById('leaveReason').value || '-' 
             };
-            if(!data.name || !data.empId || !data.start) return alert('กรุณากรอกข้อมูลสำคัญให้ครบถ้วน');
-            
-            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> กำลังส่งข้อมูล...';
-            
+            if(!data.name || !data.empId || !data.start) return alert('กรอกข้อมูลให้ครบถ้วน');
+            btn.disabled = true; btn.innerText = 'กำลังส่ง...';
             try {
                 await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-                alert('บันทึกคำร้องขอลาสำเร็จแล้ว!');
+                alert('ส่งรายการสำเร็จ');
                 window.location.reload();
-            } catch (e) {
-                alert('การเชื่อมต่อผิดพลาด กรุณาลองอีกครั้ง');
-                btn.disabled = false; btn.innerText = 'ยืนยันการส่งลา';
-            }
+            } catch (e) { alert('เกิดข้อผิดพลาด'); btn.disabled = false; }
         }
 
         async function loadData() {
-            const refreshTag = document.getElementById('refreshTag');
-            refreshTag.innerText = 'กำลังโหลด...';
             try {
-                // เพิ่มเลขสุ่ม (Cache Buster) เพื่อให้ได้ข้อมูลใหม่เสมอ
+                // เพิ่ม ?t= ป้องกันการดึงข้อมูลแคชเก่า
                 const res = await fetch(scriptURL + '?t=' + new Date().getTime());
                 const data = await res.json();
                 renderUI(data);
-                refreshTag.innerText = 'Auto Update On';
-            } catch (e) { 
-                console.error(e);
-                refreshTag.innerText = 'Error Loading';
-            }
+            } catch (e) { console.error(e); }
         }
 
         function renderUI(data) {
             const empArea = document.getElementById('empStatusList');
             const appArea = document.getElementById('approverList');
-            const rows = data.slice().reverse(); // ล่าสุดอยู่บน
+            const rows = data.slice().reverse();
 
-            // หน้าพนักงาน
             empArea.innerHTML = rows.map(r => `
-                <div class="flex items-center justify-between p-5 bg-slate-50 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-md transition-all">
+                <div class="flex items-center justify-between p-5 bg-slate-50 rounded-2xl border">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center font-bold text-indigo-600 shadow-sm uppercase">${r[0].charAt(0)}</div>
+                        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center font-bold text-indigo-600 border">${r[0].charAt(0)}</div>
                         <div>
-                            <div class="font-bold text-sm text-slate-800">${r[0]} <span class="text-[10px] text-slate-400 font-normal ml-1">ID: ${r[1]}</span></div>
-                            <div class="text-[11px] text-slate-500 font-semibold uppercase tracking-wider">${r[3]} • ${r[4]} ถึง ${r[5]}</div>
+                            <div class="font-bold text-sm text-slate-800">${r[0]} <span class="text-[10px] text-slate-400 ml-1">ID: ${r[1]}</span></div>
+                            <div class="text-[10px] text-slate-500 uppercase font-bold">${r[3]} • ${r[4]} ถึง ${r[5]}</div>
                         </div>
                     </div>
-                    <div class="px-5 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white shadow-sm ${r[7]==='Approved'?'bg-emerald-500':(r[7]==='Rejected'?'bg-rose-500':'bg-amber-400')}">${r[7]}</div>
+                    <div class="px-4 py-1.5 rounded-full text-[10px] font-bold text-white shadow-sm ${r[7]==='Approved'?'bg-emerald-500':(r[7]==='Rejected'?'bg-rose-500':'bg-amber-400')}">${r[7]}</div>
                 </div>
             `).join('');
 
-            // หน้าผู้อนุมัติ
             appArea.innerHTML = rows.map((r, i) => `
-                <div id="card-${i}" class="bg-white p-6 rounded-[2rem] shadow-sm border border-slate-100 transition-all hover:shadow-lg">
-                    <div class="flex justify-between items-start mb-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-2xl uppercase shadow-inner">${r[0].charAt(0)}</div>
+                <div id="card-${i}" class="bg-white p-6 rounded-[2rem] shadow-sm border transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xl">${r[0].charAt(0)}</div>
                             <div>
-                                <h4 class="font-bold text-slate-900">${r[0]}</h4>
-                                <span class="text-[11px] font-black text-indigo-600 uppercase tracking-tighter">${r[2]} (ID: ${r[1]})</span>
+                                <h4 class="font-bold text-slate-800">${r[0]}</h4>
+                                <span class="text-[10px] font-bold text-indigo-500 uppercase">${r[2]} (ID: ${r[1]})</span>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <span class="text-[9px] text-slate-400 block uppercase font-black mb-1">Status</span>
-                            <span id="label-${i}" class="text-xs font-black uppercase tracking-widest ${r[7]==='Approved'?'text-emerald-500':(r[7]==='Rejected'?'text-rose-500':'text-amber-500')}">${r[7]}</span>
-                        </div>
+                        <div id="label-${i}" class="text-xs font-black uppercase tracking-widest ${r[7]==='Approved'?'text-emerald-500':(r[7]==='Rejected'?'text-rose-500':'text-amber-500')}">${r[7]}</div>
                     </div>
-                    <div class="bg-slate-50 p-5 rounded-2xl mb-6 border border-slate-100">
-                        <div class="flex justify-between text-[11px] mb-2 font-bold text-slate-400">
-                            <span>TYPE: <span class="text-slate-800">${r[3]}</span></span>
-                            <span>DATE: <span class="text-slate-800">${r[4]}</span></span>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed border-t border-slate-200 mt-2 pt-2 italic">"${r[6]}"</p>
+                    <div class="bg-slate-50 p-4 rounded-2xl mb-4 text-xs text-slate-600">
+                        <p><b>ประเภท:</b> ${r[3]}</p>
+                        <p><b>วันที่:</b> ${r[4]} ถึง ${r[5]}</p>
+                        <p class="mt-2 text-slate-400 italic">"${r[6]}"</p>
                     </div>
                     <div id="btn-group-${i}">
                         ${r[7] === 'Pending' ? `
-                            <div class="grid grid-cols-2 gap-3">
-                                <button onclick="processStatus('${r[1]}','${r[4]}','Approved', ${i})" class="bg-emerald-500 text-white py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-50 hover:bg-emerald-600 hover:scale-[1.02] transition-all">Approve</button>
-                                <button onclick="processStatus('${r[1]}','${r[4]}','Rejected', ${i})" class="bg-white border border-rose-200 text-rose-500 py-3.5 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-rose-50 hover:border-rose-300 transition-all">Reject</button>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="processStatus('${r[1]}','${r[4]}','Approved', ${i})" class="bg-emerald-500 text-white py-3 rounded-xl text-xs font-bold shadow-sm shadow-emerald-100">อนุมัติ</button>
+                                <button onclick="processStatus('${r[1]}','${r[4]}','Rejected', ${i})" class="bg-white border border-rose-200 text-rose-500 py-3 rounded-xl text-xs font-bold">ปฏิเสธ</button>
                             </div>
-                        ` : `<div class="text-center py-2 text-xs font-black uppercase tracking-[0.2em] ${r[7]==='Approved'?'text-emerald-500':'text-rose-500'} bg-slate-50 rounded-xl">Action Logged</div>`}
+                        ` : `<div class="text-center py-2 text-[10px] font-black uppercase tracking-widest text-slate-300">บันทึกเรียบร้อย</div>`}
                     </div>
                 </div>
             `).join('');
         }
 
         async function processStatus(empId, start, status, idx) {
-            if(!confirm(`ยืนยันการเปลี่ยนสถานะเป็น "${status.toUpperCase()}" ใช่หรือไม่?`)) return;
+            if(!confirm(`ยืนยันการ "${status.toUpperCase()}" ใช่หรือไม่?`)) return;
             
             const group = document.getElementById(`btn-group-${idx}`);
             const label = document.getElementById(`label-${idx}`);
-            const card = document.getElementById(`card-${idx}`);
 
-            // 1. UI LOCK: เปลี่ยนสถานะทันทีบนจอ ไม่ต้องรอ Server (แก้ปัญหาเด้งกลับ)
-            group.innerHTML = `<div class="text-center py-2 text-indigo-600 font-black animate-pulse text-xs tracking-[0.2em] uppercase bg-indigo-50 rounded-xl">Processing...</div>`;
+            // --- OPTIMISTIC UI: ล็อกสถานะหน้าจอทันที ไม่ต้องรอ Server ---
+            group.innerHTML = `<div class="text-center py-2 text-indigo-600 font-bold animate-pulse text-xs italic">กำลังส่งข้อมูล...</div>`;
             label.innerText = status;
             label.className = `text-xs font-black uppercase tracking-widest ${status==='Approved'?'text-emerald-500':'text-rose-500'}`;
-            card.classList.add('ring-2', status==='Approved'?'ring-emerald-500':'ring-rose-500');
 
             try {
-                // 2. ส่งคำขอไปที่ Sheet (ลับหลัง)
+                // ส่ง POST แบบเบื้องหลัง
                 await fetch(scriptURL, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: JSON.stringify({ action: 'updateStatus', empId: empId, start: start, status: status })
                 });
                 
-                // 3. หน่วงเวลาเล็กน้อยแล้วโหลดข้อมูลใหม่เพื่อยืนยัน
+                // รอ 2 วินาทีแล้วโหลดข้อมูลใหม่ เพื่อให้มั่นใจว่า Sheet บันทึกเสร็จจริง
                 setTimeout(loadData, 2000);
             } catch (e) {
-                alert('ระบบขัดข้อง แต่ข้อมูลอาจถูกบันทึกแล้ว กรุณารีเฟรชหน้าจอ');
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อ');
                 loadData();
             }
         }
