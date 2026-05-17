@@ -3,175 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave System v.Final-Fixed</title>
+    <title>ระบบจัดการการลา v.Full</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Sarabun', sans-serif; background: #f3f4f6; }
+        body { font-family: 'Sarabun', sans-serif; background: #f4f7fe; }
         .page-section { display: none; }
         .page-active { display: block !important; }
     </style>
 </head>
 <body>
 
-<nav class="bg-blue-900 text-white p-4 shadow-lg sticky top-0 z-50 flex justify-between">
-    <h1 class="font-bold">ระบบลางาน ONLINE</h1>
-    <button onclick="changePage('portal')" id="backBtn" class="hidden text-sm border px-2 rounded">กลับหน้าหลัก</button>
-</nav>
+    <nav class="bg-indigo-900 text-white p-4 shadow-md sticky top-0 z-50 flex justify-between items-center">
+        <h1 class="font-bold text-lg">Leave Management System</h1>
+        <button id="backBtn" onclick="changePage('portal')" class="hidden border border-white/40 px-3 py-1 rounded text-sm hover:bg-white/10">กลับหน้าหลัก</button>
+    </nav>
 
-<div class="container mx-auto p-4 max-w-5xl">
-    <div id="page-portal" class="page-section page-active mt-10 text-center">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <div onclick="changePage('employee')" class="bg-white p-10 rounded-2xl shadow cursor-pointer border-2 hover:border-blue-500">
-                <i class="fa-solid fa-user text-5xl text-blue-600 mb-4"></i>
-                <p class="font-bold">พนักงาน</p>
-            </div>
-            <div onclick="changePage('login')" class="bg-white p-10 rounded-2xl shadow cursor-pointer border-2 hover:border-gray-700">
-                <i class="fa-solid fa-lock text-5xl text-gray-700 mb-4"></i>
-                <p class="font-bold">ผู้อนุมัติ</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-login" class="page-section mt-10 max-w-sm mx-auto">
-        <div class="bg-white p-6 rounded-xl shadow border">
-            <input type="password" id="adminPass" placeholder="รหัสผ่าน (1234)" class="w-full border p-2 rounded mb-4 text-center">
-            <button onclick="handleLogin()" class="w-full bg-blue-900 text-white py-2 rounded font-bold">เข้าสู่ระบบ</button>
-        </div>
-    </div>
-
-    <div id="page-employee" class="page-section mt-4">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-5 rounded-xl border shadow">
-                <h3 class="font-bold border-b mb-4">ฟอร์มแจ้งลา</h3>
-                <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="w-full border p-2 rounded mb-2 text-sm">
-                <input type="text" id="empId" placeholder="รหัสพนักงาน" class="w-full border p-2 rounded mb-2 text-sm">
-                <select id="leaveType" class="w-full border p-2 rounded mb-2 text-sm">
-                    <option>ลาป่วย</option><option>ลากิจ</option><option>ลาพักร้อน</option>
-                </select>
-                <div class="flex gap-2 mb-2">
-                    <input type="date" id="dateStart" class="w-full border p-2 rounded text-xs">
-                    <input type="date" id="dateEnd" class="w-full border p-2 rounded text-xs">
+    <div class="container mx-auto p-4 max-w-6xl">
+        
+        <div id="page-portal" class="page-section page-active mt-12 text-center">
+            <h2 class="text-2xl font-bold mb-10 text-slate-800">กรุณาเลือกเข้าสู่ระบบ</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
+                <div onclick="changePage('employee')" class="bg-white p-12 rounded-3xl shadow-sm border-2 border-transparent hover:border-indigo-500 cursor-pointer transition-all">
+                    <i class="fa-solid fa-user-pen text-5xl text-indigo-600 mb-4"></i>
+                    <h3 class="text-xl font-bold">พนักงาน</h3>
                 </div>
-                <textarea id="leaveReason" placeholder="เหตุผล" class="w-full border p-2 rounded mb-2 text-sm h-20"></textarea>
-                <button onclick="saveLeave()" id="submitBtn" class="w-full bg-blue-700 text-white py-2 rounded font-bold">ส่งข้อมูล</button>
-            </div>
-            <div class="lg:col-span-2 bg-white p-5 rounded-xl border shadow">
-                <h3 class="font-bold border-b mb-4">สถานะการลา</h3>
-                <div id="empStatusList">กำลังโหลด...</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="page-approver" class="page-section mt-4">
-        <h2 class="font-bold text-xl mb-4">รายการรอนุมัติ</h2>
-        <div id="approverList" class="space-y-4">กำลังโหลด...</div>
-    </div>
-</div>
-
-<script>
-    // *** เปลี่ยน URL ตรงนี้ ***
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwOVmBCyPnn46QWi9XuLtwaZrVkE76fcxK4iDUh1g8jf9slK2gBe9jzfMYUJPBdQ46D/exec';
-
-    let globalData = [];
-
-    function changePage(pageId) {
-        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('page-active'));
-        document.getElementById('page-' + pageId).classList.add('page-active');
-        document.getElementById('backBtn').classList.toggle('hidden', pageId === 'portal');
-        if(pageId === 'employee' || pageId === 'approver') loadData();
-    }
-
-    function handleLogin() {
-        if(document.getElementById('adminPass').value === '1234') changePage('approver');
-        else alert('รหัสผ่านไม่ถูกต้อง');
-    }
-
-    async function loadData() {
-        try {
-            const res = await fetch(scriptURL);
-            globalData = await res.json();
-            renderTables(globalData);
-        } catch (e) { console.error(e); }
-    }
-
-    function renderTables(data) {
-        const empArea = document.getElementById('empStatusList');
-        const appArea = document.getElementById('approverList');
-        const rows = data.slice().reverse();
-
-        empArea.innerHTML = `<table class="w-full text-sm">
-            <thead class="bg-gray-100"><tr><th class="p-2 border">ชื่อ</th><th class="p-2 border">วันที่</th><th class="p-2 border">สถานะ</th></tr></thead>
-            <tbody>${rows.map(r => `<tr>
-                <td class="p-2 border"><b>${r[0]}</b></td>
-                <td class="p-2 border text-xs">${r[4]}</td>
-                <td class="p-2 border text-center font-bold ${r[7]==='Approved'?'text-green-600':(r[7]==='Rejected'?'text-red-600':'text-amber-500')}">${r[7]}</td>
-            </tr>`).join('')}</tbody>
-        </table>`;
-
-        appArea.innerHTML = rows.map((r, i) => `
-            <div id="card-${i}" class="bg-white p-5 rounded-xl border-l-8 ${r[7]==='Approved'?'border-green-600':(r[7]==='Rejected'?'border-red-600':'border-amber-500')} shadow-sm flex justify-between items-center">
-                <div>
-                    <p class="font-bold">${r[0]} <span class="text-xs text-blue-600">(${r[3]})</span></p>
-                    <p class="text-sm text-gray-600">วันที่: ${r[4]} ถึง ${r[5]}</p>
-                </div>
-                <div id="action-${i}">
-                    ${r[7] === 'Pending' ? `
-                        <button onclick="confirmStatus('${r[0]}','${r[4]}','Approved', ${i})" class="bg-green-600 text-white px-4 py-1 rounded text-sm font-bold mr-2">อนุมัติ</button>
-                        <button onclick="confirmStatus('${r[0]}','${r[4]}','Rejected', ${i})" class="bg-red-600 text-white px-4 py-1 rounded text-sm font-bold">ปฏิเสธ</button>
-                    ` : `<span class="font-bold ${r[7]==='Approved'?'text-green-600':'text-red-600'}">${r[7]}</span>`}
+                <div onclick="changePage('login')" class="bg-white p-12 rounded-3xl shadow-sm border-2 border-transparent hover:border-slate-800 cursor-pointer transition-all">
+                    <i class="fa-solid fa-user-shield text-5xl text-slate-700 mb-4"></i>
+                    <h3 class="text-xl font-bold">ผู้อนุมัติ</h3>
                 </div>
             </div>
-        `).join('');
-    }
+        </div>
 
-    async function confirmStatus(name, start, status, idx) {
-        if(!confirm(`ยืนยันการ ${status}?`)) return;
+        <div id="page-login" class="page-section mt-12 max-w-sm mx-auto">
+            <div class="bg-white p-8 rounded-2xl shadow-lg border text-center">
+                <h3 class="font-bold mb-6">รหัสผ่านผู้อนุมัติ</h3>
+                <input type="password" id="adminPass" placeholder="รหัสผ่าน (1234)" class="w-full border p-3 rounded-xl mb-4 text-center">
+                <button onclick="handleLogin()" class="w-full bg-indigo-900 text-white py-3 rounded-xl font-bold shadow-lg">ยืนยัน</button>
+            </div>
+        </div>
 
-        // เปลี่ยนสถานะหน้าจอทันที (Lock UI)
-        const actionDiv = document.getElementById(`action-${idx}`);
-        const card = document.getElementById(`card-${idx}`);
-        actionDiv.innerHTML = `<span class="text-blue-600 animate-pulse font-bold">กำลังบันทึก...</span>`;
+        <div id="page-employee" class="page-section mt-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow border h-fit">
+                    <h3 class="font-bold text-indigo-900 mb-6 border-b pb-2 text-center text-lg">แบบฟอร์มขออนุมัติลา</h3>
+                    <div class="space-y-4">
+                        <input type="text" id="empName" placeholder="ชื่อ-นามสกุล *" class="w-full border p-3 rounded-xl text-sm">
+                        <input type="text" id="empId" placeholder="รหัสพนักงาน *" class="w-full border p-3 rounded-xl text-sm">
+                        
+                        <div>
+                            <label class="text-[10px] text-slate-400 ml-2 uppercase font-bold">ประเภทพนักงาน</label>
+                            <select id="empStatus" class="w-full border p-3 rounded-xl text-sm bg-slate-50">
+                                <option value="พนักงานประจำ">พนักงานประจำ</option>
+                                <option value="พนักงานชั่วคราว">พนักงานชั่วคราว</option>
+                            </select>
+                        </div>
 
-        try {
-            // ส่งแบบส่งแล้วไม่ต้องรอการตอบกลับแบบ JSON (เลี่ยง CORS)
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify({ action: 'updateStatus', name: name, start: start, status: status })
-            });
+                        <div>
+                            <label class="text-[10px] text-slate-400 ml-2 uppercase font-bold">ประเภทการลา</label>
+                            <select id="leaveType" class="w-full border p-3 rounded-xl text-sm bg-slate-50">
+                                <option value="ลาป่วย">ลาป่วย</option>
+                                <option value="ลากิจ">ลากิจ</option>
+                                <option value="ลาพักร้อน">ลาพักร้อน</option>
+                            </select>
+                        </div>
 
-            // รอ 1.5 วินาทีเพื่อให้มั่นใจว่า Google เขียนไฟล์เสร็จ
-            setTimeout(() => {
-                card.style.borderLeftColor = status === 'Approved' ? '#16a34a' : '#dc2626';
-                actionDiv.innerHTML = `<span class="font-bold ${status==='Approved'?'text-green-600':'text-red-600'}">${status}</span>`;
-                loadData(); // รีโหลดข้อมูลจริงจาก Sheet
-            }, 1500);
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="dateStart" class="w-full border p-2 rounded-xl text-xs">
+                            <input type="date" id="dateEnd" class="w-full border p-2 rounded-xl text-xs">
+                        </div>
+                        <textarea id="leaveReason" placeholder="เหตุผลการลา" class="w-full border p-3 rounded-xl text-sm h-24"></textarea>
+                        <button onclick="saveLeave()" id="submitBtn" class="w-full bg-indigo-600 text-white py-3 rounded-xl font-bold hover:bg-indigo-700 shadow-md">ส่งคำขอลา</button>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow border">
+                    <h3 class="font-bold mb-6 border-b pb-2 text-slate-700 text-lg">ประวัติและสถานะล่าสุด</h3>
+                    <div id="empStatusList" class="min-h-[400px]">กำลังโหลดข้อมูล...</div>
+                </div>
+            </div>
+        </div>
 
-        } catch (e) {
-            alert('เกิดข้อผิดพลาด');
-            loadData();
+        <div id="page-approver" class="page-section mt-4">
+            <h2 class="text-2xl font-bold mb-8 text-slate-800 border-l-4 border-indigo-900 pl-4">คำขอรอนุมัติ</h2>
+            <div id="approverList" class="space-y-4">กำลังโหลดข้อมูล...</div>
+        </div>
+
+    </div>
+
+    <script>
+        // *** ใส่ URL Web App ของคุณที่นี่ ***
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw33LOB7g1dsucrrbjN8_KBBjjxEhYEnasmDG30AkYX4kv-ASG3oVvc4mNFne4OdbF4/exec';
+
+        function changePage(pageId) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('page-active'));
+            document.getElementById('page-' + pageId).classList.add('page-active');
+            document.getElementById('backBtn').classList.toggle('hidden', pageId === 'portal');
+            if(pageId === 'employee' || pageId === 'approver') loadData();
         }
-    }
 
-    async function saveLeave() {
-        const btn = document.getElementById('submitBtn');
-        const data = { 
-            action: 'addLeave', 
-            name: document.getElementById('empName').value, 
-            empId: document.getElementById('empId').value, 
-            empStatus: 'ประจำ', leaveType: document.getElementById('leaveType').value, 
-            start: document.getElementById('dateStart').value, 
-            end: document.getElementById('dateEnd').value, 
-            reason: document.getElementById('leaveReason').value 
-        };
-        if(!data.name || !data.start) return alert('กรอกชื่อและวันที่เริ่มลา');
-        btn.disabled = true; btn.innerText = 'กำลังส่ง...';
-        await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-        alert('ส่งสำเร็จ!');
-        window.location.reload();
-    }
-</script>
+        function handleLogin() {
+            if(document.getElementById('adminPass').value === '1234') changePage('approver');
+            else alert('รหัสผ่านไม่ถูกต้อง');
+        }
+
+        async function saveLeave() {
+            const btn = document.getElementById('submitBtn');
+            const data = { 
+                action: 'addLeave', 
+                name: document.getElementById('empName').value, 
+                empId: document.getElementById('empId').value, 
+                empStatus: document.getElementById('empStatus').value,
+                leaveType: document.getElementById('leaveType').value, 
+                start: document.getElementById('dateStart').value, 
+                end: document.getElementById('dateEnd').value, 
+                reason: document.getElementById('leaveReason').value || '-' 
+            };
+            if(!data.name || !data.empId || !data.start) return alert('กรอกข้อมูลที่จำเป็นให้ครบ (ชื่อ, รหัส, วันเริ่มลา)');
+            
+            btn.disabled = true; btn.innerText = 'กำลังส่ง...';
+            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+            alert('ส่งคำร้องสำเร็จ');
+            window.location.reload();
+        }
+
+        async function loadData() {
+            try {
+                const res = await fetch(scriptURL);
+                const data = await res.json();
+                renderTables(data);
+            } catch (e) { console.error(e); }
+        }
+
+        function renderTables(data) {
+            const empArea = document.getElementById('empStatusList');
+            const appArea = document.getElementById('approverList');
+            const rows = data.slice().reverse();
+
+            // ตารางหน้าพนักงาน
+            empArea.innerHTML = `<div class="overflow-x-auto"><table class="w-full text-sm">
+                <thead><tr class="bg-slate-50 border-b text-slate-500"><th class="p-4 text-left">ชื่อ / รหัส</th><th class="p-4 text-left">วันที่ลา</th><th class="p-4 text-center">สถานะ</th></tr></thead>
+                <tbody>${rows.map(r => `
+                <tr class="border-b">
+                    <td class="p-4"><b>${r[0]}</b><br><small class="text-indigo-600 font-bold">ID: ${r[1]} (${r[2]})</small></td>
+                    <td class="p-4 text-xs text-slate-600">${r[4]}<br>ถึง ${r[5]}</td>
+                    <td class="p-4 text-center">
+                        <span class="px-3 py-1 rounded-full text-[10px] text-white font-bold ${r[7]==='Approved'?'bg-green-500':(r[7]==='Rejected'?'bg-red-500':'bg-amber-500')}">${r[7]}</span>
+                    </td>
+                </tr>`).join('')}</tbody></table></div>`;
+
+            // รายการหน้าผู้อนุมัติ
+            appArea.innerHTML = rows.map((r, i) => `
+                <div id="card-${i}" class="bg-white p-6 rounded-2xl border-l-8 ${r[7]==='Approved'?'border-green-500':(r[7]==='Rejected'?'border-red-500':'border-amber-500')} shadow-sm flex justify-between items-center transition-all">
+                    <div>
+                        <p class="text-lg font-bold text-slate-800">${r[0]} <span class="text-xs font-normal text-slate-400 ml-2">ID: ${r[1]}</span></p>
+                        <p class="text-sm text-indigo-700 font-bold">${r[3]}: ${r[4]} ถึง ${r[5]}</p>
+                        <p class="text-xs text-slate-400 italic">เหตุผล: ${r[6]}</p>
+                    </div>
+                    <div id="btn-group-${i}">
+                        ${r[7] === 'Pending' ? `
+                            <button onclick="updateStatusOnline('${r[0]}','${r[1]}','${r[4]}','Approved', ${i})" class="bg-green-600 text-white px-5 py-2 rounded-xl text-xs font-bold shadow hover:bg-green-700 transition-all">อนุมัติ</button>
+                            <button onclick="updateStatusOnline('${r[0]}','${r[1]}','${r[4]}','Rejected', ${i})" class="bg-red-600 text-white px-5 py-2 rounded-xl text-xs font-bold shadow hover:bg-red-700 transition-all ml-2">ปฏิเสธ</button>
+                        ` : `<span class="text-lg font-black ${r[7]==='Approved'?'text-green-600':'text-red-600'}">${r[7].toUpperCase()}</span>`}
+                    </div>
+                </div>`).join('');
+        }
+
+        async function updateStatusOnline(name, empId, start, status, idx) {
+            if(!confirm(`ยืนยันการ "${status}" ใช่หรือไม่?`)) return;
+
+            const btnGroup = document.getElementById(`btn-group-${idx}`);
+            const card = document.getElementById(`card-${idx}`);
+            
+            // 1. Lock UI ทันที
+            btnGroup.innerHTML = `<span class="text-indigo-600 font-bold animate-pulse">กำลังบันทึก...</span>`;
+            card.style.borderLeftColor = (status === 'Approved') ? '#16a34a' : '#dc2626';
+
+            // 2. ส่งข้อมูลแบบ POST
+            try {
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'updateStatus', empId: empId, start: start, status: status, name: name })
+                });
+
+                // 3. รอและรีเฟรชข้อมูล
+                setTimeout(() => {
+                    btnGroup.innerHTML = `<span class="text-lg font-black ${status==='Approved'?'text-green-600':'text-red-600'}">${status.toUpperCase()}</span>`;
+                    loadData();
+                }, 1500);
+
+            } catch (e) {
+                alert('การเชื่อมต่อล้มเหลว');
+                loadData();
+            }
+        }
+    </script>
 </body>
 </html>
