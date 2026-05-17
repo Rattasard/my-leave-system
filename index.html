@@ -145,8 +145,61 @@
         }
 
         function renderTables(data) {
-            // ส่วนนี้จะจัดการแสดงผลข้อมูลที่ดึงมาจาก Google Sheets
-            // ซึ่งคุณสามารถปรับแต่งหน้าตาเหมือนเวอร์ชันเดิมที่ผมเคยให้ได้เลยครับ
+            const empList = document.getElementById('empStatusList');
+    const appList = document.getElementById('approverList');
+
+    if (!data || data.length === 0) {
+        empList.innerHTML = "ไม่พบประวัติการลา";
+        appList.innerHTML = "ไม่มีรายการรอนุมัติ";
+        return;
+    }
+
+    // --- ส่วนแสดงผลของพนักงาน ---
+    empList.innerHTML = `
+        <table class="w-full text-sm text-left">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="p-2 border-b">ชื่อ/ประเภท</th>
+                    <th class="p-2 border-b">วันที่ลา</th>
+                    <th class="p-2 border-b text-center">สถานะ</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y">
+                ${data.slice().reverse().map(row => `
+                    <tr>
+                        <td class="p-2 font-bold">${row[0]}<br><span class="text-[10px] text-gray-400 font-normal">${row[3]}</span></td>
+                        <td class="p-2 text-xs text-gray-500">${row[4]} ถึง ${row[5]}</td>
+                        <td class="p-2 text-center">
+                            <span class="${row[7] === 'Approved' ? 'bg-green-500' : (row[7] === 'Rejected' ? 'bg-red-500' : 'bg-amber-500')} text-white px-2 py-0.5 rounded-full text-[10px]">
+                                ${row[7]}
+                            </span>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+
+    // --- ส่วนแสดงผลของผู้อนุมัติ ---
+    appList.innerHTML = data.slice().reverse().map((row) => {
+        const isPending = row[7] === 'Pending';
+        return `
+            <div class="bg-white p-4 rounded-xl border-2 ${row[7] === 'Approved' ? 'border-green-500' : (row[7] === 'Rejected' ? 'border-red-500' : 'border-gray-200')} shadow-sm relative mb-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-bold text-lg">${row[0]} (${row[1]})</p>
+                        <p class="text-xs text-blue-600 font-bold">${row[2]} | ${row[3]}</p>
+                        <p class="text-sm text-gray-600 mt-1">วันที่: ${row[4]} ถึง ${row[5]}</p>
+                        <p class="text-xs italic text-gray-500 mt-2">เหตุผล: ${row[6]}</p>
+                    </div>
+                    <div class="text-right">
+                        ${isPending ? <span class="text-amber-500 font-bold text-sm">รออนุมัติ</span> : 
+                        `<span class="${row[7] === 'Approved' ? 'text-green-600' : 'text-red-600'} font-bold uppercase text-sm">${row[7]}</span>`}
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
         }
     </script>
 </body>
