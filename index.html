@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบลางานออนไลน์ (Complete Version)</title>
+    <title>ระบบลางานออนไลน์ v.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -50,6 +50,10 @@
                     <div class="space-y-3">
                         <input type="text" id="empName" placeholder="ชื่อ-นามสกุล *" class="w-full border p-2 rounded">
                         <input type="text" id="empId" placeholder="รหัสพนักงาน *" class="w-full border p-2 rounded">
+                        <select id="empStatus" class="w-full border p-2 rounded">
+                            <option value="พนักงานประจำ">พนักงานประจำ</option>
+                            <option value="พนักงานชั่วคราว">พนักงานชั่วคราว</option>
+                        </select>
                         <select id="leaveType" class="w-full border p-2 rounded">
                             <option value="ลาป่วย">ลาป่วย</option>
                             <option value="ลากิจ">ลากิจ</option>
@@ -63,9 +67,9 @@
                         <button onclick="saveLeave()" id="submitBtn" class="w-full bg-blue-800 text-white py-3 rounded-lg font-bold hover:bg-blue-700">ส่งคำร้องขอลา</button>
                     </div>
                 </div>
-                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md border">
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md border text-center min-h-[300px]">
                     <h3 class="font-bold text-lg mb-4 border-b pb-2">ประวัติลาล่าสุด</h3>
-                    <div id="empStatusList" class="min-h-[300px]">กำลังโหลด...</div>
+                    <div id="empStatusList">กำลังโหลด...</div>
                 </div>
             </div>
         </div>
@@ -77,8 +81,8 @@
     </div>
 
     <script>
-        // *** วาง URL ของ Google Apps Script ที่นี่ ***
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbyRDBCq9SWxSCegSn3YDPvQtnkoBafVkppu6ZyqLuzCg_xGagtaGYFjxiIzgZXN4czJ/exec';
+        // *** วาง URL ของคุณใน ' ' ด้านล่างนี้ ***
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxwGe3Qe2rNLZy3E5KY2LWrYAiKuWyqCwQIReph3qjJLrUYw-mv61o_llAlUbYkyNxa/exec';
 
         function changePage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('page-active'));
@@ -95,7 +99,7 @@
 
         async function saveLeave() {
             const btn = document.getElementById('submitBtn');
-            const data = { action: 'addLeave', name: document.getElementById('empName').value, empId: document.getElementById('empId').value, leaveType: document.getElementById('leaveType').value, start: document.getElementById('dateStart').value, end: document.getElementById('dateEnd').value, reason: document.getElementById('leaveReason').value || '-' };
+            const data = { action: 'addLeave', name: document.getElementById('empName').value, empId: document.getElementById('empId').value, empStatus: document.getElementById('empStatus').value, leaveType: document.getElementById('leaveType').value, start: document.getElementById('dateStart').value, end: document.getElementById('dateEnd').value, reason: document.getElementById('leaveReason').value || '-' };
             if(!data.name || !data.empId || !data.start) return alert('กรอกข้อมูลไม่ครบ');
             btn.disabled = true; btn.innerText = 'กำลังส่ง...';
             try {
@@ -105,6 +109,7 @@
         }
 
         async function loadData() {
+            if(scriptURL.includes('ใส่_URL')) return;
             try {
                 const res = await fetch(scriptURL);
                 const data = await res.json();
@@ -119,14 +124,18 @@
             const rows = data.slice().reverse();
 
             empList.innerHTML = `<table class="w-full text-sm text-left border">
-                <thead class="bg-gray-100"><tr><th class="p-2 border">ชื่อ</th><th class="p-2 border">วันที่</th><th class="p-2 border text-center">สถานะ</th></tr></thead>
-                <tbody>${rows.map(r => `<tr><td class="p-2 border"><b>${r[0]}</b><br><small>${r[3]}</small></td><td class="p-2 border text-xs">${r[4]} ถึง ${r[5]}</td><td class="p-2 border text-center"><span class="px-2 py-0.5 rounded-full text-[10px] text-white ${r[7]==='Approved'?'bg-green-500':(r[7]==='Rejected'?'bg-red-500':'bg-amber-500')}">${r[7]}</span></td></tr>`).join('')}</tbody>
+                <thead class="bg-gray-100"><tr><th class="p-2 border">ชื่อ / ประเภท</th><th class="p-2 border">วันที่</th><th class="p-2 border text-center">สถานะ</th></tr></thead>
+                <tbody>${rows.map(r => `<tr><td class="p-2 border"><b>${r[0]}</b> <br><small class="text-blue-600">${r[2]}</small><br><small>${r[3]}</small></td><td class="p-2 border text-xs">${r[4]} ถึง ${r[5]}</td><td class="p-2 border text-center"><span class="px-2 py-0.5 rounded-full text-[10px] text-white ${r[7]==='Approved'?'bg-green-500':(r[7]==='Rejected'?'bg-red-500':'bg-amber-500')}">${r[7]}</span></td></tr>`).join('')}</tbody>
             </table>`;
 
             appList.innerHTML = rows.map(r => `
                 <div class="bg-white p-5 rounded-xl border-l-8 ${r[7]==='Approved'?'border-green-500':(r[7]==='Rejected'?'border-red-500':'border-amber-500')} shadow-sm flex justify-between items-center">
-                    <div><b>${r[0]} (${r[1]})</b><p class="text-sm text-blue-700 font-bold">${r[3]}: ${r[4]} ถึง ${r[5]}</p><p class="text-xs text-gray-500 italic">เหตุผล: ${r[6]}</p></div>
-                    <div>${r[7]==='Pending'? `<div class="flex gap-2"><button onclick="updateStatusOnline('${r[0]}','${r[4]}','Approved')" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-bold">อนุมัติ</button><button onclick="updateStatusOnline('${r[0]}','${r[4]}','Rejected')" class="bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-bold">ปฏิเสธ</button></div>` : `<span class="font-bold ${r[7]==='Approved'?'text-green-600':'text-red-600'}">${r[7]}</span>`}</div>
+                    <div>
+                        <b>${r[0]} (${r[1]})</b> <span class="text-xs text-blue-600 ml-2">[${r[2]}]</span>
+                        <p class="text-sm text-blue-700 font-bold">${r[3]}: ${r[4]} ถึง ${r[5]}</p>
+                        <p class="text-xs text-gray-500 italic">เหตุผล: ${r[6]}</p>
+                    </div>
+                    <div>${r[7]==='Pending'? `<div class="flex gap-2"><button onclick="updateStatusOnline('${r[0]}','${r[4]}','Approved')" class="bg-green-600 text-white px-3 py-1 rounded shadow-sm text-xs font-bold">อนุมัติ</button><button onclick="updateStatusOnline('${r[0]}','${r[4]}','Rejected')" class="bg-red-600 text-white px-3 py-1 rounded shadow-sm text-xs font-bold">ปฏิเสธ</button></div>` : `<span class="font-bold ${r[7]==='Approved'?'text-green-600':'text-red-600'}">${r[7]}</span>`}</div>
                 </div>`).join('');
         }
 
