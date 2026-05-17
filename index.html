@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ระบบลางาน Online - Update Realtime</title>
+    <title>ระบบลางาน v.4 - Fixed Update</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -13,16 +13,16 @@
         .page-active { display: block !important; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-50 min-h-screen">
 
     <nav class="bg-blue-900 text-white p-4 shadow-lg flex justify-between items-center sticky top-0 z-50">
         <h1 class="text-xl font-bold cursor-pointer" onclick="window.location.reload()">ระบบลางาน</h1>
-        <button id="backBtn" onclick="changePage('portal')" class="hidden bg-white/20 px-4 py-1 rounded text-sm border hover:bg-white/30">กลับหน้าหลัก</button>
+        <button id="backBtn" onclick="changePage('portal')" class="hidden bg-white/20 px-4 py-1 rounded text-sm border">กลับหน้าหลัก</button>
     </nav>
 
     <div class="container mx-auto p-4 max-w-5xl">
         <div id="page-portal" class="page-section page-active mt-12 text-center">
-            <h2 class="text-3xl font-bold mb-10 text-gray-800 text-center">เลือกโหมดการใช้งาน</h2>
+            <h2 class="text-3xl font-bold mb-10 text-gray-800">เลือกโหมดการใช้งาน</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                 <div onclick="changePage('employee')" class="bg-white p-10 rounded-2xl shadow-md border-2 hover:border-blue-500 cursor-pointer transition-all">
                     <i class="fa-solid fa-user-edit text-5xl text-blue-600 mb-4"></i>
@@ -37,7 +37,7 @@
 
         <div id="page-login" class="page-section mt-12 max-w-md mx-auto text-center">
             <div class="bg-white p-8 rounded-xl shadow-lg border">
-                <h2 class="text-2xl font-bold mb-6 text-gray-800">Login ผู้อนุมัติ</h2>
+                <h2 class="text-2xl font-bold mb-6">ผู้อนุมัติ Login</h2>
                 <input type="password" id="adminPass" placeholder="รหัสผ่าน (1234)" class="w-full border p-3 rounded-lg mb-4 text-center">
                 <button onclick="handleLogin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold">เข้าสู่ระบบ</button>
             </div>
@@ -46,11 +46,10 @@
         <div id="page-employee" class="page-section mt-4">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="bg-white p-6 rounded-xl shadow-md border">
-                    <h3 class="font-bold text-lg mb-4 border-b pb-2 text-blue-900 text-center">แจ้งรายละเอียดการลา</h3>
+                    <h3 class="font-bold text-lg mb-4 border-b pb-2 text-blue-900">แจ้งการลา</h3>
                     <div class="space-y-3">
                         <input type="text" id="empName" placeholder="ชื่อ-นามสกุล *" class="w-full border p-2 rounded">
                         <input type="text" id="empId" placeholder="รหัสพนักงาน *" class="w-full border p-2 rounded">
-                        <label class="text-xs text-gray-400">ประเภทพนักงาน:</label>
                         <select id="empStatus" class="w-full border p-2 rounded">
                             <option value="พนักงานประจำ">1. ประจำ</option>
                             <option value="พนักงานชั่วคราว">2. ชั่วคราว</option>
@@ -64,26 +63,26 @@
                             <div>เริ่ม:<input type="date" id="dateStart" class="w-full border p-2 rounded mt-1"></div>
                             <div>ถึง:<input type="date" id="dateEnd" class="w-full border p-2 rounded mt-1"></div>
                         </div>
-                        <textarea id="leaveReason" placeholder="เหตุผลการลา" class="w-full border p-2 rounded h-20"></textarea>
-                        <button onclick="saveLeave()" id="submitBtn" class="w-full bg-blue-800 text-white py-3 rounded-lg font-bold hover:bg-blue-700">ส่งคำร้องขอลา</button>
+                        <textarea id="leaveReason" placeholder="เหตุผล" class="w-full border p-2 rounded h-20"></textarea>
+                        <button onclick="saveLeave()" id="submitBtn" class="w-full bg-blue-800 text-white py-3 rounded-lg font-bold">ส่งคำร้อง</button>
                     </div>
                 </div>
                 <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md border">
-                    <h3 class="font-bold text-lg mb-4 border-b pb-2 text-blue-900">ประวัติลาล่าสุด</h3>
-                    <div id="empStatusList" class="min-h-[300px]">กำลังโหลด...</div>
+                    <h3 class="font-bold text-lg mb-4 border-b pb-2">ประวัติลาล่าสุด</h3>
+                    <div id="empStatusList">กำลังโหลด...</div>
                 </div>
             </div>
         </div>
 
-        <div id="page-approver" class="page-section mt-4 text-center">
-            <h2 class="text-2xl font-bold mb-6 text-blue-900 border-b-2 border-blue-900 inline-block text-center">รายการรอนุมัติ</h2>
-            <div id="approverList" class="grid grid-cols-1 gap-4 mt-4 text-left">กำลังโหลดข้อมูล...</div>
+        <div id="page-approver" class="page-section mt-4">
+            <h2 class="text-2xl font-bold mb-6 text-blue-900 border-b-2 border-blue-900 inline-block">รอนุมัติ</h2>
+            <div id="approverList" class="grid grid-cols-1 gap-4 mt-4">กำลังโหลด...</div>
         </div>
     </div>
 
     <script>
-        // *** สำคัญ: แก้ URL ตรงนี้เป็น URL ของคุณที่ได้จาก Apps Script ***
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw4uloVWnBHJE5cN4-L3QuLYRYsaf_txPeQ0Rd75UxZ6HJPDNXyrV09LCxr45ueaSmr/exec';
+        // *** สำคัญ: วาง URL Web App ของคุณที่นี่ ***
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwwzeRyFLJFcgnWP6Zd9FgPCZTw-4DbYtUmtDf8OBkuzXXiU_CZ1u8PLsK52WLp8gT7/exec';
 
         function changePage(pageId) {
             document.querySelectorAll('.page-section').forEach(p => p.classList.remove('page-active'));
@@ -100,17 +99,8 @@
 
         async function saveLeave() {
             const btn = document.getElementById('submitBtn');
-            const data = { 
-                action: 'addLeave', 
-                name: document.getElementById('empName').value, 
-                empId: document.getElementById('empId').value, 
-                empStatus: document.getElementById('empStatus').value,
-                leaveType: document.getElementById('leaveType').value, 
-                start: document.getElementById('dateStart').value, 
-                end: document.getElementById('dateEnd').value, 
-                reason: document.getElementById('leaveReason').value || '-' 
-            };
-            if(!data.name || !data.empId || !data.start) return alert('กรุณากรอกข้อมูลให้ครบ');
+            const data = { action: 'addLeave', name: document.getElementById('empName').value, empId: document.getElementById('empId').value, empStatus: document.getElementById('empStatus').value, leaveType: document.getElementById('leaveType').value, start: document.getElementById('dateStart').value, end: document.getElementById('dateEnd').value, reason: document.getElementById('leaveReason').value || '-' };
+            if(!data.name || !data.empId || !data.start) return alert('กรอกข้อมูลไม่ครบ');
             btn.disabled = true; btn.innerText = 'กำลังส่ง...';
             try {
                 await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
@@ -133,76 +123,64 @@
             if(!data || data.length === 0) return;
             const rows = data.slice().reverse();
 
-            // ตารางพนักงาน
             empList.innerHTML = `<table class="w-full text-sm text-left border">
-                <thead class="bg-gray-100"><tr><th class="p-2 border">ข้อมูลพนักงาน</th><th class="p-2 border text-center">สถานะ</th></tr></thead>
+                <thead class="bg-gray-100"><tr><th class="p-2 border">ชื่อ / ประเภท</th><th class="p-2 border text-center">สถานะ</th></tr></thead>
                 <tbody>${rows.map(r => `<tr>
-                    <td class="p-2 border"><b>${r[0]}</b> <span class="text-[10px] text-blue-600 font-bold">(${r[2]})</span><br><small>${r[3]}: ${r[4]} ถึง ${r[5]}</small></td>
+                    <td class="p-2 border"><b>${r[0]}</b> <span class="text-[10px] text-blue-600">(${r[2]})</span><br><small>${r[3]}: ${r[4]}</small></td>
                     <td class="p-2 border text-center">
                         <span class="px-2 py-1 rounded-full text-[10px] text-white font-bold ${r[7]==='Approved'?'bg-green-600':(r[7]==='Rejected'?'bg-red-600':'bg-amber-500')}">${r[7]}</span>
                     </td>
                 </tr>`).join('')}</tbody>
             </table>`;
 
-            // รายการผู้อนุมัติ (Card List)
             appList.innerHTML = rows.map((r, index) => {
                 const status = r[7];
                 const cardId = `card-${index}`;
-                const isPending = status === 'Pending';
-                
                 return `
-                <div id="${cardId}" class="bg-white p-5 rounded-xl border-l-8 ${status==='Approved'?'border-green-600':(status==='Rejected'?'border-red-600':'border-amber-500')} shadow-md flex justify-between items-center transition-all">
+                <div id="${cardId}" class="bg-white p-5 rounded-xl border-l-8 ${status==='Approved'?'border-green-600':(status==='Rejected'?'border-red-600':'border-amber-500')} shadow-md flex justify-between items-center mb-2">
                     <div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-lg font-bold text-gray-800">${r[0]}</span>
-                            <span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">${r[2]}</span>
-                        </div>
-                        <p class="text-sm text-blue-800 font-bold mt-1">${r[3]}: ${r[4]} ถึง ${r[5]}</p>
-                        <p class="text-xs text-gray-400 italic">เหตุผล: ${r[6]}</p>
+                        <b>${r[0]} <span class="text-blue-600 text-xs">(${r[2]})</span></b>
+                        <p class="text-sm text-gray-700">${r[3]}: ${r[4]} ถึง ${r[5]}</p>
                     </div>
-                    <div id="action-${cardId}">
-                        ${isPending ? `
+                    <div id="btn-area-${cardId}">
+                        ${status === 'Pending' ? `
                             <div class="flex gap-2">
-                                <button onclick="updateStatusOnline('${r[0]}','${r[4]}','Approved', '${cardId}')" class="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md hover:bg-green-700">อนุมัติ</button>
-                                <button onclick="updateStatusOnline('${r[0]}','${r[4]}','Rejected', '${cardId}')" class="bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md hover:bg-red-700">ปฏิเสธ</button>
+                                <button onclick="updateStatusOnline('${r[0]}','${r[4]}','Approved', '${cardId}')" class="bg-green-600 text-white px-3 py-1 rounded text-xs">อนุมัติ</button>
+                                <button onclick="updateStatusOnline('${r[0]}','${r[4]}','Rejected', '${cardId}')" class="bg-red-600 text-white px-3 py-1 rounded text-xs">ปฏิเสธ</button>
                             </div>
-                        ` : `<span class="font-bold text-lg ${status==='Approved'?'text-green-600':'text-red-600'}">${status}</span>`}
+                        ` : `<span class="font-bold ${status==='Approved'?'text-green-600':'text-red-600'}">${status}</span>`}
                     </div>
                 </div>`;
             }).join('');
         }
 
         async function updateStatusOnline(name, start, status, cardId) {
-            if(!confirm(`ยืนยันการ "${status}" ใช่หรือไม่?`)) return;
+            if(!confirm(`ยืนยันการ ${status}?`)) return;
 
-            // 1. เปลี่ยนสีที่หน้าจอทันที (Optimistic UI)
+            // เปลี่ยนสถานะหน้าจอทันที (ป้องกันปุ่มเด้ง)
+            const btnArea = document.getElementById(`btn-area-${cardId}`);
             const card = document.getElementById(cardId);
-            const actionDiv = document.getElementById(`action-${cardId}`);
+            const originalContent = btnArea.innerHTML;
             
-            if(status === 'Approved') {
-                card.style.borderLeftColor = "#16a34a"; // สีเขียว
-                actionDiv.innerHTML = `<span class="font-bold text-lg text-green-600 animate-pulse">Approved</span>`;
-            } else {
-                card.style.borderLeftColor = "#dc2626"; // สีแดง
-                actionDiv.innerHTML = `<span class="font-bold text-lg text-red-600 animate-pulse">Rejected</span>`;
-            }
+            btnArea.innerHTML = `<span class="text-xs text-gray-400 animate-pulse">กำลังบันทึก...</span>`;
 
-            // 2. ส่งข้อมูลไป Google Sheets
             try {
-                await fetch(scriptURL, { 
+                // ส่งค่าไป Apps Script
+                const response = await fetch(scriptURL, { 
                     method: 'POST', 
                     mode: 'no-cors', 
-                    body: JSON.stringify({ 
-                        action: 'updateStatus', 
-                        name: name, 
-                        start: start, 
-                        status: status 
-                    }) 
+                    body: JSON.stringify({ action: 'updateStatus', name: name, start: start, status: status }) 
                 });
-                console.log("Sheet Updated Successfully");
+
+                // อัปเดตสีบัตรทันที
+                card.classList.remove('border-amber-500');
+                card.classList.add(status === 'Approved' ? 'border-green-600' : 'border-red-600');
+                btnArea.innerHTML = `<span class="font-bold ${status === 'Approved' ? 'text-green-600' : 'text-red-600'}">${status}</span>`;
+                
+                console.log("บันทึกสำเร็จ");
             } catch (e) { 
-                alert("เกิดข้อผิดพลาดในการอัปเดต Google Sheet: " + e.message); 
-                loadData(); // โหลดข้อมูลใหม่เพื่อรีเซ็ตหน้าจอหากพลาด
+                alert("เกิดข้อผิดพลาด: " + e.message);
+                btnArea.innerHTML = originalContent; // ถ้าพลาดให้คืนค่าปุ่มเดิม
             }
         }
     </script>
