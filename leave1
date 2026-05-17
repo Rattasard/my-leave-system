@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบลางาน v5 (Full Version)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Sarabun', sans-serif; }
+        .page-section { display: none; }
+        .page-active { display: block !important; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800">
+
+    <nav class="bg-blue-900 text-white p-4 shadow-lg flex justify-between items-center sticky top-0 z-50">
+        <h1 class="text-xl font-bold cursor-pointer" onclick="location.reload()">
+            <i class="fa-solid fa-calendar-check mr-2"></i>ระบบลางาน
+        </h1>
+        <button id="backBtn" onclick="changePage('portal')" class="hidden bg-white/20 px-4 py-1 rounded text-sm border border-white/20">
+            <i class="fa-solid fa-home"></i> กลับหน้าหลัก
+        </button>
+    </nav>
+
+    <div class="container mx-auto p-4 max-w-5xl">
+
+        <div id="page-portal" class="page-section page-active mt-12">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-800">ยินดีต้อนรับ</h2>
+                <p class="text-gray-500">กรุณาเลือกช่องทางการเข้าใช้งาน</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+                <div onclick="changePage('employee')" class="bg-white p-10 rounded-2xl shadow-md border-2 border-transparent hover:border-blue-500 cursor-pointer text-center transition-all active:scale-95">
+                    <i class="fa-solid fa-user-edit text-5xl text-blue-600 mb-4"></i>
+                    <h3 class="text-xl font-bold">สำหรับพนักงาน</h3>
+                    <p class="text-sm text-gray-400 mt-2">กรอกข้อมูลการลา (ไม่ต้อง Login)</p>
+                </div>
+                <div onclick="changePage('login')" class="bg-white p-10 rounded-2xl shadow-md border-2 border-transparent hover:border-gray-800 cursor-pointer text-center transition-all active:scale-95">
+                    <i class="fa-solid fa-user-shield text-5xl text-gray-700 mb-4"></i>
+                    <h3 class="text-xl font-bold">สำหรับผู้อนุมัติ</h3>
+                    <p class="text-sm text-gray-400 mt-2">จัดการคำร้องขอลา (Login)</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-login" class="page-section mt-12 max-w-md mx-auto">
+            <div class="bg-white p-8 rounded-xl shadow-lg border">
+                <h2 class="text-2xl font-bold text-center mb-6 border-b pb-4">เข้าสู่ระบบ</h2>
+                <div class="space-y-4">
+                    <input type="password" id="adminPass" placeholder="ใส่รหัสผ่าน (เช่น 1234)" class="w-full border p-3 rounded-lg outline-none focus:ring-2 focus:ring-blue-500">
+                    <button onclick="handleLogin()" class="w-full bg-blue-900 text-white py-3 rounded-lg font-bold shadow-md">ยืนยันรหัสผ่าน</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-employee" class="page-section mt-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md border lg:col-span-1">
+                    <h3 class="font-bold text-lg mb-4 border-b pb-2 text-blue-800">แจ้งรายละเอียดการลา</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase italic">ชื่อ-นามสกุล *</label>
+                            <input type="text" id="empName" class="w-full border p-2 rounded focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase italic">รหัสพนักงาน *</label>
+                            <input type="text" id="empId" class="w-full border p-2 rounded focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase italic">ประเภทพนักงาน *</label>
+                            <select id="empStatus" class="w-full border p-2 rounded">
+                                <option value="พนักงานประจำ">พนักงานประจำ</option>
+                                <option value="พนักงานชั่วคราว">พนักงานชั่วคราว</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase italic">ประเภทการลา *</label>
+                            <select id="leaveType" class="w-full border p-2 rounded">
+                                <option value="ลาป่วย">ลาป่วย</option>
+                                <option value="ลากิจ">ลากิจ</option>
+                                <option value="ลาพักร้อน">ลาพักร้อน</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-500">วันที่เริ่มลา</label>
+                                <input type="date" id="dateStart" class="w-full border p-2 rounded text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-500">สิ้นสุดวันที่</label>
+                                <input type="date" id="dateEnd" class="w-full border p-2 rounded text-sm">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-gray-500 uppercase italic">เหตุผลการลา</label>
+                            <textarea id="leaveReason" rows="2" class="w-full border p-2 rounded focus:ring-1 focus:ring-blue-500" placeholder="ระบุเหตุผลความจำเป็น..."></textarea>
+                        </div>
+                        <button onclick="saveLeave()" class="w-full bg-blue-800 text-white py-3 rounded-lg font-bold hover:bg-blue-900 transition-colors shadow-lg">
+                            <i class="fa-solid fa-paper-plane mr-1"></i> ส่งคำร้องขอลา
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-md border">
+                    <h3 class="font-bold text-lg mb-4 border-b pb-2">สถานะการลาของคุณ (ล่าสุด)</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gray-50 text-left">
+                                <tr>
+                                    <th class="p-3 border-b">พนักงาน/ประเภท</th>
+                                    <th class="p-3 border-b">วันที่ลา</th>
+                                    <th class="p-3 border-b text-center">สถานะ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="empTableBody" class="divide-y"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-approver" class="page-section mt-4">
+            <div class="bg-white p-6 rounded-xl shadow border mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-tasks mr-2 text-blue-900"></i>รายการรอนุมัติ</h2>
+                <button onclick="exportCSV()" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg font-bold shadow-md transition-all">
+                    <i class="fa-solid fa-file-excel mr-2"></i> Export CSV
+                </button>
+            </div>
+            <div id="approverList" class="grid grid-cols-1 gap-4">
+                </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ระบบจัดการหน้า
+        function changePage(pageId) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('page-active'));
+            const target = document.getElementById('page-' + pageId);
+            if (target) target.classList.add('page-active');
+            
+            document.getElementById('backBtn').style.display = (pageId === 'portal') ? 'none' : 'block';
+
+            if(pageId === 'employee') renderEmpTable();
+            if(pageId === 'approver') renderAppTable();
+        }
+
+        function handleLogin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === '1234') { 
+                changePage('approver');
+            } else {
+                alert('รหัสผ่านไม่ถูกต้อง (ตัวอย่างคือ 1234)');
+            }
+        }
+
+        // ระบบบันทึกข้อมูล
+        function saveLeave() {
+            const data = {
+                id: Date.now(),
+                name: document.getElementById('empName').value,
+                empId: document.getElementById('empId').value,
+                empStatus: document.getElementById('empStatus').value,
+                leaveType: document.getElementById('leaveType').value,
+                start: document.getElementById('dateStart').value,
+                end: document.getElementById('dateEnd').value,
+                reason: document.getElementById('leaveReason').value || '-',
+                status: 'Pending'
+            };
+
+            if(!data.name || !data.empId || !data.start || !data.end) {
+                return alert('กรุณากรอกข้อมูลที่มีเครื่องหมาย * ให้ครบถ้วน');
+            }
+
+            const leaves = JSON.parse(localStorage.getItem('leave_system_v5') || '[]');
+            leaves.push(data);
+            localStorage.setItem('leave_system_v5', JSON.stringify(leaves));
+            
+            alert('ส่งคำร้องขอลาสำเร็จแล้ว!');
+            // ล้างฟอร์ม
+            document.getElementById('empName').value = '';
+            document.getElementById('empId').value = '';
+            document.getElementById('leaveReason').value = '';
+            renderEmpTable();
+        }
+
+        // แสดงตารางฝั่งพนักงาน
+        function renderEmpTable() {
+            const leaves = JSON.parse(localStorage.getItem('leave_system_v5') || '[]');
+            const tbody = document.getElementById('empTableBody');
+            
+            tbody.innerHTML = leaves.slice().reverse().map(l => {
+                let statusColor = l.status === 'Approved' ? 'bg-green-500' : (l.status === 'Rejected' ? 'bg-red-500' : 'bg-amber-500');
+                return `
+                <tr>
+                    <td class="p-3">
+                        <div class="font-bold text-gray-800">${l.name}</div>
+                        <div class="text-[10px] text-gray-400">${l.empStatus} | ${l.leaveType}</div>
+                    </td>
+                    <td class="p-3 text-xs text-gray-500">${l.start}<br>ถึง ${l.end}</td>
+                    <td class="p-3 text-center">
+                        <span class="${statusColor} text-white px-3 py-1 rounded-full text-[10px] font-bold">${l.status}</span>
+                    </td>
+                </tr>`;
+            }).join('');
+            
+            if(leaves.length === 0) tbody.innerHTML = '<tr><td colspan="3" class="p-10 text-center text-gray-400">ยังไม่มีข้อมูลการลา</td></tr>';
+        }
+
+        // แสดงรายการฝั่งผู้อนุมัติ
+        function renderAppTable() {
+            const leaves = JSON.parse(localStorage.getItem('leave_system_v5') || '[]');
+            const container = document.getElementById('approverList');
+            
+            container.innerHTML = leaves.slice().reverse().map(l => {
+                // ถ้าอนุมัติแล้วหรือไม่อนุมัติแล้ว ให้แสดงเป็นแถบเต็มช่อง
+                if(l.status !== 'Pending') {
+                    const isApp = l.status === 'Approved';
+                    return `
+                    <div class="bg-white p-5 rounded-xl border-2 ${isApp ? 'border-green-500' : 'border-red-500'} shadow-sm relative overflow-hidden">
+                        <div class="absolute right-0 top-0 ${isApp ? 'bg-green-500' : 'bg-red-500'} text-white px-10 py-1 rotate-45 translate-x-8 translate-y-3 font-bold text-xs shadow-md">
+                            ${l.status.toUpperCase()}
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <div>
+                                <p class="text-xs text-gray-400 uppercase">ชื่อพนักงาน - รหัส</p>
+                                <p class="font-bold text-lg">${l.name} (${l.empId})</p>
+                                <p class="text-sm text-blue-600 font-semibold">${l.empStatus} | ${l.leaveType}</p>
+                            </div>
+                            <div class="md:text-right">
+                                <p class="text-xs text-gray-400 uppercase">วันที่ลา</p>
+                                <p class="font-bold text-gray-700">${l.start} ถึง ${l.end}</p>
+                                <p class="text-xs italic text-gray-500">เหตุผล: ${l.reason}</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 w-full ${isApp ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'} py-2 rounded text-center font-bold border ${isApp ? 'border-green-200' : 'border-red-200'}">
+                            ผลการพิจารณา: ${isApp ? 'อนุมัติเรียบร้อยแล้ว' : 'ไม่อนุมัติ / ปฏิเสธคำร้อง'}
+                        </div>
+                    </div>`;
+                }
+
+                // ถ้ายังรออนุมัติ (Pending) ให้แสดงปุ่มกด
+                return `
+                <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex flex-col md:flex-row justify-between gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-blue-100 text-blue-800 text-[10px] px-2 py-0.5 rounded font-bold">${l.empStatus}</span>
+                                <span class="bg-purple-100 text-purple-800 text-[10px] px-2 py-0.5 rounded font-bold">${l.leaveType}</span>
+                            </div>
+                            <h4 class="font-bold text-lg text-gray-800">${l.name} <span class="text-gray-400 font-normal">(ID: ${l.empId})</span></h4>
+                            <p class="text-sm text-gray-600"><i class="fa-solid fa-calendar-alt mr-1"></i> ${l.start} ถึง ${l.end}</p>
+                            <p class="text-sm mt-2 p-2 bg-gray-50 rounded border-l-4 border-gray-300 italic text-gray-600">เหตุผล: ${l.reason}</p>
+                        </div>
+                        <div class="flex md:flex-col gap-2 justify-center min-w-[150px]">
+                            <button onclick="updateStatus(${l.id}, 'Approved')" class="flex-1 bg-green-600 text-white py-2 rounded-lg font-bold hover:bg-green-700 shadow-sm transition-colors">อนุมัติ</button>
+                            <button onclick="updateStatus(${l.id}, 'Rejected')" class="flex-1 bg-red-600 text-white py-2 rounded-lg font-bold hover:bg-red-700 shadow-sm transition-colors">ไม่อนุมัติ</button>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            if(leaves.length === 0) container.innerHTML = '<div class="bg-white p-20 rounded-xl border border-dashed border-gray-300 text-center text-gray-400">ยังไม่มีคำร้องขอลาส่งเข้ามาในระบบ</div>';
+        }
+
+        function updateStatus(id, newStatus) {
+            let leaves = JSON.parse(localStorage.getItem('leave_system_v5') || '[]');
+            leaves = leaves.map(l => l.id === id ? {...l, status: newStatus} : l);
+            localStorage.setItem('leave_system_v5', JSON.stringify(leaves));
+            renderAppTable();
+        }
+
+        function exportCSV() {
+            const leaves = JSON.parse(localStorage.getItem('leave_system_v5') || '[]');
+            if(leaves.length === 0) return alert('ไม่มีข้อมูลให้ Export');
+            
+            let csv = "\uFEFFชื่อ-นามสกุล,รหัสพนักงาน,ประเภทพนักงาน,ประเภทการลา,เริ่มวันที่,สิ้นสุดวันที่,เหตุผล,สถานะ\n";
+            leaves.forEach(l => {
+                csv += `${l.name},${l.empId},${l.empStatus},${l.leaveType},${l.start},${l.end},${l.reason},${l.status}\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `รายงานการลา_${new Date().toLocaleDateString('th-TH')}.csv`;
+            a.click();
+        }
+    </script>
+</body>
+</html>
