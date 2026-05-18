@@ -7,173 +7,216 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap');
-        body { font-family: 'Sarabun', sans-serif; background: #f8fafc; }
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Sarabun', sans-serif; background: #f9fafb; color: #1f2937; }
         .page-section { display: none; }
-        .active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-radius: 2rem; border: 1px solid #fff; }
-        
-        /* สไตล์ปุ่มตัวเลือก (Radio Selection) */
-        .select-card input:checked + .card-box {
+        /* Minimal Custom Radio */
+        .choice-input input:checked + .choice-box {
             border-color: #4f46e5;
-            background-color: #eef2ff;
+            background-color: #f5f3ff;
             color: #4f46e5;
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.1);
+            transform: scale(0.98);
         }
+        .choice-box {
+            transition: all 0.2s ease;
+            border: 1.5px solid #e5e7eb;
+        }
+        .choice-box:hover { border-color: #d1d5db; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
     </style>
 </head>
-<body class="text-slate-800">
+<body>
 
-    <nav class="bg-white/80 backdrop-blur-md sticky top-0 z-50 p-4 border-b flex justify-between items-center px-8 shadow-sm">
+    <nav class="bg-white/70 backdrop-blur-lg sticky top-0 z-50 p-4 border-b border-gray-100 flex justify-between items-center px-8">
         <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
-            <div class="bg-indigo-600 text-white p-2 rounded-2xl shadow-lg shadow-indigo-200"><i class="fa-solid fa-bolt-lightning text-xl"></i></div>
+            <div class="bg-indigo-600 text-white p-2 rounded-xl shadow-md shadow-indigo-100">
+                <i class="fa-solid fa-feather-pointed text-lg"></i>
+            </div>
             <div>
-                <span class="text-xl font-black block leading-none text-slate-900">HRM PRO</span>
-                <span class="text-[10px] text-indigo-500 font-bold uppercase tracking-widest text-nowrap">Premium System</span>
+                <span class="text-lg font-bold block leading-none tracking-tight">HRM PREMIUM</span>
+                <span class="text-[10px] text-indigo-500 font-medium uppercase tracking-widest">Minimal Portal</span>
             </div>
         </div>
-        <button id="backBtn" onclick="showPage('portal')" class="hidden bg-slate-100 text-slate-600 px-5 py-2 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all flex items-center gap-2">
-            <i class="fa-solid fa-house"></i> กลับหน้าหลัก
+        <button id="backBtn" onclick="showPage('portal')" class="hidden text-gray-500 px-4 py-2 rounded-lg text-xs font-bold hover:bg-gray-50 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-chevron-left"></i> กลับหน้าหลัก
         </button>
     </nav>
 
     <div class="container mx-auto p-4 max-w-6xl mt-6">
         
-        <div id="page-portal" class="page-section active text-center py-10">
-            <h1 class="text-5xl font-black text-slate-900 mb-4 tracking-tighter">เข้าใช้งานระบบ</h1>
-            <p class="text-slate-500 mb-12">กรุณาเลือกโหมดการใช้งานที่ต้องการ</p>
+        <div id="page-portal" class="page-section active text-center py-16">
+            <h1 class="text-4xl font-extrabold text-gray-900 mb-2 tracking-tight">เลือกโหมดการใช้งาน</h1>
+            <p class="text-gray-400 mb-12 text-sm font-light">ระบบจัดการใบลาและอนุมัติออนไลน์แบบเรียลไทม์</p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto px-4">
-                <div onclick="showPage('employee')" class="group relative bg-white p-10 cursor-pointer rounded-[3rem] transition-all shadow-2xl hover:shadow-indigo-200 hover:-translate-y-2 border-b-[10px] border-indigo-600">
-                    <div class="w-24 h-24 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 transition-colors group-hover:bg-indigo-600 group-hover:text-white">
-                        <i class="fa-solid fa-user-edit text-4xl"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto px-4">
+                <div onclick="showPage('employee')" class="group bg-white p-12 cursor-pointer rounded-[2.5rem] transition-all border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-indigo-50 hover:-translate-y-1">
+                    <div class="w-20 h-20 bg-gray-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                        <i class="fa-solid fa-pen-nib text-3xl"></i>
                     </div>
-                    <h3 class="text-3xl font-black mb-2">หน้าพนักงาน</h3>
-                    <p class="text-slate-400">สร้างใบลา และ ตรวจสอบสถานะ</p>
+                    <h3 class="text-xl font-bold text-gray-800">สำหรับพนักงาน</h3>
+                    <p class="text-gray-400 text-xs mt-2">สร้างใบคำขอลาและเช็คสถานะ</p>
                 </div>
                 
-                <div onclick="showPage('login')" class="group relative bg-slate-900 p-10 cursor-pointer rounded-[3rem] transition-all shadow-2xl hover:shadow-slate-400 hover:-translate-y-2 border-b-[10px] border-slate-700">
-                    <div class="w-24 h-24 bg-slate-800 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white group-hover:text-slate-900">
-                        <i class="fa-solid fa-user-shield text-4xl"></i>
+                <div onclick="showPage('login')" class="group bg-gray-900 p-12 cursor-pointer rounded-[2.5rem] transition-all shadow-lg hover:shadow-2xl hover:shadow-gray-300 hover:-translate-y-1">
+                    <div class="w-20 h-20 bg-gray-800 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white group-hover:text-gray-900 transition-all duration-300">
+                        <i class="fa-solid fa-shield-halved text-3xl"></i>
                     </div>
-                    <h3 class="text-3xl font-black mb-2 text-white">หน้าผู้อนุมัติ</h3>
-                    <p class="text-slate-400">พิจารณาคำขอ และ อนุมัติการลา</p>
+                    <h3 class="text-xl font-bold text-white">สำหรับผู้อนุมัติ</h3>
+                    <p class="text-gray-500 text-xs mt-2">พิจารณาใบลาของพนักงานในสังกัด</p>
                 </div>
             </div>
         </div>
 
         <div id="page-login" class="page-section">
-            <div class="glass p-10 max-w-md mx-auto shadow-2xl text-center mt-10 border-t-8 border-slate-900">
-                <h3 class="text-2xl font-bold mb-8 italic">Approver Identity</h3>
-                <input type="password" id="adminPass" placeholder="ระบุรหัสผ่านตำแหน่ง" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-2xl mb-6 text-center text-2xl outline-none focus:border-indigo-600 transition-all tracking-widest">
-                <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold shadow-xl hover:bg-black transition-all">เข้าสู่ระบบ</button>
+            <div class="bg-white p-10 max-w-md mx-auto rounded-[2.5rem] shadow-sm border border-gray-100 text-center mt-10">
+                <p class="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-2">Approver Login</p>
+                <h3 class="text-2xl font-bold mb-8">ยืนยันตัวตนผู้อนุมัติ</h3>
+                <input type="password" id="adminPass" placeholder="รหัสผ่านตำแหน่ง" class="w-full bg-gray-50 border border-gray-100 p-4 rounded-2xl mb-6 text-center text-xl outline-none focus:border-indigo-500 transition-all">
+                <button onclick="checkLogin()" class="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold hover:bg-black transition-all shadow-lg">เข้าสู่ระบบ</button>
             </div>
         </div>
 
         <div id="page-employee" class="page-section">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-5 glass p-8 shadow-xl border-t-8 border-indigo-600">
-                    <h3 class="font-bold text-2xl mb-6 flex items-center gap-2 text-indigo-600">สร้างใบลาออนไลน์</h3>
+                <div class="lg:col-span-5 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                    <h3 class="font-bold text-xl mb-8 flex items-center gap-2">สร้างใบคำขอลา</h3>
                     <div class="space-y-6">
                         <div class="grid grid-cols-2 gap-3">
-                            <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="bg-slate-50 p-4 rounded-2xl outline-none w-full border focus:border-indigo-300">
-                            <input type="text" id="empId" placeholder="รหัสพนักงาน" class="bg-slate-50 p-4 rounded-2xl outline-none w-full border focus:border-indigo-300">
+                            <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="bg-gray-50 p-4 rounded-2xl outline-none w-full border border-gray-50 focus:border-indigo-200 transition-all">
+                            <input type="text" id="empId" placeholder="รหัสพนักงาน" class="bg-gray-50 p-4 rounded-2xl outline-none w-full border border-gray-50 focus:border-indigo-200 transition-all">
                         </div>
 
                         <div>
-                            <p class="text-xs font-bold text-slate-400 ml-2 mb-2 uppercase">ประเภทพนักงาน</p>
+                            <p class="text-[11px] font-bold text-gray-400 ml-2 mb-3 uppercase tracking-wider">ประเภทพนักงาน</p>
                             <div class="grid grid-cols-2 gap-2">
-                                <label class="select-card cursor-pointer">
+                                <label class="choice-input cursor-pointer">
                                     <input type="radio" name="empStatus" value="พนักงานประจำ" class="hidden" checked>
-                                    <div class="card-box bg-slate-50 p-3 rounded-xl text-center font-bold border-2 border-transparent transition-all">ประจำ</div>
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm">พนักงานประจำ</div>
                                 </label>
-                                <label class="select-card cursor-pointer">
+                                <label class="choice-input cursor-pointer">
                                     <input type="radio" name="empStatus" value="พนักงานชั่วคราว" class="hidden">
-                                    <div class="card-box bg-slate-50 p-3 rounded-xl text-center font-bold border-2 border-transparent transition-all">ชั่วคราว</div>
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm">พนักงานชั่วคราว</div>
                                 </label>
                             </div>
                         </div>
 
                         <div>
-                            <p class="text-xs font-bold text-slate-400 ml-2 mb-2 uppercase">Line การผลิต</p>
-                            <div class="grid grid-cols-4 gap-2">
-                                <label class="select-card cursor-pointer">
-                                    <input type="radio" name="empLine" value="C" class="hidden" checked>
-                                    <div class="card-box bg-slate-50 p-2 rounded-xl text-center font-bold border-2 border-transparent transition-all">C</div>
-                                </label>
-                                <label class="select-card cursor-pointer">
-                                    <input type="radio" name="empLine" value="E" class="hidden">
-                                    <div class="card-box bg-slate-50 p-2 rounded-xl text-center font-bold border-2 border-transparent transition-all">E</div>
-                                </label>
-                                <label class="select-card cursor-pointer">
-                                    <input type="radio" name="empLine" value="F" class="hidden">
-                                    <div class="card-box bg-slate-50 p-2 rounded-xl text-center font-bold border-2 border-transparent transition-all">F</div>
-                                </label>
-                                <label class="select-card cursor-pointer">
-                                    <input type="radio" name="empLine" value="TC" class="hidden">
-                                    <div class="card-box bg-slate-50 p-2 rounded-xl text-center font-bold border-2 border-transparent transition-all text-xs">TC</div>
-                                </label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p class="text-xs font-bold text-slate-400 ml-2 mb-2 uppercase">Process</p>
+                            <p class="text-[11px] font-bold text-gray-400 ml-2 mb-3 uppercase tracking-wider">Line การผลิต</p>
                             <div class="grid grid-cols-3 gap-2">
-                                <label class="select-card cursor-pointer">
-                                    <input type="radio" name="empProcess" value="Assy" class="hidden" checked>
-                                    <div class="card-box bg-slate-50 p-3 rounded-xl text-center font-bold border-2 border-transparent transition-all">Assy</div>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="empLine" value="C" class="hidden" checked>
+                                    <div class="choice-box bg-white p-2.5 rounded-xl text-center font-semibold text-sm">Line C</div>
                                 </label>
-                                <label class="select-card cursor-pointer">
-                                    <input type="radio" name="empProcess" value="Elec" class="hidden">
-                                    <div class="card-box bg-slate-50 p-3 rounded-xl text-center font-bold border-2 border-transparent transition-all">Elec</div>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="empLine" value="E" class="hidden">
+                                    <div class="choice-box bg-white p-2.5 rounded-xl text-center font-semibold text-sm">Line E</div>
                                 </label>
-                                <label class="select-card cursor-pointer">
-                                    <input type="radio" name="empProcess" value="Pack" class="hidden">
-                                    <div class="card-box bg-slate-50 p-3 rounded-xl text-center font-bold border-2 border-transparent transition-all">Pack</div>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="empLine" value="F" class="hidden">
+                                    <div class="choice-box bg-white p-2.5 rounded-xl text-center font-semibold text-sm">Line F</div>
+                                </label>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="empLine" value="TC" class="hidden">
+                                    <div class="choice-box bg-white p-2.5 rounded-xl text-center font-semibold text-sm">Line TC</div>
+                                </label>
+                                <label class="choice-input cursor-pointer text-indigo-600">
+                                    <input type="radio" name="empLine" value="Common" class="hidden">
+                                    <div class="choice-box bg-white p-2.5 rounded-xl text-center font-semibold text-sm italic">Common</div>
+                                </label>
+                                <label class="choice-input cursor-pointer text-indigo-600">
+                                    <input type="radio" name="empLine" value="Office" class="hidden">
+                                    <div class="choice-box bg-white p-2.5 rounded-xl text-center font-semibold text-sm italic">Office</div>
                                 </label>
                             </div>
                         </div>
 
-                        <select id="leaveType" class="bg-slate-50 p-4 rounded-2xl outline-none w-full font-bold border focus:border-indigo-300">
-                            <option>ลาป่วย</option>
-                            <option>ลากิจ</option>
-                            <option>ลาพักร้อน</option>
-                        </select>
-
-                        <div class="grid grid-cols-2 gap-3 text-sm">
-                            <div><label class="ml-2 font-bold text-slate-400">เริ่มวันที่</label><input type="date" id="dateStart" class="bg-slate-50 p-4 rounded-2xl w-full mt-1 border"></div>
-                            <div><label class="ml-2 font-bold text-slate-400">สิ้นสุดวันที่</label><input type="date" id="dateEnd" class="bg-slate-50 p-4 rounded-2xl w-full mt-1 border"></div>
+                        <div>
+                            <p class="text-[11px] font-bold text-gray-400 ml-2 mb-3 uppercase tracking-wider">Process</p>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="empProcess" value="Assy" class="hidden" checked>
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm uppercase">Assy</div>
+                                </label>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="empProcess" value="Elec" class="hidden">
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm uppercase">Elec</div>
+                                </label>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="empProcess" value="Pack" class="hidden">
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm uppercase">Pack</div>
+                                </label>
+                            </div>
                         </div>
 
-                        <textarea id="leaveReason" placeholder="เหตุผลการลา..." class="bg-slate-50 p-4 rounded-2xl outline-none w-full h-24 border focus:border-indigo-300"></textarea>
+                        <div>
+                            <p class="text-[11px] font-bold text-gray-400 ml-2 mb-3 uppercase tracking-wider">ประเภทการลา</p>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="leaveTypeChoice" value="ลาป่วย" class="hidden" checked>
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm">ลาป่วย</div>
+                                </label>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="leaveTypeChoice" value="ลากิจ" class="hidden">
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm">ลากิจ</div>
+                                </label>
+                                <label class="choice-input cursor-pointer">
+                                    <input type="radio" name="leaveTypeChoice" value="ลาพักร้อน" class="hidden">
+                                    <div class="choice-box bg-white p-3 rounded-xl text-center font-semibold text-sm">พักร้อน</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="bg-gray-50 p-3 rounded-2xl">
+                                <label class="text-[10px] font-bold text-gray-400 ml-1 block">เริ่มวันที่</label>
+                                <input type="date" id="dateStart" class="bg-transparent w-full text-sm outline-none">
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-2xl">
+                                <label class="text-[10px] font-bold text-gray-400 ml-1 block">สิ้นสุดวันที่</label>
+                                <input type="date" id="dateEnd" class="bg-transparent w-full text-sm outline-none">
+                            </div>
+                        </div>
+
+                        <textarea id="leaveReason" placeholder="เหตุผลประกอบการลา..." class="bg-gray-50 p-4 rounded-2xl outline-none w-full h-24 border border-gray-50 focus:border-indigo-200 transition-all"></textarea>
                         
-                        <button onclick="submitLeave()" id="submitBtn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:scale-[0.98] transition-all">ส่งใบลา</button>
+                        <button onclick="submitLeave()" id="submitBtn" class="w-full bg-indigo-600 text-white py-4 rounded-[1.5rem] font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all flex items-center justify-center gap-2">
+                            <span>ยืนยันส่งใบลา</span> <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 glass p-8 shadow-xl overflow-hidden">
-                    <h3 class="font-bold text-2xl mb-6">สถานะการลาล่าสุด</h3>
-                    <div id="empList" class="space-y-3 h-[650px] overflow-y-auto pr-2"></div>
+                <div class="lg:col-span-7 bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-bold text-xl tracking-tight">รายการล่าสุด</h3>
+                        <span class="text-[10px] bg-gray-100 text-gray-500 px-3 py-1 rounded-full font-bold">REALTIME</span>
+                    </div>
+                    <div id="empList" class="space-y-3 h-[700px] overflow-y-auto pr-2"></div>
                 </div>
             </div>
         </div>
 
         <div id="page-approver" class="page-section">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-white p-6 rounded-[2rem] shadow-sm">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm">
                 <div>
-                    <h2 class="text-3xl font-black text-slate-900 tracking-tight">รายการรอพิจารณา</h2>
-                    <p id="roleBadge" class="text-indigo-600 font-bold bg-indigo-50 px-3 py-1 rounded-lg mt-1 text-xs inline-block uppercase"></p>
+                    <h2 class="text-2xl font-black text-gray-900 tracking-tight">รายการรอพิจารณา</h2>
+                    <div id="roleBadge" class="text-indigo-600 font-bold bg-indigo-50 px-3 py-1 rounded-lg mt-1 text-[10px] inline-block uppercase tracking-widest"></div>
                 </div>
-                <button onclick="fetchData()" class="bg-slate-900 text-white px-8 py-3 rounded-2xl font-bold hover:scale-[0.98] transition-all flex items-center gap-2"><i class="fa-solid fa-rotate"></i> อัปเดตข้อมูล</button>
+                <button onclick="fetchData()" class="bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-black transition-all">
+                    <i class="fa-solid fa-rotate text-xs"></i> รีเฟรชข้อมูล
+                </button>
             </div>
             <div id="managerList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </div>
     </div>
 
     <script>
-        // *** วาง URL ของ Google Web App ที่นี่ ***
         const scriptURL = 'https://script.google.com/macros/s/AKfycby15Oxko9rm6GaE_gmKtPQ_PBeIrQPviXiHBzBqn_hxxEgjKKGuvhTeSpTMiAh1BIIA/exec';
         
         let currentRole = "";
@@ -188,6 +231,7 @@
 
         function checkLogin() {
             const pass = document.getElementById('adminPass').value;
+            // ตั้งรหัสตามที่คุณแจ้งไว้เดิม
             if (pass === '7843') currentRole = "Assy";
             else if (pass === '1332') currentRole = "Elec";
             else if (pass === '80006') currentRole = "Pack";
@@ -197,9 +241,8 @@
             else if (pass === '9764') currentRole = "Manager";
             else return alert('⚠️ รหัสผ่านไม่ถูกต้อง');
             
-            document.getElementById('roleBadge').innerText = "ระดับ: " + currentRole;
+            document.getElementById('roleBadge').innerText = currentRole;
             showPage('approver');
-            document.getElementById('adminPass').value = ""; // เคลียร์รหัสหลังเข้า
         }
 
         async function submitLeave() {
@@ -208,11 +251,10 @@
                 action: 'addLeave',
                 name: document.getElementById('empName').value,
                 empId: document.getElementById('empId').value,
-                // ดึงค่าจากปุ่ม Radio ที่เลือก
                 empStatus: document.querySelector('input[name="empStatus"]:checked').value,
                 line: document.querySelector('input[name="empLine"]:checked').value,
                 process: document.querySelector('input[name="empProcess"]:checked').value,
-                leaveType: document.getElementById('leaveType').value,
+                leaveType: document.querySelector('input[name="leaveTypeChoice"]:checked').value,
                 start: document.getElementById('dateStart').value,
                 end: document.getElementById('dateEnd').value,
                 reason: document.getElementById('leaveReason').value || '-'
@@ -220,14 +262,14 @@
             
             if (!data.name || !data.empId || !data.start) return alert('กรอกข้อมูลไม่ครบถ้วน');
             
-            btn.disabled = true; btn.innerText = "กำลังประมวลผล...";
+            btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> กำลังส่ง...';
             
             try {
                 await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-                alert('✅ ส่งใบลาสำเร็จ');
+                alert('ส่งใบลาสำเร็จแล้ว');
                 location.reload();
             } catch (e) {
-                alert('❌ เกิดข้อผิดพลาด');
+                alert('เกิดข้อผิดพลาด กรุณาลองใหม่');
                 btn.disabled = false;
             }
         }
@@ -245,23 +287,20 @@
             const managerArea = document.getElementById('managerList');
             const rows = rawData.slice().reverse();
 
-            // แสดงรายการสำหรับพนักงาน
             empArea.innerHTML = rows.map(r => `
-                <div class="flex items-center justify-between p-5 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm transition-all hover:border-indigo-200">
+                <div class="flex items-center justify-between p-4 bg-white rounded-2xl border border-gray-50 shadow-sm hover:border-indigo-100 transition-all">
                     <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center font-bold text-indigo-600 text-xs border border-indigo-100">${r[0].charAt(0)}</div>
+                        <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center font-bold text-gray-400 text-xs">${r[0].charAt(0)}</div>
                         <div>
-                            <div class="font-bold text-slate-800">${r[0]} <span class="text-[10px] text-slate-400 font-normal ml-1">#${r[1]}</span></div>
-                            <div class="text-[10px] font-bold text-indigo-500 uppercase tracking-tighter">Line ${r[9]} | ${r[10]} | ${r[4]} - ${r[5]}</div>
-                            <div class="text-[9px] text-slate-400 font-medium">${r[2]}</div>
+                            <div class="font-bold text-gray-800 text-sm">${r[0]} <span class="text-[10px] text-gray-300 ml-1 font-normal uppercase">#${r[1]}</span></div>
+                            <div class="text-[9px] font-bold text-indigo-500 uppercase tracking-tighter">Line ${r[9]} | ${r[10]} | ${r[4]} - ${r[5]}</div>
                         </div>
                     </div>
-                    <div class="px-4 py-1.5 rounded-full text-[10px] font-black uppercase text-white ${r[7] === 'Approved' ? 'bg-emerald-500' : (r[7] === 'Rejected' ? 'bg-rose-500' : 'bg-amber-400')} shadow-sm">
-                        ${r[7].replace(/_/g, ' ')}
+                    <div class="px-3 py-1 rounded-full text-[9px] font-bold uppercase text-white shadow-sm ${r[7] === 'Approved' ? 'bg-emerald-400' : (r[7] === 'Rejected' ? 'bg-rose-400' : 'bg-amber-400')}">
+                        ${r[7]}
                     </div>
                 </div>`).join('');
 
-            // กรองรายการสำหรับผู้อนุมัติ
             let filtered = [];
             if (['Assy', 'Elec', 'Pack'].includes(currentRole)) filtered = rows.filter(r => r[10] === currentRole && r[7] === "Pending");
             else if (currentRole === "Sup") filtered = rows.filter(r => r[7] === "Foreman_Approved");
@@ -270,35 +309,33 @@
             else if (currentRole === "Manager") filtered = rows.filter(r => r[7] === "AsstChief_Approved");
 
             managerArea.innerHTML = filtered.map(r => `
-                <div class="glass p-8 border-l-[12px] border-indigo-600 shadow-xl">
+                <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm border-l-[10px] border-l-indigo-600">
                     <div class="flex justify-between mb-4">
                         <div>
-                            <h4 class="text-2xl font-black text-slate-900">${r[0]}</h4>
-                            <p class="text-xs font-bold text-indigo-500">${r[2]}</p>
+                            <h4 class="text-xl font-bold text-gray-900">${r[0]}</h4>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">${r[2]}</p>
                         </div>
-                        <span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-xl text-xs font-bold uppercase h-fit tracking-widest">Line ${r[9]}</span>
+                        <span class="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg text-[10px] font-bold uppercase h-fit tracking-tighter">Line ${r[9]}</span>
                     </div>
-                    <div class="bg-slate-50 p-5 rounded-3xl mb-6 text-sm">
-                        <p class="mb-1 text-slate-400 font-bold uppercase text-[10px]">ช่วงวันลา:</p>
-                        <p class="font-bold text-slate-700">${r[4]} ถึง ${r[5]}</p>
-                        <p class="mt-4 text-slate-400 font-bold uppercase text-[10px]">เหตุผล:</p>
-                        <p class="text-slate-600 italic">"${r[6]}"</p>
+                    <div class="bg-gray-50 p-4 rounded-2xl mb-6 text-xs text-gray-600 leading-relaxed">
+                        <b>ช่วงเวลา:</b> ${r[4]} ถึง ${r[5]} <br>
+                        <b>เหตุผล:</b> <span class="italic">"${r[6]}"</span>
                     </div>
-                    <div class="flex gap-3">
-                        <button onclick="updateStatus(${r[16]}, 'Approved')" class="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-bold shadow-lg shadow-emerald-50 hover:bg-emerald-600 transition-all">อนุมัติ</button>
-                        <button onclick="updateStatus(${r[16]}, 'Rejected')" class="flex-1 bg-white border-2 border-rose-100 text-rose-500 py-4 rounded-2xl font-bold hover:bg-rose-50 transition-all text-xs uppercase">ปฏิเสธ</button>
+                    <div class="flex gap-2">
+                        <button onclick="updateStatus(${r[16]}, 'Approved')" class="flex-1 bg-emerald-500 text-white py-3 rounded-xl font-bold shadow-md shadow-emerald-50 text-xs hover:bg-emerald-600 transition-all">อนุมัติ</button>
+                        <button onclick="updateStatus(${r[16]}, 'Rejected')" class="flex-1 bg-white border border-rose-100 text-rose-500 py-3 rounded-xl font-bold text-xs hover:bg-rose-50 transition-all uppercase">ปฏิเสธ</button>
                     </div>
                 </div>`).join('');
 
-            if(filtered.length === 0) managerArea.innerHTML = "<div class='col-span-full text-center text-slate-400 py-20 bg-white rounded-[3rem] border-2 border-dashed border-slate-200 font-bold'>🎉 ยอดเยี่ยม! ไม่มีคำค้างในระดับนี้</div>";
+            if(filtered.length === 0) managerArea.innerHTML = "<div class='col-span-full text-center text-gray-300 py-20 font-medium text-sm'>ไม่มีคำค้างในขณะนี้</div>";
         }
 
         async function updateStatus(rowIdx, newStatus) {
-            if(!confirm('ยืนยันรายการนี้?')) return;
+            if(!confirm('ยืนยันทำรายการ?')) return;
             try {
                 await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'updateStatus', rowIdx: rowIdx, status: newStatus, role: currentRole }) });
                 fetchData();
-            } catch (e) { alert('เกิดข้อผิดพลาด'); }
+            } catch (e) { alert('ผิดพลาด'); }
         }
     </script>
 </body>
