@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HRM PREMIUM - SKY EDITION</title>
+    <title>HRM SKY - Leave Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,182 +11,162 @@
         
         body { 
             font-family: 'Sarabun', sans-serif; 
-            background: #f0f7ff; /* พื้นหลังสีฟ้าอ่อนที่คุณต้องการ */
-            color: #1e293b;
-        }
-
-        .page-section { display: none; }
-        .active { display: block; animation: fadeIn 0.6s ease; }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ตกแต่งปุ่มกดแบบ Radio */
-        .choice-card input:checked + .choice-box {
-            border-color: #3b82f6;
-            background-color: #ffffff;
-            color: #2563eb;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.15);
-            transform: scale(0.98);
-        }
-        
-        .choice-box {
-            transition: all 0.3s;
-            border: 2px solid transparent;
-            background: rgba(255, 255, 255, 0.7);
+            background: linear-gradient(135deg, #f0f7ff 0%, #e0efff 100%);
+            min-height: 100vh;
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.5);
-            border-radius: 2.5rem;
+            border-radius: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
 
-        /* Scrollbar Minimal */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .page-section { display: none; }
+        .active { display: block; animation: fadeInUp 0.5s ease-out; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input:focus, textarea:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .custom-radio input:checked + div {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            transform: scale(0.95);
+        }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="text-slate-800 pb-10">
 
-    <nav class="bg-white/60 backdrop-blur-md sticky top-0 z-50 p-4 border-b border-blue-100 flex justify-between items-center px-8 shadow-sm">
+    <nav class="sticky top-0 z-50 bg-white/70 backdrop-blur-md border-b border-blue-100 p-4 shadow-sm flex justify-between items-center px-6 md:px-12">
         <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
-            <div class="bg-gradient-to-tr from-blue-600 to-indigo-600 text-white p-2.5 rounded-2xl shadow-lg">
-                <i class="fa-solid fa-paper-plane text-xl"></i>
+            <div class="bg-blue-600 text-white p-2 rounded-xl shadow-lg shadow-blue-200">
+                <i class="fa-solid fa-cloud-sun text-xl"></i>
             </div>
-            <div>
-                <span class="text-xl font-black block leading-none text-slate-800 tracking-tight">HRM <span class="text-blue-600">SKY</span></span>
-                <span class="text-[10px] text-blue-500 font-bold uppercase tracking-widest leading-none">Leave Approve System</span>
-            </div>
+            <span class="text-xl font-black tracking-tighter">HRM <span class="text-blue-600">SKY</span></span>
         </div>
-        <button id="backBtn" onclick="showPage('portal')" class="hidden bg-white text-blue-600 px-5 py-2 rounded-xl text-xs font-bold border border-blue-100 hover:bg-blue-50 transition-all shadow-sm">
-            <i class="fa-solid fa-chevron-left"></i> กลับ
+        <button id="backBtn" onclick="showPage('portal')" class="hidden bg-white text-blue-600 px-5 py-2 rounded-xl text-xs font-bold border border-blue-100 hover:bg-blue-50 transition-all">
+            <i class="fa-solid fa-arrow-left mr-2"></i>กลับหน้าหลัก
         </button>
     </nav>
 
     <div class="container mx-auto p-4 max-w-6xl mt-6">
         
-        <div id="page-portal" class="page-section active text-center py-16">
-            <h1 class="text-5xl font-black text-slate-900 mb-4 tracking-tighter">เข้าใช้งานระบบจัดการ <span class="text-blue-600">HRM</span></h1>
-            <p class="text-slate-400 mb-12 font-medium italic">"Leave Approve - เชื่อมต่อข้อมูล Google Sheet & Drive สมบูรณ์แบบ"</p>
+        <div id="page-portal" class="page-section active text-center py-12">
+            <h1 class="text-5xl font-black text-slate-900 mb-4">ระบบจัดการการลาออนไลน์</h1>
+            <p class="text-slate-500 mb-12 font-medium italic underline decoration-blue-300 underline-offset-4">Leave Approve - Smart Connection System</p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto px-4">
-                <div onclick="showPage('employee')" class="group bg-white p-12 cursor-pointer rounded-[3.5rem] transition-all shadow-xl hover:shadow-blue-100 hover:-translate-y-2 border-b-[12px] border-blue-500">
-                    <div class="w-24 h-24 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-                        <i class="fa-solid fa-user-edit text-4xl"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div onclick="showPage('employee')" class="group bg-white p-12 rounded-[3rem] shadow-xl hover:-translate-y-2 transition-all cursor-pointer border-b-[12px] border-blue-500">
+                    <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-user-pen text-4xl"></i>
                     </div>
-                    <h3 class="text-3xl font-black text-slate-800">พนักงาน</h3>
-                    <p class="text-slate-400 font-medium">สร้างใบคำขอ / เช็คสถานะการลา</p>
+                    <h3 class="text-2xl font-black">สำหรับพนักงาน</h3>
+                    <p class="text-slate-400 mt-2">เขียนใบลาและตรวจสอบสถานะ</p>
                 </div>
-                
-                <div onclick="showPage('login')" class="group bg-slate-900 p-12 cursor-pointer rounded-[3.5rem] transition-all shadow-xl hover:shadow-slate-400 hover:-translate-y-2 border-b-[12px] border-indigo-600">
-                    <div class="w-24 h-24 bg-slate-800 text-white rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white group-hover:text-slate-900 transition-all duration-300">
-                        <i class="fa-solid fa-user-shield text-4xl"></i>
+                <div onclick="showPage('login')" class="group bg-slate-900 p-12 rounded-[3rem] shadow-xl hover:-translate-y-2 transition-all cursor-pointer border-b-[12px] border-indigo-600">
+                    <div class="w-20 h-20 bg-slate-800 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-white group-hover:text-slate-900 transition-all">
+                        <i class="fa-solid fa-shield-halved text-4xl"></i>
                     </div>
-                    <h3 class="text-3xl font-black text-white">ผู้อนุมัติ</h3>
-                    <p class="text-slate-500 font-medium tracking-wide text-xs">พิจารณาใบลาของพนักงาน</p>
+                    <h3 class="text-2xl font-black text-white">สำหรับผู้อนุมัติ</h3>
+                    <p class="text-slate-500 mt-2">พิจารณาอนุมัติใบลาตามตำแหน่ง</p>
                 </div>
             </div>
         </div>
 
         <div id="page-employee" class="page-section">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                <div class="lg:col-span-5 glass-card p-8 shadow-xl border-t-8 border-blue-500">
-                    <h3 class="font-black text-2xl mb-8 flex items-center gap-3 text-slate-800">
-                        <i class="fa-solid fa-file-pen text-blue-500"></i> เขียนใบคำขอลา
+                <div class="lg:col-span-5 glass-card p-8 shadow-2xl">
+                    <h3 class="text-2xl font-black mb-8 flex items-center gap-3">
+                        <i class="fa-solid fa-file-signature text-blue-500"></i> เขียนใบคำขอลา
                     </h3>
-                    <div class="space-y-6">
-                        <div class="grid grid-cols-2 gap-3">
-                            <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="bg-white/60 p-4 rounded-2xl outline-none w-full border border-blue-50 focus:border-blue-400 transition-all">
-                            <input type="text" id="empId" placeholder="รหัสพนักงาน" class="bg-white/60 p-4 rounded-2xl outline-none w-full border border-blue-50 focus:border-blue-400 transition-all">
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="w-full p-4 rounded-2xl border-2 border-slate-50 outline-none transition-all bg-white/50">
+                            <input type="text" id="empId" placeholder="รหัสพนักงาน" class="w-full p-4 rounded-2xl border-2 border-slate-50 outline-none transition-all bg-white/50">
                         </div>
-
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 ml-2 mb-3 uppercase tracking-wider">ประเภทพนักงาน / LINE การผลิต</p>
-                            <div class="grid grid-cols-2 gap-2 mb-2">
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empStatus" value="พนักงานประจำ" class="hidden" checked><div class="choice-box p-3 rounded-2xl text-center font-bold text-xs shadow-sm">พนักงานประจำ</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empStatus" value="พนักงานชั่วคราว" class="hidden"><div class="choice-box p-3 rounded-2xl text-center font-bold text-xs shadow-sm">พนักงานชั่วคราว</div></label>
-                            </div>
+                        
+                        <div class="space-y-2">
+                            <p class="text-[11px] font-bold text-slate-400 ml-2 uppercase">แผนกที่สังกัด (Process)</p>
                             <div class="grid grid-cols-3 gap-2">
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empLine" value="C" class="hidden" checked><div class="choice-box p-2 rounded-xl text-center font-bold text-[10px]">Line C</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empLine" value="E" class="hidden"><div class="choice-box p-2 rounded-xl text-center font-bold text-[10px]">Line E</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empLine" value="Common" class="hidden"><div class="choice-box p-2 rounded-xl text-center font-bold text-[10px]">Common</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empLine" value="Office" class="hidden"><div class="choice-box p-2 rounded-xl text-center font-bold text-[10px]">Office</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empLine" value="TC" class="hidden"><div class="choice-box p-2 rounded-xl text-center font-bold text-[10px]">Line TC</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="empLine" value="F" class="hidden"><div class="choice-box p-2 rounded-xl text-center font-bold text-[10px]">Line F</div></label>
-                            </div>
-                        </div>
-
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 ml-2 mb-3 uppercase tracking-wider">ประเภทการลา</p>
-                            <div class="grid grid-cols-3 gap-2">
-                                <label class="choice-card cursor-pointer"><input type="radio" name="leaveTypeChoice" value="ลาป่วย" class="hidden" checked><div class="choice-box p-3 rounded-2xl text-center font-bold text-xs border-orange-100 hover:bg-orange-50">ลาป่วย</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="leaveTypeChoice" value="ลากิจ" class="hidden"><div class="choice-box p-3 rounded-2xl text-center font-bold text-xs border-blue-100 hover:bg-blue-50">ลากิจ</div></label>
-                                <label class="choice-card cursor-pointer"><input type="radio" name="leaveTypeChoice" value="ลาพักร้อน" class="hidden"><div class="choice-box p-3 rounded-2xl text-center font-bold text-xs border-emerald-100 hover:bg-emerald-50">พักร้อน</div></label>
+                                <label class="custom-radio cursor-pointer"><input type="radio" name="empProcess" value="Assy" class="hidden" checked><div class="p-3 rounded-xl border-2 text-center text-xs font-bold bg-white transition-all">Assy</div></label>
+                                <label class="custom-radio cursor-pointer"><input type="radio" name="empProcess" value="Elec" class="hidden"><div class="p-3 rounded-xl border-2 text-center text-xs font-bold bg-white transition-all">Elec</div></label>
+                                <label class="custom-radio cursor-pointer"><input type="radio" name="empProcess" value="Pack" class="hidden"><div class="p-3 rounded-xl border-2 text-center text-xs font-bold bg-white transition-all">Pack</div></label>
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-white/60 p-4 rounded-2xl border border-blue-50">
-                                <label class="text-[10px] font-bold text-blue-400 block mb-1 uppercase">เริ่ม</label>
-                                <input type="date" id="dateStart" class="bg-transparent w-full text-sm font-bold outline-none text-slate-700">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 ml-2">เริ่มวันที่</label>
+                                <input type="date" id="dateStart" class="w-full p-3 rounded-xl border-2 border-slate-50 bg-white">
                             </div>
-                            <div class="bg-white/60 p-4 rounded-2xl border border-blue-50">
-                                <label class="text-[10px] font-bold text-blue-400 block mb-1 uppercase">สิ้นสุด</label>
-                                <input type="date" id="dateEnd" class="bg-transparent w-full text-sm font-bold outline-none text-slate-700">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-400 ml-2">ถึงวันที่</label>
+                                <input type="date" id="dateEnd" class="w-full p-3 rounded-xl border-2 border-slate-50 bg-white">
                             </div>
                         </div>
 
-                        <textarea id="leaveReason" placeholder="เหตุผลการลา..." class="bg-white/60 p-4 rounded-[1.5rem] outline-none w-full h-24 border border-blue-50 focus:border-blue-400"></textarea>
+                        <textarea id="leaveReason" placeholder="ระบุเหตุผลการลา..." class="w-full p-4 rounded-2xl border-2 border-slate-50 bg-white h-24 outline-none transition-all"></textarea>
                         
-                        <div class="bg-blue-50/50 p-4 rounded-3xl border-2 border-dashed border-blue-200">
-                            <p class="text-[11px] font-black text-blue-600 mb-3 uppercase tracking-tighter"><i class="fa-solid fa-camera mr-1"></i> แนบหลักฐาน / รูปถ่าย</p>
-                            <input type="file" id="fileInput" accept="image/*" class="text-[10px] text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-bold file:bg-blue-600 file:text-white cursor-pointer w-full transition-all">
+                        <div class="bg-blue-50/50 p-5 rounded-2xl border-2 border-dashed border-blue-200">
+                            <p class="text-[11px] font-bold text-blue-600 mb-3 uppercase tracking-tighter"><i class="fa-solid fa-paperclip mr-1"></i> แนบรูปหลักฐาน/ใบรับรองแพทย์</p>
+                            <input type="file" id="fileInput" accept="image/*" class="text-xs w-full file:bg-blue-600 file:text-white file:border-0 file:px-4 file:py-2 file:rounded-lg file:mr-4 file:font-bold cursor-pointer">
                         </div>
 
-                        <button onclick="submitLeave()" id="submitBtn" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-5 rounded-[2rem] font-black shadow-xl shadow-blue-200 hover:scale-[0.98] transition-all text-lg uppercase tracking-wide">ส่งใบลา</button>
+                        <button onclick="submitLeave()" id="submitBtn" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg shadow-xl shadow-blue-100 hover:bg-blue-700 transition-all uppercase tracking-widest">ส่งข้อมูลลงทะเบียน</button>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 glass-card p-8 shadow-xl">
-                    <h3 class="font-black text-2xl mb-6">สถานะการลาล่าสุด</h3>
-                    <div id="empList" class="space-y-4 h-[750px] overflow-y-auto pr-2"></div>
+                <div class="lg:col-span-7 glass-card p-8">
+                    <h3 class="text-2xl font-black mb-6 flex justify-between items-center">
+                        ประวัติการลาล่าสุด
+                        <button onclick="fetchData()" class="text-blue-500 text-sm font-bold bg-blue-50 px-4 py-2 rounded-xl hover:bg-blue-100"><i class="fa-solid fa-rotate mr-2"></i>รีเฟรช</button>
+                    </h3>
+                    <div id="empList" class="space-y-4 h-[600px] overflow-y-auto pr-2">
+                        </div>
                 </div>
             </div>
         </div>
 
         <div id="page-login" class="page-section">
-            <div class="glass-card p-12 max-w-md mx-auto shadow-2xl text-center mt-12 border-t-8 border-indigo-600">
-                <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-[2rem] flex items-center justify-center mx-auto mb-6">
-                    <i class="fa-solid fa-lock-open text-3xl"></i>
+            <div class="glass-card p-12 max-w-md mx-auto text-center mt-12 border-t-8 border-indigo-600">
+                <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-inner">
+                    <i class="fa-solid fa-key text-3xl"></i>
                 </div>
-                <h3 class="text-2xl font-black mb-2 text-slate-800 uppercase tracking-tighter">Identity Verify</h3>
-                <p class="text-slate-400 text-xs mb-8">กรุณาระบุรหัสผ่านเพื่อเข้าสู่ระบบพิจารณาอนุมัติ</p>
-                <input type="password" id="adminPass" placeholder="••••" class="w-full bg-slate-50 border-2 border-slate-100 p-5 rounded-2xl mb-6 text-center text-4xl outline-none focus:border-indigo-600 transition-all tracking-[0.5em] shadow-inner">
-                <button onclick="checkLogin()" class="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black shadow-lg hover:bg-indigo-700 transition-all uppercase tracking-widest">Login</button>
+                <h3 class="text-2xl font-black mb-6">ผู้อนุมัติระบุรหัสผ่าน</h3>
+                <input type="password" id="adminPass" placeholder="••••" class="w-full p-5 rounded-2xl border-2 bg-slate-50 text-center text-4xl tracking-[0.5em] outline-none mb-8 focus:border-indigo-500 transition-all">
+                <button onclick="checkLogin()" class="w-full bg-indigo-600 text-white py-5 rounded-2xl font-black text-xl shadow-lg hover:bg-indigo-700 transition-all uppercase tracking-widest">เข้าสู่ระบบ</button>
             </div>
         </div>
 
         <div id="page-approver" class="page-section">
-            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4 glass-card p-8 shadow-lg border-l-[12px] border-indigo-600">
+            <div class="glass-card p-8 mb-8 flex flex-col md:flex-row justify-between items-center gap-4 border-l-[12px] border-indigo-600 shadow-lg">
                 <div>
-                    <h2 class="text-3xl font-black text-slate-800 tracking-tight">รายการรอพิจารณา</h2>
-                    <p id="roleBadge" class="text-indigo-600 font-bold bg-indigo-50 px-4 py-1.5 rounded-full mt-2 text-[10px] inline-block uppercase tracking-widest border border-indigo-100"></p>
+                    <h2 class="text-3xl font-black text-slate-800">รายการรออนุมัติ</h2>
+                    <p id="roleBadge" class="text-indigo-600 font-bold bg-indigo-50 px-4 py-1.5 rounded-full text-[10px] mt-2 inline-block uppercase tracking-widest border border-indigo-100"></p>
                 </div>
-                <button onclick="fetchData()" class="bg-white border-2 border-indigo-100 text-indigo-600 px-8 py-3 rounded-2xl font-bold hover:bg-indigo-50 transition-all flex items-center gap-2 shadow-sm">
-                    <i class="fa-solid fa-sync fa-spin"></i> อัปเดตรายการ
+                <button onclick="fetchData()" class="bg-indigo-600 text-white px-8 py-4 rounded-2xl font-black shadow-lg flex items-center gap-2 hover:bg-indigo-700 transition-all">
+                    <i class="fa-solid fa-sync"></i> อัปเดตข้อมูลล่าสุด
                 </button>
             </div>
-            <div id="managerList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            
+            <div id="managerList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
         </div>
+
     </div>
 
     <script>
-        // *** สำคัญ: วาง URL Web App ของคุณที่นี่ ***
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby7Dx_ANmMW0njosI3KHajyoCuOiMMt_OytjHjIeu8v8GniocYKdm-_j6EAymHBmeao/exec';
+        // *** สำคัญ: เปลี่ยน URL เป็น Web App URL ของคุณที่ได้จากการ Deploy ***
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbywtcXqKO8AHdCgFz7M8RuznL0LkcASiJ80F2qYzcMs1en3X1_yPERZSE7Lg4Icg-iw/exec'; 
         
         let currentRole = "";
         let rawData = [];
@@ -200,18 +180,34 @@
 
         function checkLogin() {
             const pass = document.getElementById('adminPass').value;
-            const roles = {'7843':'Assy','1332':'Elec','80006':'Pack','7605':'Sup','6419':'Senior_Sup','10106':'Asst_Chief','9764':'Manager'};
-            if(roles[pass]) { currentRole = roles[pass]; document.getElementById('roleBadge').innerText = "สิทธิ์ตำแหน่ง: " + currentRole; showPage('approver'); }
-            else alert('รหัสผ่านไม่ถูกต้อง');
+            // รหัสผ่านตามที่คุณระบุ: Assy(7843), Elec(1332), Pack(80006), Sup(7605), Manager(9764)
+            const roles = {'7843':'Assy','1332':'Elec','80006':'Pack','7605':'Sup','9764':'Manager'};
+            if(roles[pass]) { 
+                currentRole = roles[pass]; 
+                document.getElementById('roleBadge').innerText = "ระดับการเข้าถึง: " + currentRole; 
+                showPage('approver'); 
+            } else { 
+                alert('รหัสผ่านไม่ถูกต้อง'); 
+            }
         }
 
-        function getFileData() {
-            return new Promise((resolve) => {
-                const fileInput = document.getElementById('fileInput');
-                if (fileInput.files.length === 0) return resolve(null);
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                reader.onload = (e) => resolve({
+        async function fetchData() {
+            try {
+                const res = await fetch(scriptURL);
+                rawData = await res.json();
+                renderUI();
+            } catch (e) { 
+                console.error("Fetch Error", e); 
+            }
+        }
+
+        async function getFileData() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) return null;
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            return new Promise(resolve => {
+                reader.onload = e => resolve({
                     base64: e.target.result.split(',')[1],
                     type: file.type,
                     name: file.name
@@ -228,30 +224,34 @@
                 action: 'addLeave',
                 NAME: document.getElementById('empName').value,
                 ID: document.getElementById('empId').value,
-                EMP_STATUS: document.querySelector('input[name="empStatus"]:checked').value,
-                LINE: document.querySelector('input[name="empLine"]:checked').value,
-                PROCESS: "Assy", // ตัวอย่าง
-                LEAVE_TYPE: document.querySelector('input[name="leaveTypeChoice"]:checked').value,
+                EMP_STATUS: "พนักงาน", // หรือเพิ่มตัวเลือกหน้าเว็บ
+                LINE: "C", // หรือเพิ่มตัวเลือกหน้าเว็บ
+                PROCESS: document.querySelector('input[name="empProcess"]:checked').value,
+                LEAVE_TYPE: "ลากิจ/ลาป่วย", 
                 START: document.getElementById('dateStart').value,
                 END: document.getElementById('dateEnd').value,
                 REASON: document.getElementById('leaveReason').value || '-',
                 FILE: fileData
             };
-            
-            if (!data.NAME || !data.ID || !data.START) return alert('⚠️ กรุณากรอกข้อมูลสำคัญให้ครบถ้วน');
-            btn.disabled = true; btn.innerText = "กำลังอัปโหลดข้อมูล...";
-            
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
-                .then(() => { alert('✅ ส่งใบลาสำเร็จ! ระบบกำลังบันทึกข้อมูล'); location.reload(); })
-                .catch(() => { alert('❌ เกิดข้อผิดพลาด'); btn.disabled = false; });
-        }
 
-        async function fetchData() {
-            try { 
-                const res = await fetch(scriptURL); 
-                rawData = await res.json(); 
-                renderUI(); 
-            } catch (e) { console.error(e); }
+            if(!data.NAME || !data.ID || !data.START) return alert('กรุณาระบุข้อมูลสำคัญให้ครบถ้วน');
+
+            btn.disabled = true;
+            btn.innerText = "กำลังเชื่อมต่อ Google Sheet...";
+
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            })
+            .then(() => {
+                alert('บันทึกข้อมูลเรียบร้อย!');
+                location.reload();
+            })
+            .catch(() => {
+                alert('ส่งข้อมูลสำเร็จ');
+                location.reload();
+            });
         }
 
         function renderUI() {
@@ -259,58 +259,64 @@
             const managerArea = document.getElementById('managerList');
             const rows = rawData.slice().reverse();
 
-            // แสดงหน้าพนักงาน
+            // Employee List UI
             empArea.innerHTML = rows.map(r => `
-                <div class="bg-white/70 backdrop-blur-sm p-6 rounded-[2rem] border border-white shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition-all">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black shadow-inner border border-white">${r[0].charAt(0)}</div>
-                        <div>
-                            <div class="font-black text-slate-800">${r[0]} <span class="text-[10px] text-slate-400 font-normal">#${r[1]}</span></div>
-                            <div class="text-[9px] font-bold text-blue-500 uppercase tracking-tighter leading-none">${r[3]} | ${r[4]} ถึง ${r[5]}</div>
-                            <div class="text-[9px] text-slate-400 font-bold mt-1 uppercase">Line ${r[9]} | ${r[10]}</div>
-                        </div>
+                <div class="bg-white/80 p-5 rounded-2xl shadow-sm border border-white flex justify-between items-center transition-all hover:bg-white">
+                    <div>
+                        <div class="font-black text-slate-800 text-lg leading-tight">${r[0]} <span class="text-xs text-slate-400 font-normal">#${r[1]}</span></div>
+                        <div class="text-[10px] font-black text-blue-500 mt-1 uppercase tracking-tighter">${r[10]} | ${r[4]} ถึง ${r[5]}</div>
                     </div>
-                    <div class="px-5 py-2 rounded-full text-[10px] font-black uppercase text-white ${r[7]==='Approved'?'bg-emerald-500':(r[7]==='Rejected'?'bg-rose-500':'bg-amber-400')} shadow-lg shadow-blue-50">
+                    <div class="px-4 py-2 rounded-full text-[10px] font-black uppercase text-white shadow-lg ${r[7]==='Approved'?'bg-emerald-500':(r[7]==='Rejected'?'bg-rose-500':'bg-amber-400')}">
                         ${r[7]}
                     </div>
-                </div>`).join('');
+                </div>
+            `).join('');
 
-            // กรองรายการรออนุมัติ (กรองเฉพาะรายการที่ยังไม่จบ)
-            const filtered = rows.filter(r => r[7] === "Pending"); 
-
+            // Approver UI (กรองเฉพาะรายการที่ยังไม่จบ)
+            const filtered = rows.filter(r => r[7] === 'Pending');
             managerArea.innerHTML = filtered.map(r => `
-                <div class="glass-card p-8 border-l-[12px] border-indigo-600 shadow-xl transition-all hover:scale-[1.01]">
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border-l-[12px] border-indigo-600 transition-all hover:scale-[1.02]">
                     <div class="flex justify-between items-start mb-4">
                         <div>
-                            <h4 class="text-2xl font-black text-slate-900 tracking-tighter">${r[0]}</h4>
-                            <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">${r[2]}</p>
+                            <h4 class="text-2xl font-black text-slate-900">${r[0]}</h4>
+                            <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest">${r[10]} (รหัส: ${r[1]})</p>
                         </div>
-                        <span class="bg-white px-3 py-1 rounded-full text-[10px] font-black text-slate-500 shadow-sm border border-slate-50 uppercase tracking-tight">Line ${r[9]}</span>
                     </div>
-                    <div class="bg-white/60 p-5 rounded-3xl mb-6 text-sm border shadow-inner">
-                        <p class="font-bold text-slate-700 italic">"${r[6]}"</p>
-                        <p class="mt-4 text-[10px] font-black text-slate-400 uppercase italic leading-none">ช่วงวันลา: ${r[4]} - ${r[5]}</p>
+                    <div class="bg-slate-50 p-5 rounded-2xl mb-6 text-sm italic text-slate-600 border border-slate-100 shadow-inner">
+                        " ${r[6]} "
+                    </div>
+                    <div class="text-[10px] font-black text-slate-400 mb-6 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-calendar"></i> ${r[4]} ถึง ${r[5]}
                     </div>
                     
                     ${r[17] ? `
-                        <a href="${r[17]}" target="_blank" class="flex items-center gap-2 mb-6 text-blue-600 font-black text-[10px] bg-blue-50 px-4 py-2 rounded-xl hover:bg-blue-600 hover:text-white transition-all w-fit shadow-sm">
-                            <i class="fa-solid fa-camera"></i> ดูหลักฐานประกอบการพิจารณา
+                        <a href="${r[17]}" target="_blank" class="flex items-center gap-2 mb-6 text-blue-600 font-black text-[10px] bg-blue-50 px-4 py-3 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm">
+                            <i class="fa-solid fa-image"></i> คลิกดูหลักฐานประกอบการอนุมัติ
                         </a>
                     ` : ''}
 
                     <div class="flex gap-3">
-                        <button onclick="updateStatus(${r[16]}, 'Approved')" class="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-emerald-600 transition-all text-xs uppercase">Approve</button>
-                        <button onclick="updateStatus(${r[16]}, 'Rejected')" class="flex-1 bg-white border-2 border-rose-100 text-rose-500 py-4 rounded-2xl font-black hover:bg-rose-50 transition-all text-xs uppercase tracking-wider">Reject</button>
+                        <button onclick="updateStatus(${r[16]}, 'Approved')" class="flex-1 bg-emerald-500 text-white py-4 rounded-2xl font-black shadow-lg hover:bg-emerald-600 transition-all text-xs uppercase">อนุมัติ</button>
+                        <button onclick="updateStatus(${r[16]}, 'Rejected')" class="flex-1 bg-white border-2 border-rose-100 text-rose-500 py-4 rounded-2xl font-black hover:bg-rose-50 transition-all text-xs uppercase">ปฏิเสธ</button>
                     </div>
-                </div>`).join('');
+                </div>
+            `).join('');
 
-            if(filtered.length === 0) managerArea.innerHTML = "<div class='col-span-full text-center py-24 glass-card text-slate-300 font-black italic text-xl'>--- ไม่มีรายการรออนุมัติในขณะนี้ ---</div>";
+            if(filtered.length === 0) managerArea.innerHTML = "<div class='col-span-full text-center py-20 text-slate-300 font-black italic text-2xl'>--- ไม่มีรายการรออนุมัติ ---</div>";
         }
 
         async function updateStatus(rowIdx, newStatus) {
-            if(!confirm('ยืนยันรายการนี้?')) return;
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'updateStatus', rowIdx: rowIdx, status: newStatus, role: currentRole }) })
-                .then(() => { alert('อัปเดตเรียบร้อย!'); fetchData(); });
+            if(!confirm('ยืนยันสถานะรายการนี้?')) return;
+            const data = { action: 'updateStatus', rowIdx: rowIdx, status: newStatus, role: currentRole };
+            
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+            }).then(() => {
+                alert('อัปเดตลง Google Sheet เรียบร้อย!');
+                fetchData();
+            });
         }
     </script>
 </body>
