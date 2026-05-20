@@ -1,253 +1,230 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HRM SKY | Ultra-Rounded Warm Edition</title>
+    <title>HRM SKY | Vivid Pill Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap');
         
         :root {
-            --bg-page: #FAF8F6;
-            --text-main: #4A443F;
-            --accent-warm: #FCA5A5; /* Soft Rose */
-            --border-color: #EEE9E2;
+            --warm-bg: #F9F7F4;
+            --border-bold: #E2DBD3;
+            --text-dark: #4A443F;
         }
 
         body { 
             font-family: 'Plus Jakarta Sans', 'Sarabun', sans-serif; 
-            background-color: var(--bg-page);
-            color: var(--text-main);
+            background-color: var(--warm-bg);
+            color: var(--text-dark);
             min-height: 100vh;
         }
 
-        /* --- Input: ทรงโค้งมนสูงสุด --- */
-        .input-pill {
-            @apply w-full p-4 px-8 rounded-full outline-none transition-all duration-300 text-[15px] font-medium border-2;
-            background-color: #FFFFFF;
-            border-color: var(--border-color);
-        }
-        .input-pill:focus {
-            border-color: #FB923C;
-            box-shadow: 0 0 0 5px rgba(251, 146, 60, 0.1);
+        /* --- ปุ่มเลือกแบบ Pill (แคปซูล) --- */
+        .pill-container {
+            @apply flex flex-wrap gap-3 mt-2;
         }
 
-        /* --- Radio Choice Buttons: ทรงเม็ดยา (Pill) --- */
-        .choice-pill {
-            @apply flex items-center justify-center gap-3 p-3 px-8 rounded-full transition-all duration-300 cursor-pointer border-2 font-bold text-[14px];
-            background-color: #FFFFFF;
-            border-color: var(--border-color);
-            color: #9E968F;
+        .pill-btn {
+            @apply relative flex items-center p-1.5 pr-6 rounded-full border-2 bg-white cursor-pointer transition-all duration-300;
+            border-color: var(--border-bold); /* เส้นไลน์ชัดเจน */
         }
-        .choice-input:checked + .choice-pill {
-            /* ไล่สี Gradient ตามรูปตัวอย่าง */
-            background: linear-gradient(135deg, #FF9A9E 0%, #FAD0C4 99%, #FAD0C4 100%);
-            background: linear-gradient(to right, #FB923C, #F43F5E);
-            color: white;
+
+        .pill-circle {
+            @apply w-9 h-9 rounded-full flex items-center justify-center text-white shadow-inner;
+            background-color: #D6CEC5; /* สีเริ่มต้นของวงกลม */
+        }
+
+        .pill-label {
+            @apply ml-3 text-[14px] font-bold text-[#8E867E];
+        }
+
+        /* --- แยกระดับสีตามประเภท (Active State) --- */
+        
+        /* 1. สถานะพนักงาน (ส้ม-แดง) */
+        .status-radio:checked + .pill-btn {
+            background: linear-gradient(to right, #FF8008, #FFC837);
             border-color: transparent;
-            box-shadow: 0 10px 20px -5px rgba(244, 63, 94, 0.3);
-            transform: translateY(-2px);
+            @apply shadow-lg shadow-orange-200;
+        }
+        .status-radio:checked + .pill-btn .pill-circle { background: rgba(255,255,255,0.3); }
+        .status-radio:checked + .pill-btn .pill-label { color: white; }
+
+        /* 2. สายการผลิต (ชมพู-ม่วง) */
+        .line-radio:checked + .pill-btn {
+            background: linear-gradient(to right, #F80759, #BC4E9C);
+            border-color: transparent;
+            @apply shadow-lg shadow-rose-200;
+        }
+        .line-radio:checked + .pill-btn .pill-circle { background: rgba(255,255,255,0.3); }
+        .line-radio:checked + .pill-btn .pill-label { color: white; }
+
+        /* 3. ประเภทการลา (น้ำเงิน-ฟ้า) */
+        .leave-radio:checked + .pill-btn {
+            background: linear-gradient(to right, #00C6FF, #0072FF);
+            border-color: transparent;
+            @apply shadow-lg shadow-blue-200;
+        }
+        .leave-radio:checked + .pill-btn .pill-circle { background: rgba(255,255,255,0.3); }
+        .leave-radio:checked + .pill-btn .pill-label { color: white; }
+
+        /* --- ช่องกรอกข้อมูลเส้นไลน์ชัดเจน --- */
+        .input-vivid {
+            @apply w-full p-4 px-7 rounded-full border-2 outline-none transition-all duration-300 font-semibold bg-white;
+            border-color: var(--border-bold);
+        }
+        .input-vivid:focus {
+            border-color: #FF8008;
+            @apply shadow-md;
         }
 
-        /* --- Status Card: โค้งมนนุ่มนวล --- */
-        .card-status {
-            @apply bg-white p-6 rounded-[2.5rem] border-2 transition-all flex justify-between items-center mb-4;
-            border-color: var(--border-color);
-        }
-        .card-status:hover {
-            transform: translateX(-5px);
-            border-color: #FCA5A5;
+        .label-vivid {
+            @apply text-[12px] font-black uppercase tracking-widest text-[#B4ADA5] mb-3 ml-6 block;
         }
 
-        .label-style {
-            @apply text-[11px] font-black uppercase tracking-[0.2em] text-[#B8B0A8] mb-3 ml-6 block;
-        }
-
-        /* View Transition */
         .view-section { display: none; }
-        .view-active { display: block; animation: smoothIn 0.5s ease-out; }
-        @keyframes smoothIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .view-active { display: block; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="antialiased p-4 md:p-10">
+<body class="antialiased">
 
-    <header class="max-w-7xl mx-auto mb-12 flex justify-between items-center px-4">
-        <div class="flex items-center gap-4 cursor-pointer" onclick="location.reload()">
-            <div class="w-14 h-14 bg-gradient-to-br from-orange-400 to-rose-400 rounded-[1.5rem] flex items-center justify-center text-white text-2xl shadow-lg">
-                <i class="fa-solid fa-cloud-sun"></i>
+    <nav class="p-6 px-10 flex justify-between items-center bg-white border-b-2 border-[#E2DBD3] sticky top-0 z-50">
+        <div class="flex items-center gap-4 cursor-pointer" onclick="showView('portal')">
+            <div class="w-12 h-12 bg-gradient-to-tr from-orange-500 to-rose-500 rounded-2xl flex items-center justify-center text-white text-xl shadow-lg">
+                <i class="fa-solid fa-paper-plane"></i>
             </div>
-            <div>
-                <h1 class="text-2xl font-black tracking-tighter uppercase italic text-[#4A443F]">HRM <span class="text-rose-400">SKY</span></h1>
-                <p class="text-[10px] font-bold text-orange-400/60 uppercase tracking-[0.3em]">Minimal Workspace</p>
-            </div>
+            <span class="text-2xl font-black text-[#4A443F] tracking-tighter">HRM <span class="text-orange-500">SKY</span></span>
         </div>
-        <div class="flex gap-4">
-             <button onclick="showView('portal')" class="p-4 rounded-full bg-white border-2 border-[#EEE9E2] text-[#9E968F] hover:text-rose-400 transition-colors">
-                <i class="fa-solid fa-house"></i>
-            </button>
-        </div>
-    </header>
+        <button id="backBtn" onclick="showView('portal')" class="hidden px-6 py-2.5 rounded-full border-2 border-[#E2DBD3] font-bold text-sm text-[#8E867E] hover:bg-orange-50 hover:text-orange-500 transition-all">
+            <i class="fa-solid fa-arrow-left mr-2"></i> กลับหน้าหลัก
+        </button>
+    </nav>
 
-    <main class="max-w-7xl mx-auto">
-        
+    <div class="container mx-auto max-w-7xl p-6 pt-10">
+
         <div id="view-portal" class="view-section view-active py-20 text-center">
-            <h2 class="text-6xl font-black text-[#4A443F] mb-6 tracking-tighter">Warm <span class="italic text-rose-400">Welcome.</span></h2>
-            <p class="text-[#9E968F] mb-16 text-lg">จัดการเรื่องการลาของคุณด้วยความเรียบง่ายและเป็นมิตร</p>
+            <h2 class="text-5xl font-black text-[#4A443F] mb-4 tracking-tight">ยินดีต้อนรับสู่ระบบลาพนักงาน</h2>
+            <p class="text-[#8E867E] mb-16 text-lg">เลือกบริการที่ต้องการทำรายการด้านล่างนี้</p>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div onclick="showView('form')" class="bg-white p-16 rounded-[4rem] border-2 border-[#EEE9E2] group cursor-pointer transition-all hover:-translate-y-3 hover:border-orange-200">
-                    <div class="w-20 h-20 bg-orange-50 text-orange-400 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:bg-orange-400 group-hover:text-white transition-all"><i class="fa-solid fa-pen-nib text-3xl"></i></div>
-                    <h3 class="text-2xl font-black">Staff Request</h3>
-                    <p class="text-[#B8B0A8] mt-2 italic">ส่งคำขอลาสำหรับพนักงาน</p>
+                <div onclick="showView('form')" class="bg-white p-14 rounded-[3.5rem] border-2 border-[#E2DBD3] hover:border-orange-400 hover:-translate-y-3 transition-all cursor-pointer shadow-xl shadow-orange-900/5 group">
+                    <div class="w-20 h-20 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-8 group-hover:bg-orange-500 group-hover:text-white transition-all"><i class="fa-solid fa-file-signature text-3xl"></i></div>
+                    <h3 class="text-2xl font-black">ส่งใบลาพนักงาน</h3>
+                    <p class="text-[#B4ADA5] mt-2">Employee Leave Request</p>
                 </div>
-                <div onclick="showView('login')" class="bg-[#4A443F] p-16 rounded-[4rem] group cursor-pointer transition-all hover:-translate-y-3 shadow-2xl">
-                    <div class="w-20 h-20 bg-white/10 text-rose-300 rounded-full flex items-center justify-center mx-auto mb-8"><i class="fa-solid fa-lock text-3xl"></i></div>
-                    <h3 class="text-2xl font-black text-white">Manager Hub</h3>
-                    <p class="text-white/40 mt-2 italic">สำหรับหัวหน้างานและผู้อนุมัติ</p>
+                <div onclick="showView('login')" class="bg-[#4A443F] p-14 rounded-[3.5rem] hover:-translate-y-3 transition-all cursor-pointer shadow-xl shadow-black/10 group">
+                    <div class="w-20 h-20 bg-white/10 text-orange-300 rounded-full flex items-center justify-center mx-auto mb-8"><i class="fa-solid fa-user-shield text-3xl"></i></div>
+                    <h3 class="text-2xl font-black text-white">สำหรับหัวหน้างาน</h3>
+                    <p class="text-white/40 mt-2">Manager Approval Hub</p>
                 </div>
             </div>
         </div>
 
         <div id="view-form" class="view-section">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 
-                <div class="lg:col-span-7 bg-white p-10 md:p-14 rounded-[4rem] border-2 border-[#EEE9E2] shadow-xl shadow-orange-900/5">
-                    <div class="flex items-center gap-5 mb-14">
-                        <span class="w-2 h-10 bg-gradient-to-b from-orange-400 to-rose-400 rounded-full"></span>
-                        <h2 class="text-4xl font-black text-[#4A443F] tracking-tight">Request Leave</h2>
-                    </div>
+                <div class="lg:col-span-7 bg-white p-10 md:p-14 rounded-[4rem] border-2 border-[#E2DBD3] shadow-2xl shadow-orange-900/5">
+                    <h2 class="text-4xl font-black text-[#4A443F] mb-12 flex items-center gap-4">
+                        <span class="w-2 h-10 bg-orange-500 rounded-full"></span> Leave Request
+                    </h2>
 
-                    <div class="space-y-12">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                            <div><label class="label-style">Your Name / ชื่อ-นามสกุล</label><input type="text" id="empName" placeholder="ระบุชื่อจริง..." class="input-pill"></div>
-                            <div><label class="label-style">Staff ID / รหัสพนักงาน</label><input type="text" id="empId" placeholder="ID-0000" class="input-pill"></div>
+                    <div class="space-y-10">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div><label class="label-vivid">ชื่อ-นามสกุล / Full Name</label><input type="text" placeholder="ระบุชื่อจริง..." class="input-vivid"></div>
+                            <div><label class="label-vivid">รหัสพนักงาน / Staff ID</label><input type="text" placeholder="ID-XXXX" class="input-vivid"></div>
                         </div>
 
                         <div>
-                            <label class="label-style">Employment Status</label>
-                            <div class="flex flex-wrap gap-4">
-                                <label><input type="radio" name="st" class="hidden choice-input" checked><div class="choice-pill"><i class="fa-solid fa-user-check"></i> Permanent</div></label>
-                                <label><input type="radio" name="st" class="hidden choice-input"><div class="choice-pill"><i class="fa-solid fa-user-clock"></i> Contract</div></label>
+                            <label class="label-vivid">Employment Status</label>
+                            <div class="pill-container">
+                                <label><input type="radio" name="st" class="hidden status-radio" checked><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-briefcase text-xs"></i></div><span class="pill-label">Permanent</span></div></label>
+                                <label><input type="radio" name="st" class="hidden status-radio"><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-clock text-xs"></i></div><span class="pill-label">Contract</span></div></label>
                             </div>
                         </div>
 
                         <div>
-                            <label class="label-style">Production Line</label>
-                            <div class="flex flex-wrap gap-3">
-                                <label><input type="radio" name="ln" class="hidden choice-input" checked><div class="choice-pill">Line C</div></label>
-                                <label><input type="radio" name="ln" class="hidden choice-input"><div class="choice-pill">Line E</div></label>
-                                <label><input type="radio" name="ln" class="hidden choice-input"><div class="choice-pill">Line F</div></label>
-                                <label><input type="radio" name="ln" class="hidden choice-input"><div class="choice-pill">Office</div></label>
-                                <label><input type="radio" name="ln" class="hidden choice-input"><div class="choice-pill">TC</div></label>
-                                <label><input type="radio" name="ln" class="hidden choice-input"><div class="choice-pill">Common</div></label>
+                            <label class="label-vivid">Production Line</label>
+                            <div class="pill-container">
+                                <label><input type="radio" name="ln" class="hidden line-radio" checked><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-layer-group text-xs"></i></div><span class="pill-label">Line C</span></div></label>
+                                <label><input type="radio" name="ln" class="hidden line-radio"><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-layer-group text-xs"></i></div><span class="pill-label">Line E</span></div></label>
+                                <label><input type="radio" name="ln" class="hidden line-radio"><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-layer-group text-xs"></i></div><span class="pill-label">Line F</span></div></label>
+                                <label><input type="radio" name="ln" class="hidden line-radio"><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-building-user text-xs"></i></div><span class="pill-label">Office</span></div></label>
+                                <label><input type="radio" name="ln" class="hidden line-radio"><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-users-gear text-xs"></i></div><span class="pill-label">Common</span></div></label>
                             </div>
                         </div>
 
                         <div>
-                            <label class="label-style">Type of Leave</label>
-                            <div class="flex flex-wrap gap-4">
-                                <label><input type="radio" name="lv" class="hidden choice-input" checked><div class="choice-pill"><i class="fa-solid fa-virus-slash"></i> Sick Leave</div></label>
-                                <label><input type="radio" name="lv" class="hidden choice-input"><div class="choice-pill"><i class="fa-solid fa-house-user"></i> Personal</div></label>
-                                <label><input type="radio" name="lv" class="hidden choice-input"><div class="choice-pill"><i class="fa-solid fa-umbrella-beach"></i> Vacation</div></label>
+                            <label class="label-vivid">Leave Type</label>
+                            <div class="pill-container">
+                                <label><input type="radio" name="lv" class="hidden leave-radio" checked><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-notes-medical text-xs"></i></div><span class="pill-label">Sick Leave</span></div></label>
+                                <label><input type="radio" name="lv" class="hidden leave-radio"><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-user-clock text-xs"></i></div><span class="pill-label">Personal</span></div></label>
+                                <label><input type="radio" name="lv" class="hidden leave-radio"><div class="pill-btn"><div class="pill-circle"><i class="fa-solid fa-umbrella-beach text-xs"></i></div><span class="pill-label">Vacation</span></div></label>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-10">
-                            <div><label class="label-style">Start Date</label><input type="date" class="input-pill"></div>
-                            <div><label class="label-style">End Date</label><input type="date" class="input-pill"></div>
+                        <div class="grid grid-cols-2 gap-8">
+                            <div><label class="label-vivid">Start Date</label><input type="date" class="input-vivid"></div>
+                            <div><label class="label-vivid">End Date</label><input type="date" class="input-vivid"></div>
                         </div>
 
-                        <div><label class="label-style">Reason for leave / เหตุผล</label><textarea placeholder="ระบุรายละเอียด..." class="input-pill h-32 resize-none py-6 rounded-[2.5rem]"></textarea></div>
+                        <div><label class="label-vivid">Reason / เหตุผลการลา</label><textarea placeholder="ระบุเหตุผลการลา..." class="input-vivid h-36 resize-none py-6 rounded-[2.5rem]"></textarea></div>
 
-                        <button class="w-full py-7 rounded-full bg-gradient-to-r from-orange-400 to-rose-400 text-white font-black text-sm uppercase tracking-[0.4em] shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all">
-                            Submit Request
+                        <button class="w-full py-6 rounded-full bg-gradient-to-r from-orange-500 to-rose-500 text-white font-black text-sm uppercase tracking-[0.3em] shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-95 transition-all">
+                            Send Request <i class="fa-solid fa-paper-plane ml-2"></i>
                         </button>
                     </div>
                 </div>
 
                 <div class="lg:col-span-5">
-                    <div class="flex items-center justify-between mb-10 px-6">
-                        <h3 class="text-2xl font-black text-[#4A443F] tracking-tight">Recent Status</h3>
-                        <div class="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <div class="flex items-center justify-between mb-8 px-6">
+                        <h3 class="text-2xl font-black text-[#4A443F]">Recent Status</h3>
+                        <span class="flex items-center gap-2 text-[11px] font-bold text-emerald-500 uppercase tracking-widest"><span class="w-2 h-2 bg-emerald-500 rounded-full animate-ping"></span> Live Update</span>
                     </div>
 
-                    <div class="space-y-4 overflow-y-auto max-h-[900px] no-scrollbar px-2">
-                        <div class="card-status">
+                    <div class="space-y-4 max-h-[850px] overflow-y-auto no-scrollbar pb-10">
+                        <div class="bg-white p-6 rounded-[2.5rem] border-2 border-[#E2DBD3] flex justify-between items-center transition-all hover:border-orange-400">
                             <div>
-                                <div class="text-lg font-extrabold tracking-tight">นันนนนนสนนน</div>
-                                <div class="text-[11px] font-bold text-orange-400 uppercase mt-1 tracking-widest">ลาพักร้อน • LINE C</div>
+                                <div class="text-lg font-extrabold">อำไพ พรหมศรี</div>
+                                <div class="text-xs font-bold text-[#B4ADA5] mt-1">LINE E • ลาป่วย</div>
                             </div>
-                            <span class="text-[10px] font-black bg-orange-50 text-orange-500 px-6 py-2 rounded-full border border-orange-100 uppercase tracking-widest">Pending</span>
+                            <span class="px-5 py-2 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100">Approved</span>
                         </div>
-                        <div class="card-status border-l-4 border-l-emerald-400">
+                        <div class="bg-white p-6 rounded-[2.5rem] border-2 border-[#E2DBD3] flex justify-between items-center transition-all hover:border-orange-400">
                             <div>
-                                <div class="text-lg font-extrabold tracking-tight">อำไพ</div>
-                                <div class="text-[11px] font-bold text-orange-400 uppercase mt-1 tracking-widest">ลาป่วย • LINE E</div>
+                                <div class="text-lg font-extrabold">นันนนนน สนนน</div>
+                                <div class="text-xs font-bold text-[#B4ADA5] mt-1">LINE C • ลาพักร้อน</div>
                             </div>
-                            <span class="text-[10px] font-black bg-emerald-50 text-emerald-600 px-6 py-2 rounded-full border border-emerald-100 uppercase tracking-widest">Approved</span>
+                            <span class="px-5 py-2 bg-orange-50 text-orange-500 rounded-full text-[10px] font-black uppercase tracking-widest border border-orange-100">Pending</span>
                         </div>
-                        <div class="card-status">
-                            <div>
-                                <div class="text-lg font-extrabold tracking-tight">rdrdrd</div>
-                                <div class="text-[11px] font-bold text-orange-400 uppercase mt-1 tracking-widest">ลากิจ • LINE C</div>
-                            </div>
-                            <span class="text-[10px] font-black bg-orange-50 text-orange-500 px-6 py-2 rounded-full border border-orange-100 uppercase tracking-widest">Pending</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-10 p-10 rounded-[3.5rem] bg-gradient-to-tr from-orange-50 to-rose-50 border-2 border-white flex justify-between items-center shadow-inner">
-                        <div>
-                            <p class="text-[10px] font-black text-rose-400 uppercase tracking-[0.2em] mb-2">My Balance</p>
-                            <h4 class="text-4xl font-black text-[#4A443F]">12 <span class="text-sm font-medium text-[#9E968F]">Days</span></h4>
-                        </div>
-                        <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-rose-300 shadow-md"><i class="fa-solid fa-calendar-check text-2xl"></i></div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div id="view-login" class="view-section">
-            <div class="max-w-md mx-auto mt-20 bg-white p-12 rounded-[4rem] border-2 border-[#EEE9E2] text-center shadow-2xl">
-                <div class="w-20 h-20 bg-rose-50 text-rose-400 rounded-full flex items-center justify-center mx-auto mb-10"><i class="fa-solid fa-fingerprint text-4xl"></i></div>
-                <h3 class="text-2xl font-black mb-8 text-[#4A443F]">Authorize Key</h3>
-                <input type="password" placeholder="••••" class="input-pill text-center text-3xl tracking-[1em] mb-10">
-                <button onclick="showView('manager')" class="w-full py-6 rounded-full bg-[#4A443F] text-white font-black text-sm uppercase tracking-widest hover:bg-rose-500 transition-all">Access Dashboard</button>
+            <div class="max-w-md mx-auto mt-20 bg-white p-14 rounded-[4rem] border-2 border-[#E2DBD3] text-center shadow-2xl">
+                <div class="w-20 h-20 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-10"><i class="fa-solid fa-lock text-4xl"></i></div>
+                <h3 class="text-2xl font-black mb-8 text-[#4A443F]">Manager PIN</h3>
+                <input type="password" placeholder="••••" class="input-vivid text-center text-4xl tracking-[1em] mb-10">
+                <button onclick="showView('portal')" class="w-full py-6 rounded-full bg-[#4A443F] text-white font-black text-sm uppercase tracking-widest shadow-xl hover:bg-emerald-500 transition-all">Verify & Access</button>
             </div>
         </div>
 
-        <div id="view-manager" class="view-section py-10">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 px-4">
-                <div>
-                    <h2 class="text-5xl font-black text-[#4A443F] tracking-tighter italic">Approval Desk</h2>
-                    <div class="mt-4 px-6 py-2 bg-orange-100 text-orange-600 text-[10px] font-black rounded-full uppercase tracking-widest inline-block border border-orange-200">Management Access Granted</div>
-                </div>
-                <button class="w-20 h-20 bg-white rounded-full text-rose-400 border-2 border-[#EEE9E2] shadow-xl hover:rotate-180 transition-all duration-1000 flex items-center justify-center"><i class="fa-solid fa-arrows-rotate text-2xl"></i></button>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white p-12 rounded-[4rem] border-2 border-[#EEE9E2] relative overflow-hidden group hover:border-emerald-300 transition-all">
-                    <span class="text-[10px] font-black text-rose-400 uppercase tracking-widest">Pending Review</span>
-                    <h4 class="text-3xl font-black mt-4 mb-2">นันนนนนสนนน</h4>
-                    <p class="text-sm font-bold text-[#B8B0A8] uppercase tracking-wide">ID: 00124 • LINE C • ลาพักร้อน</p>
-                    <div class="my-8 p-8 bg-[#FAF8F6] rounded-[2.5rem] italic text-[#9E968F] font-medium leading-relaxed">"ต้องการพักผ่อนกับครอบครัวเป็นเวลา 3 วันครับ"</div>
-                    <div class="flex gap-4">
-                        <button class="flex-grow bg-emerald-500 text-white py-5 rounded-full font-black text-[12px] uppercase tracking-widest shadow-lg hover:shadow-emerald-200 transition-all">Approve</button>
-                        <button class="px-8 bg-white border-2 border-[#EEE9E2] text-[#B8B0A8] py-5 rounded-full font-black text-[12px] uppercase tracking-widest hover:text-rose-500 transition-all">Decline</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
+    </div>
 
     <script>
-        function showView(viewId) {
-            document.querySelectorAll('.view-section').forEach(view => view.classList.remove('view-active'));
-            document.getElementById('view-' + viewId).classList.add('view-active');
+        function showView(id) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('view-active'));
+            document.getElementById('view-' + id).classList.add('view-active');
+            
+            // แสดง/ซ่อนปุ่มกลับ
+            const backBtn = document.getElementById('backBtn');
+            if(id === 'portal') backBtn.classList.add('hidden');
+            else backBtn.classList.remove('hidden');
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
