@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HRM SKY | Professional Leave System</title>
+    <title>HRM SKY | Premium Leave System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,65 +11,61 @@
         
         body { 
             font-family: 'Inter', 'Sarabun', sans-serif; 
-            /* พื้นหลังสีสันพรีเมียม */
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f0fe 50%, #e0e7ff 100%);
+            background: linear-gradient(135deg, #f8faff 0%, #eef2ff 100%);
             color: #1e293b;
             min-height: 100vh;
         }
 
         .page-section { display: none; }
-        .active { display: block; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .active { display: block; animation: slideUp 0.5s ease-out; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); } 
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Input Style (หรูหรา โค้งมน) --- */
-        .input-group {
-            @apply mb-6;
+        /* --- New Premium Choice Style (Liquid Capsule) --- */
+        .choice-box {
+            @apply flex items-center justify-center p-3 px-6 rounded-full bg-white text-[13px] font-bold text-slate-400 transition-all duration-300 cursor-pointer border-2 border-transparent relative overflow-hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
 
-        .label-text {
-            @apply text-[12px] font-bold uppercase tracking-wider text-slate-500 mb-3 block ml-2;
+        /* Hover effect */
+        .choice-box:hover {
+            @apply border-slate-100 text-slate-500;
+            transform: translateY(-1px);
         }
 
+        /* เมื่อกดเลือก (Checked State) */
+        .choice-input:checked + .choice-box {
+            @apply bg-white text-blue-600 border-blue-500;
+            /* แสงเรืองรองฟุ้งรอบปุ่ม */
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4), 0 0 30px rgba(59, 130, 246, 0.1);
+            transform: scale(1.02);
+        }
+
+        /* เอฟเฟกต์จุดสีขาวเล็กๆ เวลากดเลือก */
+        .choice-input:checked + .choice-box::after {
+            content: '';
+            @apply absolute right-3 w-1.5 h-1.5 bg-blue-500 rounded-full;
+        }
+
+        /* --- Input Fields --- */
         .field-input {
-            @apply w-full p-4 rounded-2xl border-2 border-slate-100 bg-white/80 shadow-sm outline-none transition-all duration-300 text-slate-800 font-medium;
+            @apply w-full p-4 rounded-2xl border border-slate-200 bg-white/70 backdrop-blur-sm outline-none transition-all text-slate-800 shadow-sm;
         }
 
         .field-input:focus {
-            @apply border-sky-400 bg-white;
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.15);
+            @apply border-blue-400 ring-4 ring-blue-50/50 bg-white;
         }
 
-        /* --- Choice Buttons (ทรงแคปซูล ไม่มีกรอบตอนยังไม่กด) --- */
-        .choice-box {
-            @apply flex items-center justify-center p-3.5 px-4 rounded-full bg-white/60 text-[13px] font-bold text-slate-500 transition-all duration-300 cursor-pointer border-2 border-transparent;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05), inset 0 -2px 5px rgba(0, 0, 0, 0.02);
-            backdrop-filter: blur(5px);
+        .label-text {
+            @apply text-[11px] font-black uppercase tracking-[0.15em] text-slate-400 mb-2.5 block ml-3;
         }
 
-        .choice-box:hover {
-            @apply text-sky-600;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.1);
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* เมื่อกดเลือก: มีแสง Glow และขยายขนาดเล็กน้อย (ไม่มีไฮไลท์พื้นหลัง) */
-        .choice-input:checked + .choice-box {
-            @apply bg-white text-sky-600;
-            border-color: #0ea5e9; /* กรอบสีฟ้าสว่าง */
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.4), 0 0 40px rgba(14, 165, 233, 0.1); /* แสงเรืองรอง */
-            transform: scale(1.05);
-            z-index: 10;
-            position: relative;
-        }
-
-        /* ปุ่ม Submit ไล่สี Gradient */
-        .btn-primary {
-            @apply bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white py-5 rounded-2xl font-bold text-sm uppercase tracking-[0.15em] shadow-[0_8px_20px_rgba(14,165,233,0.3)] hover:shadow-[0_12px_25px_rgba(14,165,233,0.5)] hover:-translate-y-1 active:scale-[0.98] transition-all duration-300;
+        /* Main Submit Button */
+        .btn-submit {
+            @apply w-full py-5 rounded-2xl bg-slate-900 text-white font-bold text-sm uppercase tracking-widest shadow-2xl hover:bg-blue-600 hover:-translate-y-1 active:scale-95 transition-all;
         }
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -77,56 +73,53 @@
 </head>
 <body class="antialiased">
 
-    <nav class="p-5 px-8 flex justify-between items-center bg-white/80 backdrop-blur-md border-b border-white sticky top-0 z-50 shadow-sm">
+    <nav class="p-6 px-10 flex justify-between items-center bg-white/60 backdrop-blur-md sticky top-0 z-50 border-b border-white">
         <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
-            <div class="w-10 h-10 bg-gradient-to-br from-sky-400 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
                 <i class="fa-solid fa-paper-plane"></i>
             </div>
-            <span class="text-xl font-bold tracking-tighter uppercase">HRM <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-indigo-500">SKY</span></span>
+            <span class="text-xl font-bold tracking-tighter uppercase">HRM <span class="text-blue-600">SKY</span></span>
         </div>
-        <button id="backBtn" onclick="showPage('portal')" class="hidden text-xs font-bold uppercase text-slate-400 hover:text-indigo-600 transition-colors">
+        <button id="backBtn" onclick="showPage('portal')" class="hidden text-xs font-bold uppercase text-slate-400 hover:text-blue-600">
             <i class="fa-solid fa-chevron-left mr-1"></i> Back
         </button>
     </nav>
 
-    <div class="container mx-auto max-w-6xl p-6">
+    <div class="container mx-auto max-w-6xl p-6 pb-20">
         
-        <div id="page-portal" class="page-section active py-20 text-center">
-            <h1 class="text-4xl font-black text-slate-900 mb-4 tracking-tight">System Portal</h1>
-            <p class="text-slate-500 mb-12 font-medium">Please select your operation mode</p>
+        <div id="page-portal" class="page-section active py-24 text-center">
+            <h1 class="text-4xl font-black text-slate-900 mb-3">Service Portal</h1>
+            <p class="text-slate-400 mb-16 font-medium">Select your role to continue</p>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-2xl mx-auto">
-                <div onclick="showPage('employee')" class="bg-white p-10 rounded-[2.5rem] border border-white shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer">
-                    <div class="w-16 h-16 bg-gradient-to-br from-sky-100 to-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-inner"><i class="fa-solid fa-user-edit text-2xl"></i></div>
-                    <h3 class="text-xl font-bold text-slate-800">Staff Request</h3>
-                    <p class="text-slate-400 text-sm mt-2 font-medium">Submit new leave application</p>
+                <div onclick="showPage('employee')" class="bg-white p-12 rounded-[3rem] border border-white shadow-xl shadow-blue-900/5 hover:-translate-y-2 transition-all cursor-pointer group">
+                    <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-8 group-hover:bg-blue-600 group-hover:text-white transition-all"><i class="fa-solid fa-user-pen text-2xl"></i></div>
+                    <h3 class="text-xl font-bold">Employee</h3>
+                    <p class="text-slate-400 text-sm mt-2">Submit leave request</p>
                 </div>
-                <div onclick="showPage('login')" class="bg-slate-900 p-10 rounded-[2.5rem] shadow-xl hover:shadow-2xl hover:bg-slate-800 hover:-translate-y-2 transition-all duration-300 cursor-pointer">
-                    <div class="w-16 h-16 bg-slate-800 text-sky-400 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-700"><i class="fa-solid fa-lock-open text-2xl"></i></div>
-                    <h3 class="text-xl font-bold text-white">Approver Area</h3>
-                    <p class="text-slate-400 text-sm mt-2 font-medium">Authorize pending requests</p>
+                <div onclick="showPage('login')" class="bg-slate-900 p-12 rounded-[3rem] shadow-2xl hover:-translate-y-2 transition-all cursor-pointer">
+                    <div class="w-16 h-16 bg-slate-800 text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-8"><i class="fa-solid fa-shield-halved text-2xl"></i></div>
+                    <h3 class="text-xl font-bold text-white">Approver</h3>
+                    <p class="text-slate-500 text-sm mt-2">Manage applications</p>
                 </div>
             </div>
         </div>
 
         <div id="page-employee" class="page-section">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 
-                <div class="lg:col-span-5 bg-white/90 backdrop-blur-xl p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-white relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-sky-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2"></div>
-                    <div class="absolute bottom-0 left-0 w-40 h-40 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-50 -translate-x-1/2 translate-y-1/2"></div>
-                    
-                    <h2 class="text-2xl font-bold mb-8 text-slate-800 flex items-center relative z-10">
-                        <span class="w-2 h-8 bg-gradient-to-b from-sky-400 to-indigo-500 rounded-full mr-3"></span>
-                        Application Form
+                <div class="lg:col-span-6 bg-white/80 p-10 rounded-[3rem] shadow-sm border border-white">
+                    <h2 class="text-2xl font-bold mb-10 text-slate-800 flex items-center">
+                        <span class="w-2 h-8 bg-blue-600 rounded-full mr-4"></span>
+                        Leave Request
                     </h2>
 
-                    <div class="space-y-6 relative z-10">
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="input-group mb-0">
+                    <div class="space-y-8">
+                        <div class="grid grid-cols-2 gap-5">
+                            <div class="input-group">
                                 <label class="label-text">Full Name</label>
                                 <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="field-input">
                             </div>
-                            <div class="input-group mb-0">
+                            <div class="input-group">
                                 <label class="label-text">Employee ID</label>
                                 <input type="text" id="empId" placeholder="รหัสพนักงาน" class="field-input">
                             </div>
@@ -134,9 +127,9 @@
 
                         <div class="input-group">
                             <label class="label-text">Employment Status</label>
-                            <div class="flex gap-4">
-                                <label class="flex-1"><input type="radio" name="empStatus" value="ประจำ" class="hidden choice-input" checked><div class="choice-box">Permanent</div></label>
-                                <label class="flex-1"><input type="radio" name="empStatus" value="ชั่วคราว" class="hidden choice-input"><div class="choice-box">Contract</div></label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <label><input type="radio" name="empStatus" value="ประจำ" class="hidden choice-input" checked><div class="choice-box">Permanent</div></label>
+                                <label><input type="radio" name="empStatus" value="ชั่วคราว" class="hidden choice-input"><div class="choice-box">Contract</div></label>
                             </div>
                         </div>
 
@@ -153,78 +146,66 @@
                         </div>
 
                         <div class="input-group">
-                            <label class="label-text">Process / Department</label>
-                            <div class="grid grid-cols-3 gap-3">
-                                <label><input type="radio" name="empProcess" value="Assy" class="hidden choice-input" checked><div class="choice-box">ASSY</div></label>
-                                <label><input type="radio" name="empProcess" value="Elec" class="hidden choice-input"><div class="choice-box">ELEC</div></label>
-                                <label><input type="radio" name="empProcess" value="Pack" class="hidden choice-input"><div class="choice-box">PACK</div></label>
-                            </div>
-                        </div>
-
-                        <div class="input-group">
                             <label class="label-text">Leave Type</label>
                             <div class="grid grid-cols-3 gap-3">
-                                <label><input type="radio" name="leaveType" value="ลาป่วย" class="hidden choice-input" checked><div class="choice-box">Sick Leave</div></label>
-                                <label><input type="radio" name="leaveType" value="ลากิจ" class="hidden choice-input"><div class="choice-box">Personal</div></label>
+                                <label><input type="radio" name="leaveType" value="ลาป่วย" class="hidden choice-input" checked><div class="choice-box">Sick</div></label>
+                                <label><input type="radio" name="leaveType" value="ลากิจ" class="hidden choice-input"><div class="choice-box">Business</div></label>
                                 <label><input type="radio" name="leaveType" value="ลาพักร้อน" class="hidden choice-input"><div class="choice-box">Vacation</div></label>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="input-group mb-0">
-                                <label class="label-text">From</label>
+                        <div class="grid grid-cols-2 gap-5">
+                            <div class="input-group">
+                                <label class="label-text">Start Date</label>
                                 <input type="date" id="dateStart" class="field-input">
                             </div>
-                            <div class="input-group mb-0">
-                                <label class="label-text">To</label>
+                            <div class="input-group">
+                                <label class="label-text">End Date</label>
                                 <input type="date" id="dateEnd" class="field-input">
                             </div>
                         </div>
 
                         <div class="input-group">
-                            <label class="label-text mt-4">Reason</label>
-                            <textarea id="leaveReason" placeholder="ระบุเหตุผลการลา..." class="field-input h-28 resize-none"></textarea>
+                            <label class="label-text">Reason for Leave</label>
+                            <textarea id="leaveReason" placeholder="ระบุเหตุผล..." class="field-input h-32 resize-none"></textarea>
                         </div>
                         
                         <div class="input-group">
-                            <label class="label-text">Attachment</label>
-                            <div class="relative w-full">
-                                <input type="file" id="fileInput" accept="image/*" class="field-input text-sm file:mr-4 file:py-2 file:px-5 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-sky-50 file:text-sky-600 hover:file:bg-sky-100 file:transition-colors file:cursor-pointer">
-                            </div>
+                            <label class="label-text">Document Attachment</label>
+                            <input type="file" id="fileInput" accept="image/*" class="field-input text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                         </div>
 
-                        <button onclick="submitLeave()" id="submitBtn" class="btn-primary w-full mt-6">Submit Application</button>
+                        <button onclick="submitLeave()" id="submitBtn" class="btn-submit">Send Application</button>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 p-8 rounded-[2.5rem]">
-                    <div class="flex justify-between items-center mb-8">
-                        <h3 class="text-2xl font-bold text-slate-800">Activity Feed</h3>
-                        <button onclick="fetchData()" class="p-2 px-5 rounded-full bg-white text-sky-600 font-bold text-[11px] shadow-sm hover:shadow-md hover:bg-sky-50 transition-all border border-sky-100">
-                            <i class="fa-solid fa-sync mr-1"></i> SYNC
-                        </button>
+                <div class="lg:col-span-6">
+                    <div class="flex justify-between items-center mb-8 px-4">
+                        <h3 class="text-xl font-bold text-slate-800">Recent History</h3>
+                        <button onclick="fetchData()" class="w-10 h-10 rounded-full bg-white flex items-center justify-center text-blue-600 shadow-sm border border-slate-100"><i class="fa-solid fa-rotate"></i></button>
                     </div>
-                    <div id="empList" class="space-y-4 overflow-y-auto max-h-[850px] no-scrollbar pb-10"></div>
+                    <div id="empList" class="space-y-4 overflow-y-auto max-h-[800px] no-scrollbar px-2"></div>
                 </div>
             </div>
         </div>
 
         <div id="page-login" class="page-section">
-            <div class="max-w-md mx-auto mt-20 bg-white p-12 rounded-[3rem] shadow-2xl border border-white text-center relative overflow-hidden">
-                <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-50 rounded-full blur-2xl"></div>
-                <h3 class="text-2xl font-bold mb-10 text-slate-800 relative z-10">Admin Access</h3>
-                <input type="password" id="adminPass" placeholder="••••" class="field-input text-center text-5xl tracking-[0.4em] mb-10 relative z-10 bg-slate-50/50">
-                <button onclick="checkLogin()" class="btn-primary w-full relative z-10">Unlock System</button>
+            <div class="max-w-md mx-auto mt-24 bg-white p-12 rounded-[3.5rem] shadow-xl border border-white text-center">
+                <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-8"><i class="fa-solid fa-fingerprint text-3xl"></i></div>
+                <h3 class="text-2xl font-bold mb-2">Security Check</h3>
+                <p class="text-slate-400 text-sm mb-10">Enter your access pin to continue</p>
+                <input type="password" id="adminPass" placeholder="••••" class="field-input text-center text-4xl tracking-[0.5em] mb-10 border-slate-100">
+                <button onclick="checkLogin()" class="btn-submit">Authorize</button>
             </div>
         </div>
 
         <div id="page-approver" class="page-section">
-            <div class="flex justify-between items-end mb-10">
+            <div class="flex justify-between items-end mb-12">
                 <div>
-                    <h2 class="text-4xl font-bold text-slate-900">Approvals</h2>
-                    <div id="roleBadge" class="mt-3 px-5 py-1.5 bg-gradient-to-r from-sky-100 to-indigo-100 text-indigo-700 text-[11px] font-bold rounded-full uppercase tracking-widest inline-block shadow-sm"></div>
+                    <h2 class="text-4xl font-black text-slate-900 tracking-tight">Pending Approval</h2>
+                    <div id="roleBadge" class="mt-3 px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black rounded-full uppercase tracking-widest inline-block shadow-lg shadow-blue-200"></div>
                 </div>
-                <button onclick="fetchData()" class="btn-primary px-8 py-3 shadow-[0_8px_20px_rgba(14,165,233,0.2)]">Refresh</button>
+                <button onclick="fetchData()" class="px-6 py-3 bg-white rounded-2xl font-bold text-sm shadow-sm border border-slate-100 text-slate-600">Refresh List</button>
             </div>
             <div id="managerList" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
         </div>
@@ -232,7 +213,6 @@
     </div>
 
     <script>
-        // *** REPLACE WITH YOUR URL ***
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwY6mRSha_DXHVR9umv4qTg1bDo8g3fqVq9yvwJakBuVEdayGRinSKPzA8zdivWapFR/exec'; 
 
         let currentRole = "";
@@ -248,8 +228,8 @@
         function checkLogin() {
             const pass = document.getElementById('adminPass').value;
             const roles = {'7843':'Assy','1332':'Elec','80006':'Pack','7605':'Sup','9764':'Manager'};
-            if(roles[pass]) { currentRole = roles[pass]; document.getElementById('roleBadge').innerText = "Auth: " + currentRole; showPage('approver'); }
-            else alert('Access Denied');
+            if(roles[pass]) { currentRole = roles[pass]; document.getElementById('roleBadge').innerText = "Session: " + currentRole; showPage('approver'); }
+            else alert('Invalid PIN');
         }
 
         async function getFileData() {
@@ -265,27 +245,31 @@
 
         async function submitLeave() {
             const btn = document.getElementById('submitBtn');
+            const name = document.getElementById('empName').value;
+            const id = document.getElementById('empId').value;
+            
+            if(!name || !id) return alert('กรุณากรอกชื่อและรหัสพนักงาน');
+
             const fileData = await getFileData();
             const data = {
                 action: 'addLeave',
-                NAME: document.getElementById('empName').value,
-                ID: document.getElementById('empId').value,
+                NAME: name,
+                ID: id,
                 EMP_STATUS: document.querySelector('input[name="empStatus"]:checked').value,
                 LEAVE_TYPE: document.querySelector('input[name="leaveType"]:checked').value,
                 LINE: document.querySelector('input[name="empLine"]:checked').value,
-                PROCESS: document.querySelector('input[name="empProcess"]:checked').value,
+                PROCESS: "General", // ปรับตามความเหมาะสม
                 START: document.getElementById('dateStart').value,
                 END: document.getElementById('dateEnd').value,
                 REASON: document.getElementById('leaveReason').value || '-',
                 FILE: fileData
             };
 
-            if(!data.NAME || !data.ID) return alert('กรุณากรอกข้อมูลให้ครบถ้วน');
-            btn.disabled = true; btn.innerText = "Processing...";
+            btn.disabled = true; btn.innerText = "Sending...";
 
             fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
-            .then(() => { alert('Application Submitted'); location.reload(); })
-            .catch(() => location.reload());
+            .then(() => { alert('ส่งคำขอลาเรียบร้อยแล้ว'); location.reload(); })
+            .catch(() => alert('Error. Please try again.'));
         }
 
         async function fetchData() {
@@ -293,7 +277,7 @@
                 const res = await fetch(scriptURL);
                 rawData = await res.json();
                 renderUI();
-            } catch (err) { console.error("Sync Error"); }
+            } catch (err) { console.error("Error fetching data"); }
         }
 
         function renderUI() {
@@ -302,35 +286,30 @@
             const rows = rawData.slice().reverse();
 
             empArea.innerHTML = rows.map(r => `
-                <div class="bg-white/90 backdrop-blur-md p-6 rounded-[2rem] flex justify-between items-center shadow-sm border border-white hover:shadow-md transition-shadow">
+                <div class="bg-white p-6 rounded-[2rem] flex justify-between items-center shadow-sm border border-slate-50">
                     <div>
-                        <div class="font-bold text-slate-800 text-lg">${r[0]} <span class="text-xs text-slate-400 font-medium ml-2">#${r[1]}</span></div>
-                        <div class="text-[11px] font-bold text-sky-500 uppercase mt-2 tracking-wide flex items-center gap-2">
-                            <i class="fa-solid fa-briefcase opacity-70"></i> ${r[3]} • Line ${r[9]} • ${r[10]}
-                        </div>
+                        <div class="font-bold text-slate-800">${r[0]}</div>
+                        <div class="text-[10px] font-bold text-blue-500 uppercase mt-1 tracking-wider">${r[3]} • Line ${r[9]}</div>
                     </div>
-                    <div class="px-4 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest shadow-sm ${r[7]==='Approved'?'bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-600 border border-emerald-100':'bg-gradient-to-r from-amber-50 to-orange-50 text-amber-600 border border-amber-100'}">
+                    <div class="px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest ${r[7]==='Approved'?'bg-emerald-50 text-emerald-600':'bg-amber-50 text-amber-600'}">
                         ${r[7]}
                     </div>
                 </div>`).join('');
 
             const filtered = rows.filter(r => r[7] === 'Pending');
             managerArea.innerHTML = filtered.map(r => `
-                <div class="bg-white p-8 rounded-[2.5rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.05)] relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-1.5 h-full bg-sky-400"></div>
-                    <span class="text-[10px] font-bold text-sky-500 uppercase tracking-widest">${r[3]} Request</span>
+                <div class="bg-white p-10 rounded-[3rem] border border-slate-100 shadow-xl shadow-slate-200/50">
+                    <span class="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em]">${r[3]}</span>
                     <h4 class="text-2xl font-bold text-slate-900 mt-2">${r[0]}</h4>
-                    <p class="text-xs font-bold text-slate-400 mt-2 uppercase flex items-center gap-2">
-                        <i class="fa-regular fa-id-badge"></i> ${r[10]} • Line ${r[9]}
-                    </p>
-                    <div class="my-6 p-5 bg-slate-50/80 rounded-2xl text-sm italic text-slate-600 border border-slate-100 shadow-inner">"${r[6]}"</div>
-                    <div class="flex gap-4">
-                        <button onclick="updateStatus(${r[16]}, 'Approved')" class="flex-1 bg-gradient-to-r from-slate-800 to-slate-900 text-white py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">Approve</button>
-                        <button onclick="updateStatus(${r[16]}, 'Rejected')" class="flex-1 bg-white text-rose-500 border-2 border-rose-100 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest hover:bg-rose-50 hover:border-rose-200 transition-all">Reject</button>
+                    <p class="text-xs font-medium text-slate-400 mt-1 uppercase">ID: ${r[1]} • LINE: ${r[9]}</p>
+                    <div class="my-6 p-5 bg-slate-50 rounded-2xl text-sm italic text-slate-600">"${r[6]}"</div>
+                    <div class="flex gap-3 mt-8">
+                        <button onclick="updateStatus(${r[16]}, 'Approved')" class="flex-1 bg-slate-900 text-white py-4 rounded-2xl font-bold text-xs uppercase tracking-widest shadow-lg">Approve</button>
+                        <button onclick="updateStatus(${r[16]}, 'Rejected')" class="flex-1 bg-white text-rose-500 border border-rose-100 py-4 rounded-2xl font-bold text-xs uppercase tracking-widest">Reject</button>
                     </div>
                 </div>`).join('');
             
-            if(filtered.length === 0) managerArea.innerHTML = "<div class='col-span-full flex flex-col items-center justify-center py-20 opacity-50'><i class='fa-solid fa-inbox text-5xl mb-4 text-slate-300'></i><p class='text-slate-400 font-bold uppercase tracking-widest'>No Pending Applications</p></div>";
+            if(filtered.length === 0) managerArea.innerHTML = "<div class='col-span-full py-20 text-center text-slate-300 font-bold uppercase tracking-widest'>All Caught Up!</div>";
         }
 
         async function updateStatus(rowIdx, newStatus) {
