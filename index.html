@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inspection Memo for Defective Part</title>
+    <!-- นำเข้า Bootstrap 5 เพื่อความสวยงามและรองรับมือถือ -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -28,6 +29,7 @@
 </head>
 <body>
 
+    <!-- แถบเมนูด้านบน (Navbar) -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-factory-green px-3 shadow-sm">
         <div class="container-fluid">
             <a class="navbar-brand fw-bold" href="#">Document Flow System</a>
@@ -57,20 +59,30 @@
         </div>
     </nav>
 
+    <!-- ส่วนของฟอร์มกรอกข้อมูล -->
     <div class="container my-5">
         <div class="card shadow-sm border-0">
             <div class="card-body p-4 p-md-5">
                 <h4 class="mb-4 pb-2 border-bottom fw-bold text-secondary">Inspection Memo for Defective Part</h4>
                 
+                <!-- ฟอร์มส่งข้อมูลไปยังฝั่งหลังบ้าน -->
                 <form action="/submit-defective" method="POST" enctype="multipart/form-data">
                     
                     <div class="row g-4">
-                        <div class="col-md-4">
+                        <!-- ช่อง MMA No -->
+                        <div class="col-md-3">
                             <label class="form-label fw-semibold form-label-required">MMA No</label>
                             <input type="text" class="form-control" name="mma_no" placeholder="เช่น 543629" required>
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- [เพิ่มใหม่] ช่อง Order No. -->
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold form-label-required">Order No.</label>
+                            <input type="text" class="form-control" name="order_no" placeholder="เช่น ORD12345" required>
+                        </div>
+
+                        <!-- ช่อง Product -->
+                        <div class="col-md-3">
                             <label class="form-label fw-semibold form-label-required">Product</label>
                             <select class="form-select" name="product" required>
                                 <option value="" selected disabled>เลือก Product</option>
@@ -80,11 +92,13 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4">
+                        <!-- ช่อง DEF. DATE -->
+                        <div class="col-md-3">
                             <label class="form-label fw-semibold form-label-required">DEF. DATE</label>
                             <input type="date" class="form-control" name="def_date" required>
                         </div>
 
+                        <!-- ช่อง VENDOR -->
                         <div class="col-md-12">
                             <label class="form-label fw-semibold form-label-required">Vendor</label>
                             <select class="form-select" name="vendor" required>
@@ -94,6 +108,7 @@
                             </select>
                         </div>
 
+                        <!-- ช่อง Part Code -->
                         <div class="col-md-4">
                             <label class="form-label fw-semibold form-label-required">Part Code</label>
                             <div class="input-group">
@@ -102,27 +117,32 @@
                             </div>
                         </div>
 
+                        <!-- ช่อง Part Name -->
                         <div class="col-md-4">
                             <label class="form-label fw-semibold form-label-required">Part Name</label>
                             <input type="text" class="form-control" name="part_name" placeholder="เช่น BOTTLE POCKET" required>
                         </div>
 
+                        <!-- ช่อง For Model -->
                         <div class="col-md-4">
                             <label class="form-label fw-semibold form-label-required">For Model</label>
                             <input type="text" class="form-control" name="for_model" placeholder="เช่น 22,25" required>
                         </div>
 
+                        <!-- ช่อง Def. Qty -->
                         <div class="col-md-4">
                             <label class="form-label fw-semibold form-label-required">Def. Qty</label>
                             <input type="number" class="form-control" name="def_qty" min="1" placeholder="1" required>
                         </div>
 
+                        <!-- ช่อง Defective Phenomenon -->
                         <div class="col-md-12">
                             <label class="form-label fw-semibold form-label-required">Defective Phenomenon</label>
                             <textarea class="form-control" name="phenomenon" rows="4" placeholder="Scratch" required></textarea>
                             <div class="hint-text mt-1">** Use English is better</div>
                         </div>
 
+                        <!-- ช่อง Attach PDF -->
                         <div class="col-md-6">
                             <label class="form-label fw-semibold">Attach PDF</label>
                             <input class="form-control" type="file" name="attach_pdf" accept=".pdf">
@@ -130,6 +150,7 @@
                         </div>
                     </div>
 
+                    <!-- ปุ่มกดส่งข้อมูลและเซฟดราฟต์ -->
                     <div class="mt-5 pt-3 border-top text-center">
                         <button type="button" class="btn btn-outline-secondary px-4 me-2">Save As Draft</button>
                         <button type="submit" class="btn btn-success px-5 fw-bold bg-factory-green">Submit</button>
@@ -140,6 +161,7 @@
         </div>
     </div>
 
+    <!-- นำเข้า Bootstrap JavaScript เพื่อให้ Dropdown ทำงานได้ -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
