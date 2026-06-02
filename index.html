@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combined Document Flow System</title>
+    <title>Combined Document Flow System with Order No.</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -16,7 +16,7 @@
         .text-factory-green {
             color: #0b663b;
         }
-        /* สไตล์พิเศษสำหรับหน้าฟอร์มตรวจสอบ (Approve Form) */
+        /* สไตล์ฟอร์มสำหรับหน้าอนุมัติผล (Approve Form) */
         .bg-form-yellow {
             background-color: #ffffe0;
         }
@@ -25,7 +25,7 @@
             font-weight: bold;
             padding: 5px 10px;
         }
-        /* ปรับแต่ง Tab Navigation ให้กลมกลืนกับ Navbar */
+        /* ปรับแต่งแถบสลับหน้าจอ Navigation Tabs */
         .nav-tabs .nav-link {
             color: rgba(255, 255, 255, 0.75);
             border: none;
@@ -88,7 +88,7 @@
                                         <th>No</th>
                                         <th>Doc Date</th>
                                         <th>Doc No.</th>
-                                        <th>Subject</th>
+                                        <th>Order No.</th> <th>Subject</th>
                                         <th>Product</th>
                                         <th>Part Code</th>
                                         <th>Vendor</th>
@@ -106,22 +106,22 @@
                                                 RF_26030001
                                             </a>
                                         </td>
-                                        <td>Defective</td>
+                                        <td class="fw-bold text-dark">1234</td> <td>Defective</td>
                                         <td>RF</td>
                                         <td>FSRA-A321CBKZ</td>
-                                        <td class="text-start">(TYF) THAI INTER POLYMER CO., LTD.</td>
+                                        <td class="text-start">(CQ6) CHUNG CHENG PLASTIC (THAILAND) CO.,</td>
                                         <td>
                                             <span class="text-primary fw-bold border-bottom border-primary">Waiting Approve</span>
                                         </td>
                                         <td><span class="text-muted fw-semibold">(U11) CheckByProd</span></td>
                                         <td>
-                                            <button class="btn btn-sm btn-primary py-0" onclick="document.getElementById('approve-tab').click();">ตรวจงาน</button>
+                                            <button class="btn btn-sm btn-primary py-0 shadow-sm" onclick="document.getElementById('approve-tab').click();">ตรวจงาน</button>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="hint-text mt-2"><i class="fa-solid fa-circle-info"></i> คลิกที่เลขเอกสาร "RF_26030001" หรือปุ่ม "ตรวจงาน" เพื่อจำลองการเข้าไปหน้าอนุมัติแบบฟอร์ม</div>
+                        <div class="hint-text text-muted mt-2"><i class="fa-solid fa-circle-info text-primary"></i> คลิกที่เลขเอกสาร "RF_26030001" หรือปุ่ม "ตรวจงาน" เพื่อทดสอบการสลับหน้าเข้าสู่แบบฟอร์มตรวจสอบที่มีข้อมูลครบถ้วน</div>
                     </div>
                 </div>
             </div>
@@ -135,17 +135,20 @@
                     </div>
                     
                     <div class="card-body p-0">
-                        <form onsubmit="alert('บันทึกผลการตรวจสอบเข้าระบบสำเร็จ!'); document.getElementById('waiting-tab').click(); return false;">
+                        <form onsubmit="alert('บันทึกผลการประเมินอนุมัติเรียบร้อยแล้ว!'); document.getElementById('waiting-tab').click(); return false;">
                             
                             <div class="bg-form-yellow p-4 border-top border-bottom border-secondary">
                                 <div class="section-header mb-3"><i class="fa-solid fa-industry me-1"></i> Production</div>
                                 
                                 <div class="row g-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold small">Def ID *</label>
                                         <input type="text" class="form-control form-control-sm bg-light fw-bold text-secondary" value="RF_26030001" readonly>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold small">Order No. *</label> <input type="text" class="form-control form-control-sm bg-white border-dark fw-bold text-dark shadow-sm" value="1234" readonly>
+                                    </div>
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold small">User ID *</label>
                                         <input type="text" class="form-control form-control-sm bg-light" value="GAT0009458 (2026-03-25 13:35)" readonly>
                                     </div>
@@ -163,34 +166,34 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label fw-bold small">Vendor *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="(TYF) THAI INTER POLYMER COMPANY LIMITED" readonly>
+                                        <input type="text" class="form-control form-control-sm bg-light" value="(CQ6) CHUNG CHENG PLASTIC (THAILAND) CO.," readonly>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold small">Part Code *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="FSRA-A321CBKZ" readonly>
+                                        <input type="text" class="form-control form-control-sm bg-light" value="UPOK-A248CBFA" readonly>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold small">Part Name *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="ICE CUBE MAKER" readonly>
+                                        <input type="text" class="form-control form-control-sm bg-light" value="BOTTLE POCKET" readonly>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold small">For Model *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="MUSCAT 42/46" readonly>
+                                        <input type="text" class="form-control form-control-sm bg-light" value="22,25" readonly>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <label class="form-label fw-bold small">Def. Qty *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="22222" readonly>
+                                        <input type="text" class="form-control form-control-sm bg-light" value="1" readonly>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="form-label fw-bold small">Defective Phenomenon *</label>
-                                        <textarea class="form-control form-control-sm bg-light" rows="3" readonly>BLACK DOT (TEST)</textarea>
+                                        <textarea class="form-control form-control-sm bg-light" rows="3" readonly>Scratch</textarea>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label fw-bold small">Attach PDF</label>
                                         <div class="input-group input-group-sm">
                                             <span class="input-group-text bg-white border-secondary text-danger"><i class="fa-solid fa-file-pdf"></i></span>
-                                            <input type="text" class="form-control bg-light border-secondary text-primary fw-semibold" value="report_defective_001.pdf" readonly>
-                                            <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-eye"></i> View</button>
+                                            <input type="text" class="form-control bg-light border-secondary text-muted" value="No file chosen" readonly>
+                                            <button class="btn btn-outline-secondary" type="button" disabled><i class="fa-solid fa-eye"></i> View</button>
                                         </div>
                                     </div>
                                 </div>
@@ -199,12 +202,12 @@
                             <div class="p-4 bg-white">
                                 <div class="mb-4">
                                     <label class="form-label fw-bold text-danger">Approver Comment *</label>
-                                    <textarea class="form-control border-danger" rows="3" placeholder="Approve Or Accept" required></textarea>
+                                    <textarea class="form-control border-danger shadow-sm" rows="3" placeholder="Approve Or Accept" required></textarea>
                                 </div>
                                 
                                 <div class="d-flex justify-content-center gap-4">
-                                    <button type="submit" class="btn btn-success px-5 fw-bold bg-factory-green"><i class="fa-solid fa-circle-check me-1"></i> Approve</button>
-                                    <button type="button" class="btn btn-danger px-5 fw-bold" onclick="alert('ปฏิเสธเอกสารนี้เรียบร้อย'); document.getElementById('waiting-tab').click();"><i class="fa-solid fa-circle-xmark me-1"></i> Reject</button>
+                                    <button type="submit" class="btn btn-success px-5 fw-bold bg-factory-green shadow-sm"><i class="fa-solid fa-circle-check me-1"></i> Approve</button>
+                                    <button type="button" class="btn btn-danger px-5 fw-bold shadow-sm" onclick="alert('ปฏิเสธการรับรองเอกสารนี้เรียบร้อย'); document.getElementById('waiting-tab').click();"><i class="fa-solid fa-circle-xmark me-1"></i> Reject</button>
                                 </div>
                             </div>
 
