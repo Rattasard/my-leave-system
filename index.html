@@ -2,70 +2,75 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>Enterprise Leave Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .page-section { display: none; }
-        .active { display: block; }
-        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-    </style>
+    <style>body { font-family: 'Kanit', sans-serif; background: #f8fafc; }</style>
 </head>
-<body class="bg-slate-100 p-5">
-    <div id="page-employee" class="page-section active max-w-lg mx-auto glass-card p-8 rounded-3xl">
-        <h2 class="text-2xl font-bold mb-6">Leave Application</h2>
-        <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="w-full p-3 mb-3 border rounded-xl">
-        <input type="text" id="empId" placeholder="รหัสพนักงาน" class="w-full p-3 mb-3 border rounded-xl">
-        <select id="leaveType" class="w-full p-3 mb-3 border rounded-xl">
-            <option>ลาป่วย</option><option>ลากิจ</option>
-        </select>
-        <input type="date" id="dateStart" class="w-full p-3 mb-3 border rounded-xl">
-        <input type="date" id="dateEnd" class="w-full p-3 mb-3 border rounded-xl">
-        <textarea id="leaveReason" placeholder="เหตุผล" class="w-full p-3 mb-3 border rounded-xl"></textarea>
-        
-        <label class="block text-xs font-bold text-slate-400 mb-2">แนบใบรับรองแพทย์ (ถ้ามี)</label>
-        <input type="file" id="fileUpload" accept="image/*" class="w-full mb-6 text-sm">
-        
-        <button id="submitBtn" onclick="submitLeave()" class="w-full bg-indigo-600 text-white py-3 rounded-2xl font-bold">Submit</button>
+<body class="p-4 md:p-10">
+    <div id="app" class="max-w-2xl mx-auto bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+        <div id="nav" class="flex gap-4 mb-8">
+            <button onclick="show('form')" class="px-6 py-2 bg-indigo-600 text-white rounded-full text-sm font-medium">ส่งคำร้อง</button>
+            <button onclick="checkAdmin()" class="px-6 py-2 bg-slate-100 text-slate-600 rounded-full text-sm font-medium">อนุมัติ</button>
+        </div>
+
+        <div id="form-section">
+            <h2 class="text-2xl font-bold mb-6 text-slate-800">ส่งคำร้องขอลา</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <input id="name" placeholder="ชื่อ-นามสกุล" class="p-3 border rounded-xl w-full col-span-2">
+                <input id="empId" placeholder="รหัสพนักงาน" class="p-3 border rounded-xl">
+                <select id="empStatus" class="p-3 border rounded-xl"><option>พนักงานประจำ</option><option>พนักงานชั่วคราว</option></select>
+                <select id="leaveType" class="p-3 border rounded-xl"><option>ลาป่วย</option><option>ลากิจ</option><option>ลาพักร้อน</option></select>
+                <select id="line" class="p-3 border rounded-xl"><option>C</option><option>E</option><option>F</option><option>TC</option><option>OFFICE</option></select>
+                <input id="start" type="date" class="p-3 border rounded-xl">
+                <input id="end" type="date" class="p-3 border rounded-xl">
+                <textarea id="reason" placeholder="เหตุผลการลา" class="p-3 border rounded-xl col-span-2 h-24"></textarea>
+                <input type="file" id="file" class="col-span-2 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:bg-indigo-50 file:text-indigo-700">
+            </div>
+            <button onclick="submit()" id="btn" class="w-full mt-6 py-3 bg-indigo-600 text-white rounded-xl font-bold">ส่งคำร้อง</button>
+        </div>
     </div>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxXAkv4y5L_yr_01p7oPXL3KS2jxnCEWpXmaRLkb-UB_ZhdRlnYQ9iERCiD9Fn06mwM/exec';
-
-        async function submitLeave() {
-            const btn = document.getElementById('submitBtn');
-            const fileInput = document.getElementById('fileUpload');
-            
+        async function submit() {
+            const btn = document.getElementById('btn');
+            const file = document.getElementById('file').files[0];
             let fileData = "";
-            let fileName = "";
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                fileName = file.name;
-                fileData = await new Promise((resolve) => {
+            if(file) {
+                fileData = await new Promise(r => {
                     const reader = new FileReader();
-                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onload = e => r(e.target.result);
                     reader.readAsDataURL(file);
                 });
             }
-
+            
             const data = {
                 action: 'addLeave',
-                name: document.getElementById('empName').value,
+                name: document.getElementById('name').value,
                 empId: document.getElementById('empId').value,
-                empStatus: 'พนักงาน',
-                leaveType: document.getElementById('leaveType').value,
-                start: document.getElementById('dateStart').value,
-                end: document.getElementById('dateEnd').value,
-                reason: document.getElementById('leaveReason').value,
+                status: document.getElementById('empStatus').value,
+                type: document.getElementById('leaveType').value,
+                line: document.getElementById('line').value,
+                start: document.getElementById('start').value,
+                end: document.getElementById('end').value,
+                reason: document.getElementById('reason').value,
                 fileData: fileData,
-                fileName: fileName
+                fileName: file ? file.name : ""
             };
+            
+            btn.innerText = "กำลังส่ง...";
+            await fetch('<?= ScriptApp.getService().getUrl() ?>', { method: 'POST', body: JSON.stringify(data) });
+            alert('ส่งสำเร็จ!');
+            location.reload();
+        }
 
-            btn.disabled = true;
-            btn.innerText = 'กำลังส่ง...';
-            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-            alert('ส่งคำร้องสำเร็จ');
-            window.location.reload();
+        function checkAdmin() {
+            const pass = prompt("กรุณาใส่รหัสผ่าน:");
+            if(pass === "1234") {
+                alert("เข้าสู่ระบบผู้ดูแล - ให้ใช้ลิงก์ Google Sheet เพื่อตรวจสอบรูปภาพ");
+                window.open('https://script.google.com/macros/s/AKfycbzJ0aL8s4xSdncIbGpN__yo7S4r6_ygqAPU8coe2hLDDUXjxzjAdFTUFxiO3cq4WIvd/exec', '_blank');
+            } else {
+                alert("รหัสผ่านไม่ถูกต้อง");
+            }
         }
     </script>
 </body>
