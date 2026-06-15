@@ -3,222 +3,319 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Combined Document Flow System with Order No.</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Enterprise Leave Management | HRM System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #f8f9fa;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Sarabun:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
-        .bg-factory-green {
-            background-color: #0b663b !important;
+
+        body { 
+            font-family: 'Inter', 'Sarabun', sans-serif; 
+            background: var(--bg-gradient);
+            min-height: 100vh;
         }
-        .text-factory-green {
-            color: #0b663b;
+
+        /* ตกแต่งพื้นหลังให้ดูมีระดับ */
+        .bg-decoration {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.05) 0%, transparent 40%);
         }
-        /* สไตล์ฟอร์มสำหรับหน้าอนุมัติผล (Approve Form) */
-        .bg-form-yellow {
-            background-color: #ffffe0;
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
         }
-        .section-header {
-            background-color: #ffff80;
-            font-weight: bold;
-            padding: 5px 10px;
+
+        .page-section { display: none; }
+        .active { display: block; animation: slideUp 0.5s ease-out; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        /* ปรับแต่งแถบสลับหน้าจอ Navigation Tabs */
-        .nav-tabs .nav-link {
-            color: rgba(255, 255, 255, 0.75);
-            border: none;
+
+        .btn-type-active { 
+            background: var(--primary) !important; 
+            color: white !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
         }
-        .nav-tabs .nav-link.active {
-            color: #fff !important;
-            background-color: rgba(255, 255, 255, 0.2) !important;
-            font-weight: bold;
-            border-radius: 4px;
-        }
-        .nav-tabs .nav-link:hover {
-            color: #fff;
-            border: none;
+
+        .nav-blur {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
-<body>
+<body class="text-slate-700">
+    <div class="bg-decoration"></div>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-factory-green px-3 shadow-sm sticky-top">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold me-4" href="#">Document Flow System</a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="nav nav-tabs border-bottom-0 me-auto mb-2 mb-lg-0" id="flowTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="waiting-tab" data-bs-toggle="tab" data-bs-target="#waiting-pane" type="button" role="tab"><i class="fa-solid fa-list-check me-1"></i> 5. Task Waiting</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="approve-tab" data-bs-toggle="tab" data-bs-target="#approve-pane" type="button" role="tab"><i class="fa-solid fa-file-signature me-1"></i> 6. CheckByProd (Approve)</button>
-                    </li>
-                </ul>
-                
-                <div class="d-flex align-items-center text-white">
-                    <span class="me-3"><i class="fa-solid fa-user me-1"></i> Mr. THANAWAT</span>
-                    <button class="btn btn-outline-light btn-sm">LogOut</button>
-                </div>
+    <nav class="nav-blur sticky top-0 z-50 px-8 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="location.reload()">
+            <div class="bg-indigo-600 text-white p-2.5 rounded-2xl shadow-lg">
+                <i class="fa-solid fa-layer-group text-xl"></i>
+            </div>
+            <div>
+                <span class="text-xl font-bold tracking-tight text-slate-900 block leading-none">LeaveHub</span>
+                <span class="text-[10px] text-slate-400 font-medium uppercase tracking-widest">Management System</span>
             </div>
         </div>
+        <button id="backBtn" onclick="showPage('portal')" class="hidden bg-slate-100 text-slate-600 px-5 py-2 rounded-xl text-sm font-semibold hover:bg-slate-200 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left text-xs"></i> Back to Home
+        </button>
     </nav>
 
-    <div class="tab-content" id="flowTabContent">
+    <div class="container mx-auto p-6 max-w-6xl">
         
-        <div class="tab-pane fade show active" id="waiting-pane" role="tabpanel" aria-labelledby="waiting-tab">
-            <div class="container-fluid my-5 px-4">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
-                            <h5 class="fw-bold text-secondary m-0">Task Waiting (รายการรอดำเนินการ)</h5>
-                            <span class="badge bg-danger">1 งานค้างเก่า</span>
+        <div id="page-portal" class="page-section active mt-20">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-extrabold text-slate-900 mb-3">Welcome to HRM Portal</h1>
+                <p class="text-slate-500 italic">Please select your access mode to continue</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-3xl mx-auto">
+                <div onclick="showPage('employee')" class="glass-card p-12 rounded-[2.5rem] text-center cursor-pointer hover:scale-[1.03] transition-all group">
+                    <div class="w-24 h-24 bg-indigo-50 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-inner">
+                        <i class="fa-solid fa-user-edit text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Request Leave</h3>
+                    <p class="text-slate-400 text-sm">สำหรับแจ้งลาและเช็คสถานะ</p>
+                </div>
+                <div onclick="showPage('login')" class="glass-card p-12 rounded-[2.5rem] text-center cursor-pointer hover:scale-[1.03] transition-all group">
+                    <div class="w-24 h-24 bg-slate-100 text-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-6 group-hover:bg-slate-800 group-hover:text-white transition-all shadow-inner">
+                        <i class="fa-solid fa-shield-check text-4xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2">Approver Login</h3>
+                    <p class="text-slate-400 text-sm">สำหรับผู้อนุมัติและจัดการข้อมูล</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="page-login" class="page-section mt-24">
+            <div class="glass-card p-10 rounded-[2.5rem] max-w-md mx-auto text-center border">
+                <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-400">
+                    <i class="fa-solid fa-lock text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Administrator Access</h3>
+                <p class="text-slate-400 text-sm mb-8">กรุณาระบุรหัสผ่านเพื่ออนุมัติรายการ</p>
+                <input type="password" id="adminPass" placeholder="••••••••" class="w-full bg-slate-50 border-2 border-slate-100 p-4 rounded-2xl mb-6 text-center text-2xl outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 transition-all">
+                <button onclick="checkLogin()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-black shadow-xl shadow-slate-200 transition-all">Verify & Login</button>
+            </div>
+        </div>
+
+        <div id="page-employee" class="page-section mt-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 glass-card p-8 rounded-[2rem] h-fit">
+                    <div class="mb-8">
+                        <h3 class="font-bold text-xl text-indigo-900 tracking-tight">Leave Application</h3>
+                        <p class="text-xs text-slate-400 font-medium uppercase tracking-tighter">ส่งคำร้องขอลาหยุดงาน</p>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-400 ml-1 uppercase">Full Name</label>
+                            <input type="text" id="empName" placeholder="ชื่อ-นามสกุล" class="w-full bg-slate-50 p-3.5 rounded-2xl border-none outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-400 ml-1 uppercase">Employee ID</label>
+                            <input type="text" id="empId" placeholder="รหัสพนักงาน" class="w-full bg-slate-50 p-3.5 rounded-2xl border-none outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
                         </div>
                         
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover align-middle text-center" style="font-size: 0.9rem;">
-                                <thead class="table-dark">
-                                    <tr class="bg-factory-green">
-                                        <th>No</th>
-                                        <th>Doc Date</th>
-                                        <th>Doc No.</th>
-                                        <th>Order No.</th> <th>Subject</th>
-                                        <th>Product</th>
-                                        <th>Part Code</th>
-                                        <th>Vendor</th>
-                                        <th>Status</th>
-                                        <th>Waiting For</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>25/03/2026</td>
-                                        <td>
-                                            <a href="#" class="fw-bold text-primary text-decoration-none" onclick="document.getElementById('approve-tab').click(); return false;">
-                                                RF_26030001
-                                            </a>
-                                        </td>
-                                        <td class="fw-bold text-dark">1234</td> <td>Defective</td>
-                                        <td>RF</td>
-                                        <td>FSRA-A321CBKZ</td>
-                                        <td class="text-start">(CQ6) CHUNG CHENG PLASTIC (THAILAND) CO.,</td>
-                                        <td>
-                                            <span class="text-primary fw-bold border-bottom border-primary">Waiting Approve</span>
-                                        </td>
-                                        <td><span class="text-muted fw-semibold">(U11) CheckByProd</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary py-0 shadow-sm" onclick="document.getElementById('approve-tab').click();">ตรวจงาน</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="grid grid-cols-2 gap-3 py-2">
+                            <button onclick="setType('พนักงานประจำ')" id="type-p" class="type-btn border border-slate-100 py-3 rounded-2xl text-xs font-bold bg-slate-50 text-slate-500 transition-all hover:bg-white">Permanent</button>
+                            <button onclick="setType('พนักงานชั่วคราว')" id="type-t" class="type-btn border border-slate-100 py-3 rounded-2xl text-xs font-bold bg-slate-50 text-slate-500 transition-all hover:bg-white">Contractor</button>
                         </div>
-                        <div class="hint-text text-muted mt-2"><i class="fa-solid fa-circle-info text-primary"></i> คลิกที่เลขเอกสาร "RF_26030001" หรือปุ่ม "ตรวจงาน" เพื่อทดสอบการสลับหน้าเข้าสู่แบบฟอร์มตรวจสอบที่มีข้อมูลครบถ้วน</div>
+
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-400 ml-1 uppercase">Leave Category</label>
+                            <select id="leaveType" class="w-full bg-slate-50 p-3.5 rounded-2xl border-none outline-none focus:ring-2 focus:ring-indigo-500 transition-all">
+                                <option>ลาป่วย (Sick Leave)</option>
+                                <option>ลากิจ (Personal Leave)</option>
+                                <option>ลาพักร้อน (Vacation Leave)</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-bold text-slate-400 uppercase">Start Date</label>
+                                <input type="date" id="dateStart" class="w-full bg-slate-50 p-3 rounded-2xl border-none text-xs outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-[11px] font-bold text-slate-400 uppercase">End Date</label>
+                                <input type="date" id="dateEnd" class="w-full bg-slate-50 p-3 rounded-2xl border-none text-xs outline-none focus:ring-2 focus:ring-indigo-500">
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-[11px] font-bold text-slate-400 ml-1 uppercase">Reason / Note</label>
+                            <textarea id="leaveReason" placeholder="ระบุเหตุผลการลา..." class="w-full bg-slate-50 p-3.5 rounded-2xl h-28 border-none outline-none focus:ring-2 focus:ring-indigo-500 transition-all"></textarea>
+                        </div>
+                        
+                        <button onclick="submitLeave()" id="submitBtn" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-700 hover:scale-[1.01] transition-all mt-4">Submit Application</button>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 glass-card p-8 rounded-[2rem]">
+                    <div class="flex justify-between items-center mb-8 border-b border-slate-100 pb-4">
+                        <h3 class="font-bold text-xl">Recent Timeline</h3>
+                        <span class="text-[10px] bg-indigo-50 text-indigo-600 px-3 py-1 rounded-full font-bold uppercase tracking-widest">Real-time Sync</span>
+                    </div>
+                    <div id="empList" class="space-y-4">
+                        <p class="text-center py-10 text-slate-400 animate-pulse">Fetching records...</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="tab-pane fade" id="approve-pane" role="tabpanel" aria-labelledby="approve-tab">
-            <div class="container my-5">
-                <div class="card shadow-sm border-secondary">
-                    <div class="card-header bg-white fw-bold text-dark border-bottom-0 pt-3">
-                        <h5 class="m-0">Inspection Memo for Defective Part</h5>
-                    </div>
-                    
-                    <div class="card-body p-0">
-                        <form onsubmit="alert('บันทึกผลการประเมินอนุมัติเรียบร้อยแล้ว!'); document.getElementById('waiting-tab').click(); return false;">
-                            
-                            <div class="bg-form-yellow p-4 border-top border-bottom border-secondary">
-                                <div class="section-header mb-3"><i class="fa-solid fa-industry me-1"></i> Production</div>
-                                
-                                <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">Def ID *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light fw-bold text-secondary" value="RF_26030001" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">Order No. *</label> <input type="text" class="form-control form-control-sm bg-white border-dark fw-bold text-dark shadow-sm" value="1234" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">User ID *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="GAT0009458 (2026-03-25 13:35)" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">MMA No *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="543692" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">Product *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="RF" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">DEF. DATE *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="2026-03-25" readonly>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="form-label fw-bold small">Vendor *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="(CQ6) CHUNG CHENG PLASTIC (THAILAND) CO.," readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">Part Code *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="UPOK-A248CBFA" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">Part Name *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="BOTTLE POCKET" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">For Model *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="22,25" readonly>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label fw-bold small">Def. Qty *</label>
-                                        <input type="text" class="form-control form-control-sm bg-light" value="1" readonly>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <label class="form-label fw-bold small">Defective Phenomenon *</label>
-                                        <textarea class="form-control form-control-sm bg-light" rows="3" readonly>Scratch</textarea>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label fw-bold small">Attach PDF</label>
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text bg-white border-secondary text-danger"><i class="fa-solid fa-file-pdf"></i></span>
-                                            <input type="text" class="form-control bg-light border-secondary text-muted" value="No file chosen" readonly>
-                                            <button class="btn btn-outline-secondary" type="button" disabled><i class="fa-solid fa-eye"></i> View</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="p-4 bg-white">
-                                <div class="mb-4">
-                                    <label class="form-label fw-bold text-danger">Approver Comment *</label>
-                                    <textarea class="form-control border-danger shadow-sm" rows="3" placeholder="Approve Or Accept" required></textarea>
-                                </div>
-                                
-                                <div class="d-flex justify-content-center gap-4">
-                                    <button type="submit" class="btn btn-success px-5 fw-bold bg-factory-green shadow-sm"><i class="fa-solid fa-circle-check me-1"></i> Approve</button>
-                                    <button type="button" class="btn btn-danger px-5 fw-bold shadow-sm" onclick="alert('ปฏิเสธการรับรองเอกสารนี้เรียบร้อย'); document.getElementById('waiting-tab').click();"><i class="fa-solid fa-circle-xmark me-1"></i> Reject</button>
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
+        <div id="page-approver" class="page-section mt-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Request Approval</h2>
+                    <p class="text-slate-500">Manage and review employee leave requests</p>
                 </div>
+                <button onclick="fetchData()" class="bg-white text-indigo-600 px-6 py-3 rounded-2xl font-bold shadow-sm border border-slate-100 hover:bg-slate-50 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-sync-alt"></i> Sync Data
+                </button>
             </div>
+            <div id="managerList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </div>
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // --- ห้ามลืมเปลี่ยน URL ตรงนี้ ---
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzDa_7ZOLBjoiL9-CO4uhljaVJVoKkJNYe63sbGD9wCa7uk-MIinxE5DRQDgnQ0rdDE/exec';
+        
+        let selectedType = 'พนักงานประจำ';
+
+        function showPage(id) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
+            document.getElementById('backBtn').classList.toggle('hidden', id === 'portal');
+            if (id === 'employee' || id === 'approver') fetchData();
+            if (id === 'employee') setType('พนักงานประจำ');
+        }
+
+        function setType(type) {
+            selectedType = type;
+            document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('btn-type-active'));
+            if (type === 'พนักงานประจำ') document.getElementById('type-p').classList.add('btn-type-active');
+            else document.getElementById('type-t').classList.add('btn-type-active');
+        }
+
+        function checkLogin() {
+            if (document.getElementById('adminPass').value === '1234') showPage('approver');
+            else alert('Access Denied: Incorrect Password');
+        }
+
+        async function submitLeave() {
+            const btn = document.getElementById('submitBtn');
+            const data = {
+                action: 'addLeave',
+                name: document.getElementById('empName').value,
+                empId: document.getElementById('empId').value,
+                empStatus: selectedType,
+                leaveType: document.getElementById('leaveType').value,
+                start: document.getElementById('dateStart').value,
+                end: document.getElementById('dateEnd').value,
+                reason: document.getElementById('leaveReason').value || '-'
+            };
+
+            if (!data.name || !data.empId || !data.start) return alert('Please complete all required fields');
+
+            btn.disabled = true; 
+            btn.innerHTML = '<i class="fa-solid fa-spinner animate-spin"></i> Processing...';
+            try {
+                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
+                alert('Success: Leave application has been sent');
+                window.location.reload();
+            } catch (e) { alert('Error: Connection failed'); btn.disabled = false; btn.innerText = 'Submit Application'; }
+        }
+
+        async function fetchData() {
+            try {
+                const res = await fetch(scriptURL + '?t=' + new Date().getTime());
+                const data = await res.json();
+                renderUI(data);
+            } catch (e) { console.error("Error loading data", e); }
+        }
+
+        function renderUI(data) {
+            const empArea = document.getElementById('empList');
+            const managerArea = document.getElementById('managerList');
+            const rows = data.slice().reverse();
+
+            empArea.innerHTML = rows.map(r => `
+                <div class="flex items-center justify-between p-5 bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-2xl bg-slate-50 flex items-center justify-center font-bold text-slate-400 border border-slate-100 uppercase">${r[0].charAt(0)}</div>
+                        <div>
+                            <div class="font-bold text-slate-800">${r[0]} <span class="text-[10px] bg-slate-100 px-2 py-0.5 rounded text-slate-500 ml-2 font-medium">ID: ${r[1]}</span></div>
+                            <div class="text-[11px] text-slate-400 font-semibold uppercase tracking-tight">${r[3]} | ${r[4]} - ${r[5]}</div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-1.5 rounded-2xl text-[10px] font-black uppercase tracking-widest text-white ${r[7]==='Approved'?'bg-emerald-500':(r[7]==='Rejected'?'bg-rose-500':'bg-amber-400')} shadow-sm shadow-current/10">
+                        ${r[7]}
+                    </div>
+                </div>
+            `).join('');
+
+            managerArea.innerHTML = rows.map(r => `
+                <div id="row-${r[8]}" class="glass-card p-8 rounded-[2.5rem] flex flex-col justify-between hover:border-indigo-200 transition-all">
+                    <div class="mb-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center font-bold text-lg uppercase">${r[0].charAt(0)}</div>
+                            <div>
+                                <h4 class="font-bold text-slate-900">${r[0]}</h4>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">${r[2]} | ID: ${r[1]}</p>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50/50 p-4 rounded-2xl space-y-2 mb-2">
+                            <p class="text-sm font-semibold text-indigo-600"><i class="fa-solid fa-clock mr-2"></i>${r[3]}</p>
+                            <p class="text-xs text-slate-500 font-medium italic"><i class="fa-solid fa-quote-left mr-2 opacity-30"></i>${r[6]}</p>
+                            <p class="text-[10px] text-slate-400 font-bold"><i class="fa-solid fa-calendar-day mr-2"></i>${r[4]} To ${r[5]}</p>
+                        </div>
+                    </div>
+                    <div id="actions-${r[8]}" class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        ${r[7] === 'Pending' ? `
+                            <button onclick="updateStatus(${r[8]}, 'Approved')" class="bg-emerald-500 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest shadow-lg shadow-emerald-100 hover:bg-emerald-600 transition-all">Approve</button>
+                            <button onclick="updateStatus(${r[8]}, 'Rejected')" class="bg-white border border-rose-100 text-rose-500 px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-rose-50 transition-all">Reject</button>
+                        ` : `
+                            <div class="w-full text-center py-2 rounded-xl bg-slate-50 text-xs font-black uppercase tracking-[0.2em] ${r[7]==='Approved'?'text-emerald-500':'text-rose-500'}">
+                                Status: ${r[7]}
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function updateStatus(rowIdx, status) {
+            if (!confirm(`Are you sure you want to ${status} this request?`)) return;
+
+            const actionArea = document.getElementById(`actions-${rowIdx}`);
+            actionArea.innerHTML = `<div class="w-full text-center py-2 text-indigo-600 animate-pulse font-bold text-xs uppercase tracking-widest">Updating...</div>`;
+
+            try {
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'updateStatus', rowIdx: rowIdx, status: status })
+                });
+                setTimeout(() => fetchData(), 1500);
+            } catch (e) {
+                alert('Connection Error: Data might not be updated');
+                fetchData();
+            }
+        }
+    </script>
 </body>
 </html>
